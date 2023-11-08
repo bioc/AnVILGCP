@@ -1,0 +1,34 @@
+Package: AnVILGCP
+Title: The GCP R Client for the AnVIL
+Version: 0.99.0
+Authors@R: c(
+    person("Marcel", "Ramos", , "marcel.ramos@roswellpark.org",
+      c("aut", "cre"), c(ORCID = "0000-0002-3242-0582")
+    ),
+    person("Nitesh", "Turaga", role = "aut"),
+    person("Martin", "Morgan", role = "aut",
+      comment = c(ORCID = "0000-0002-5874-8148"))
+  )
+Description: The package provides a set of functions to interact with the Google
+  Cloud Platform (GCP) services on the AnVIL platform. The package is designed
+  to work with the AnVIL package. User-level interaction with this package
+  should be minimal.
+biocViews: Infrastructure, DataStorageAndAnalysis, Software
+Imports:
+  BiocBaseUtils,
+  dplyr,
+  httr,
+  rlang,
+  stats,
+  tibble,
+  tidyr,
+  utils
+Suggests:
+  testthat,
+  rmarkdown,
+  knitr
+VignetteBuilder: knitr
+License: Artistic-2.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
