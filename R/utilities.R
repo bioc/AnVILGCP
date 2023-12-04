@@ -21,7 +21,11 @@
 .is_workspace <-
     function(x)
 {
-    .is_scalar_character(x) &&
+    isScalarCharacter(x) &&
         ## exactly 1 `/`
         identical(lengths(regmatches(x, gregexpr("/", x, fixed = TRUE))), 1L)
 }
+
+.isScalarCharacter_or_NULL <- function(x, na.ok = FALSE, zchar = FALSE)
+    .isScalarCharacter(x, na.ok, zchar) || is.null(x)
+
