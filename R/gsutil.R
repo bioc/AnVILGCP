@@ -41,7 +41,7 @@ NULL
 .gsutil_sh_quote <-
     function(source)
 {
-    ## Expand local paths with ~ or . or ... to full path names.
+    ## Expand local paths with ~ or . or .. to full path names.
     ## Needed because we also use shQuote() (to allow for spaces in
     ## file names), and shQuote() would otherwise use paths with ~ or
     ## . in the current working directory.

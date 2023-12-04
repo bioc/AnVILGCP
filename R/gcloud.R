@@ -30,8 +30,7 @@
 }
 
 .gcloud_access_token <-
-    local(
-{
+local({
     tokens <- new.env(parent = emptyenv())
     function(service) {
         app_default <-

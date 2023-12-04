@@ -5,9 +5,8 @@ Authors@R: c(
     person("Marcel", "Ramos", , "marcel.ramos@roswellpark.org",
       c("aut", "cre"), c(ORCID = "0000-0002-3242-0582")
     ),
-    person("Nitesh", "Turaga", role = "aut"),
-    person("Martin", "Morgan", role = "aut",
-      comment = c(ORCID = "0000-0002-5874-8148"))
+    person("Nitesh", "Turaga", , , "aut"),
+    person("Martin", "Morgan", , , "aut", c(ORCID = "0000-0002-5874-8148"))
   )
 Description: The package provides a set of functions to interact with the Google
   Cloud Platform (GCP) services on the AnVIL platform. The package is designed
@@ -15,6 +14,7 @@ Description: The package provides a set of functions to interact with the Google
   should be minimal.
 biocViews: Infrastructure, DataStorageAndAnalysis, Software
 Imports:
+  AnVIL,
   BiocBaseUtils,
   dplyr,
   httr,

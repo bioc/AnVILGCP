@@ -1,29 +1,19 @@
-#' @importFrom httr status_code http_condition headers
-.avstop_for_status <-
-    function(response, op)
+#' @importFrom dplyr full_join select
+.tbl_with_template <-
+    function(tbl, tmpl)
 {
-    status <- status_code(response)
-    if (status < 400L)
-        return(invisible(response))
-
-    cond <- http_condition(status, "error")
-    type <- headers(response)[["content-type"]]
-    msg <- NULL
-    if (nzchar(type) && grepl("application/json", type)) {
-        content <- as.list(response)
-        msg <- content[["message"]]
-        if (is.null(msg))
-            ## e.g., from bond DRS server
-            msg <- content$response$text
-    } else if (nzchar(type) && grepl("text/html", type)) {
-        ## these pages can be too long for a standard 'stop()' message
-        cat(as.character(response), file = stderr())
+    result <- as_tibble(tmpl)
+    if (nrow(tbl)) {
+        have <- intersect(names(tbl), names(tmpl))
+        tbl <- select(tbl, have)
+        result <-
+            full_join(tbl, result, by = have) %>%
+            select(names(tmpl))
     }
+    result
+}
 
-    message <- paste0(
-        "'", op, "' failed:\n  ",
-        conditionMessage(cond),
-        if (!is.null(msg)) "\n  ", msg
-    )
-    stop(message, call.=FALSE)
+.pretty_text <- function(..., indent = 0L, exdent = 0L) {
+    text <- paste(..., collapse = " ")
+    paste(strwrap(text, indent = indent, exdent = exdent), collapse = "\n")
 }
