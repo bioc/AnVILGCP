@@ -227,6 +227,7 @@ avtable <-
 }
 
 #' @importFrom dplyr bind_cols
+#' @importFrom tibble as_tibble
 .avtable_paged1 <-
     function(
         namespace, name, table,

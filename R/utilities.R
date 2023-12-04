@@ -17,3 +17,11 @@
     text <- paste(..., collapse = " ")
     paste(strwrap(text, indent = indent, exdent = exdent), collapse = "\n")
 }
+
+.is_workspace <-
+    function(x)
+{
+    .is_scalar_character(x) &&
+        ## exactly 1 `/`
+        identical(lengths(regmatches(x, gregexpr("/", x, fixed = TRUE))), 1L)
+}

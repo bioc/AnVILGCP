@@ -90,7 +90,7 @@ avworkflows <-
 #'     ## from within AnVIL
 #'     avworkflow_jobs()
 #'
-#' @importFrom dplyr bind_rows mutate desc
+#' @importFrom dplyr bind_rows mutate desc arrange
 #'
 #' @export
 avworkflow_jobs <-

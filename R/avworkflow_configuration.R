@@ -285,6 +285,7 @@ avworkflow_configuration_outputs <-
 #'     describing the updated configuration.
 #'
 #' @importFrom stats setNames
+#' @importFrom methods is
 #'
 #' @export
 avworkflow_configuration_update <-

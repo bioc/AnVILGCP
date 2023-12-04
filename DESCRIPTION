@@ -18,6 +18,7 @@ Imports:
   BiocBaseUtils,
   dplyr,
   httr,
+  jsonlite,
   rlang,
   stats,
   tibble,
