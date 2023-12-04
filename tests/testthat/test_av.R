@@ -2,7 +2,7 @@ context("av")
 
 test_that(".avtable_import_set_entity() works", {
     .data <- data.frame(x=1:3, y=1:3, z_id=1:3)
-    
+
     expect_identical(
         names(.avtable_import_set_entity(.data, "x")),
         c("entity:x_id", "y", "z_id")
@@ -75,13 +75,15 @@ test_that(".avtable_na() works", {
         r = as.numeric(i)
     )
 
-    tbl1 <- mutate(tbl0, across(where(is.character), .avtable_na("")))
+    tbl1 <- dplyr::mutate(tbl0, across(where(is.character), .avtable_na("")))
     expect_identical(tbl1$x, c("a", NA, "NA", "d"))
 
-    tbl1 <- mutate(tbl0, across(where(is.character), .avtable_na("NA")))
+    tbl1 <- dplyr::mutate(tbl0, across(where(is.character), .avtable_na("NA")))
     expect_identical(tbl1$x, c("a", "", NA, "d"))
 
-    tbl1 <- mutate(tbl0, across(where(is.character), .avtable_na(c("", "NA"))))
+    tbl1 <- dplyr::mutate(
+        tbl0, across(where(is.character), .avtable_na(c("", "NA")))
+    )
     expect_identical(tbl1$x, c("a", NA, NA, "d"))
 
 })

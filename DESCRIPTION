@@ -19,6 +19,7 @@ Imports:
   dplyr,
   httr,
   jsonlite,
+  methods,
   rlang,
   stats,
   tibble,

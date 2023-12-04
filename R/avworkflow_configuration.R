@@ -357,7 +357,7 @@ avworkflow_configuration_update <-
 #'     ## update inputs or outputs, e.g., this input can be anything...
 #'     inputs <-
 #'         inputs |>
-#'         mutate(attribute = ifelse(
+#'         dplyr::mutate(attribute = ifelse(
 #'             name == "salmon.transcriptome_index_name",
 #'             '"new_index_name"',
 #'             attribute

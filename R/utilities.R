@@ -27,5 +27,5 @@
 }
 
 .isScalarCharacter_or_NULL <- function(x, na.ok = FALSE, zchar = FALSE)
-    .isScalarCharacter(x, na.ok, zchar) || is.null(x)
+    isScalarCharacter(x, na.ok, zchar) || is.null(x)
 
