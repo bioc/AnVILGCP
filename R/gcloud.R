@@ -29,7 +29,38 @@
     list(token = token, expires = expires)
 }
 
-.gcloud_access_token <-
+#' @rdname gcloud
+#'
+#' @name gcloud
+#'
+#' @title gcloud command line utility interface
+#'
+#' @description These functions invoke the `gcloud` command line
+#'     utility. See \link{gsutil} for details on how `gcloud` is
+#'     located.
+NULL
+
+
+#' @rdname gcloud
+#'
+#' @param service character(1) The name of the service, e.g. "terra" for which
+#'   to obtain an access token for.
+#'
+#' @description `gcloud_access_token()` generates a token for the given service
+#'   account. The token is cached for the duration of its validity. The token is
+#'   refreshed when it expires. The token is obtained using the `gcloud` command
+#'   line utility for the given `gcloud_account()`. The function is mainly used
+#'   internally by API service functions, e.g., `AnVIL::Terra()`
+#'
+#' @return `gcloud_access_token()` returns a simple token string to be used with
+#'   the given service.
+#'
+#' @examples
+#' if (gcloud_exists())
+#'     gcloud_access_token()
+#'
+#' @export
+gcloud_access_token <-
 local({
     tokens <- new.env(parent = emptyenv())
     function(service) {
@@ -54,17 +85,6 @@ local({
         tokens[[key]]$token
     }
 })
-
-#' @rdname gcloud
-#'
-#' @name gcloud
-#'
-#' @title gcloud command line utility interface
-#'
-#' @description These functions invoke the `gcloud` command line
-#'     utility. See \link{gsutil} for details on how `gcloud` is
-#'     located.
-NULL
 
 #' @rdname gcloud
 #'

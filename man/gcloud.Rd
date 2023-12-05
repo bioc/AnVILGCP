@@ -2,6 +2,7 @@
 % Please edit documentation in R/gcloud.R
 \name{gcloud}
 \alias{gcloud}
+\alias{gcloud_access_token}
 \alias{gcloud_exists}
 \alias{gcloud_account}
 \alias{gcloud_project}
@@ -9,6 +10,8 @@
 \alias{gcloud_cmd}
 \title{gcloud command line utility interface}
 \usage{
+gcloud_access_token(service)
+
 gcloud_exists()
 
 gcloud_account(account = NULL)
@@ -20,6 +23,9 @@ gcloud_help(...)
 gcloud_cmd(cmd, ...)
 }
 \arguments{
+\item{service}{character(1) The name of the service, e.g. "terra" for which
+to obtain an access token for.}
+
 \item{account}{character(1) Google account (e.g., \code{user@gmail.com})
 to use for authentication.}
 
@@ -31,6 +37,9 @@ to use for authentication.}
 \verb{gcloud cmd ...}.}
 }
 \value{
+\code{gcloud_access_token()} returns a simple token string to be used with
+the given service.
+
 \code{gcloud_exists()} returns \code{TRUE} when the \code{gcloud}
 application can be found, FALSE otherwise.
 
@@ -53,6 +62,12 @@ These functions invoke the \code{gcloud} command line
 utility. See \link{gsutil} for details on how \code{gcloud} is
 located.
 
+\code{gcloud_access_token()} generates a token for the given service
+account. The token is cached for the duration of its validity. The token is
+refreshed when it expires. The token is obtained using the \code{gcloud} command
+line utility for the given \code{gcloud_account()}. The function is mainly used
+internally by API service functions, e.g., \code{AnVIL::Terra()}
+
 \code{gcloud_exists()} tests whether the \code{gcloud()} command
 can be found on this system. See 'Details' section of \code{gsutil}
 for where the application is searched.
@@ -71,6 +86,9 @@ execution via \verb{gcloud ...}. Use pre-defined functions in
 preference to this.
 }
 \examples{
+if (gcloud_exists())
+    gcloud_access_token()
+
 gcloud_exists()
 
 if (gcloud_exists())
