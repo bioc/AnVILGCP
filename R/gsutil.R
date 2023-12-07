@@ -1,3 +1,8 @@
+.gcloud_storage_do <- function(...)
+{
+    .gcloud_sdk_do("gcloud", c("storage", ...))
+}
+
 #' @rdname gsutil
 #'
 #' @name gsutil
