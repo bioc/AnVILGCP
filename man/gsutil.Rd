@@ -3,12 +3,8 @@
 \name{gsutil}
 \alias{gsutil}
 \alias{gsutil_requesterpays}
-\alias{gsutil_ls}
 \alias{gsutil_exists}
 \alias{gsutil_stat}
-\alias{gsutil_cp}
-\alias{gsutil_rm}
-\alias{gsutil_rsync}
 \alias{gsutil_cat}
 \alias{gsutil_help}
 \alias{gsutil_pipe}
@@ -16,26 +12,9 @@
 \usage{
 gsutil_requesterpays(source)
 
-gsutil_ls(source = character(), ..., recursive = FALSE)
-
 gsutil_exists(source)
 
 gsutil_stat(source)
-
-gsutil_cp(source, destination, ..., recursive = FALSE, parallel = TRUE)
-
-gsutil_rm(source, ..., force = FALSE, recursive = FALSE, parallel = TRUE)
-
-gsutil_rsync(
-  source,
-  destination,
-  ...,
-  exclude = NULL,
-  dry = TRUE,
-  delete = FALSE,
-  recursive = FALSE,
-  parallel = TRUE
-)
 
 gsutil_cat(source, ..., header = FALSE, range = integer())
 
@@ -44,39 +23,6 @@ gsutil_help(cmd = character(0))
 gsutil_pipe(source, open = "r", ...)
 }
 \arguments{
-\item{source}{\code{character(1)}, (\code{character()} for
-\code{gsutil_requesterpays()}, \code{gsutil_ls()}, \code{gsutil_exists()},
-\code{gsutil_cp()}) paths to a google storage bucket, possibly with
-wild-cards for file-level pattern matching.}
-
-\item{...}{additional arguments passed as-is to the \code{gsutil} subcommand.}
-
-\item{recursive}{\code{logical(1)}; perform operation recursively from
-\code{source}?. Default: \code{FALSE}.}
-
-\item{destination}{\code{character(1)}, google cloud bucket or local
-file system destination path.}
-
-\item{parallel}{\code{logical(1)}, perform parallel multi-threaded /
-multi-processing (default is \code{TRUE}).}
-
-\item{force}{\code{logical(1)}: continue silently despite errors when
-removing multiple objects. Default: \code{FALSE}.}
-
-\item{exclude}{\code{character(1)} a python regular expression of bucket
-paths to exclude from synchronization. E.g.,
-\verb{'.*(\\\\.png|\\\\.txt)$"} excludes '.png' and .txt' files.}
-
-\item{dry}{\code{logical(1)}, when \code{TRUE} (default), return the
-consequences of the operation without actually performing the
-operation.}
-
-\item{delete}{\code{logical(1)}, when \code{TRUE}, remove files in
-\code{destination} that are not in \code{source}. Exercise caution when
-you use this option: it's possible to delete large amounts of
-data accidentally if, for example, you erroneously reverse
-source and destination.}
-
 \item{header}{\code{logical(1)} when \code{TRUE} annotate each}
 
 \item{range}{(optional) \code{integer(2)} vector used to form a range
@@ -94,18 +40,10 @@ from the bucket.}
 \code{gsutil_requesterpays()}: named \code{logical()} vector TRUE
 when requester-pays is enabled.
 
-\code{gsutil_ls()}: \code{character()} listing of \code{source} content.
-
 \code{gsutil_exists()}: logical(1) TRUE if bucket or object exists.
 
 \code{gsutil_stat()}: \code{tibble()} summarizing status of each
 bucket member.
-
-\code{gsutil_cp()}: exit status of \code{gsutil_cp()}, invisibly.
-
-\code{gsutil_rm()}: exit status of \code{gsutil_rm()}, invisibly.
-
-\code{gsutil_rsync()}: exit status of \code{gsutil_rsync()}, invisbly.
 
 \code{gsutil_cat()} returns the content as a character vector.
 
@@ -124,28 +62,11 @@ installed but the package cannot find it.
 \code{gsutil_requesterpays()}: does the google bucket
 require that the requester pay for access?
 
-\code{gsutil_ls()}: List contents of a google cloud bucket
-or, if \code{source} is missing, all Cloud Storage buckets under
-your default project ID
-
 \code{gsutil_exists()}: check if the bucket or object
 exists.
 
 \code{gsutil_stat()}: print, as a side effect, the status
 of a bucket, directory, or file.
-
-\code{gsutil_cp()}: copy contents of \code{source} to
-\code{destination}. At least one of \code{source} or \code{destination} must
-be Google cloud bucket; \code{source} can be a character vector with
-length greater than 1. Use \code{gsutil_help("cp")} for \code{gsutil} help.
-
-\code{gsutil_rm()}: remove contents of a google cloud
-bucket.
-
-\code{gsutil_rsync()}: synchronize a source and a
-destination. If the destination is on the local file system, it
-must be a directory or not yet exist (in which case a directory
-will be created).
 
 \code{gsutil_cat()}: concatenate bucket objects to standard output
 
@@ -169,18 +90,6 @@ on defined paths. On Windows, the search tries to find
 \verb{LOCAL APP DATA}, \verb{Program Files}, and \verb{Program Files (x86)}
 directories.  On linux / macOS, the search continues with
 \verb{~/google-cloud-sdk}.
-
-\verb{gsutil_rsync()': To make }"gs://mybucket/data"\verb{match the contents of the local directory}"data"` you could do:
-
-\code{gsutil_rsync("data", "gs://mybucket/data", delete = TRUE)}
-
-To make the local directory "data" the same as the contents of
-gs://mybucket/data:
-
-\code{gsutil_rsync("gs://mybucket/data", "data", delete = TRUE)}
-
-If \code{destination} is a local path and does not exist, it will be
-created.
 }
 \examples{
     src <- "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
@@ -191,14 +100,6 @@ if (gcloud_exists()) {
     gsutil_exists(src)
     gsutil_stat(src)
     gsutil_ls(dirname(src))
-}
-
-if (gcloud_exists()) {
-   gsutil_cp(src, tempdir())
-   ## gsutil_*() commands work with spaces in the source or destination
-   destination <- file.path(tempdir(), "foo bar")
-   gsutil_cp(src, destination)
-   file.exists(destination)
 }
 
 if (gcloud_exists())

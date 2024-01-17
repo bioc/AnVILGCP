@@ -11,7 +11,6 @@
 \alias{avtable_delete_values}
 \alias{avdata}
 \alias{avdata_import}
-\alias{avbucket}
 \alias{avfiles_ls}
 \alias{avfiles_backup}
 \alias{avfiles_restore}
@@ -89,12 +88,6 @@ avdata_import(
   .data,
   namespace = avworkspace_namespace(),
   name = avworkspace_name()
-)
-
-avbucket(
-  namespace = avworkspace_namespace(),
-  name = avworkspace_name(),
-  as_path = TRUE
 )
 
 avfiles_ls(
@@ -205,10 +198,6 @@ more than one set}
 entity column with suffix \verb{_id}, e.g., \code{sample_id}. Rows with
 entity column entries matching \code{values} are deleted.}
 
-\item{as_path}{logical(1) when TRUE (default) return bucket with
-prefix \verb{gs://} (for \code{avbucket()}) or \verb{gs://<bucket-id>} (for
-\code{avfiles_ls()}).}
-
 \item{path}{For \verb{avfiles_ls(), the character(1) file or directory path to list. For }avfiles_rm()\verb{, the character() (perhaps with length greater than 1) of files or directory paths to be removed. The elements of }path\verb{can contain glob-style patterns, e.g.,}vign*`.}
 
 \item{full_names}{logical(1) return names relative to \code{path}
@@ -233,6 +222,10 @@ returned by, e.g., \code{gcloud_project()} or
 \item{account}{\code{character(1)} google account (email address
 associated with billing account), as returned by
 \code{gcloud_account()}.}
+
+\item{as_path}{logical(1) when TRUE (default) return bucket with
+prefix \verb{gs://} (for \code{avbucket()}) or \verb{gs://<bucket-id>} (for
+\code{avfiles_ls()}).}
 }
 \value{
 \code{avtables()}: A tibble with columns identifying the table,
@@ -266,9 +259,6 @@ bucket) of the element.
 
 \code{avdata_import()} returns, invisibly, the subset of the
 input table used to update the AnVIL tables.
-
-\code{avbucket()} returns a \code{character(1)} bucket identifier,
-prefixed with \verb{gs://} if \code{as_path = TRUE}.
 
 \code{avfiles_ls()} returns a character vector of files in the
 workspace bucket.
@@ -338,10 +328,6 @@ information visualized under the DATA tab, 'REFERENCE DATA' and
 'OTHER DATA' items.  \code{avdata_import()} updates (modifies or
 creates new, but does not delete) rows in 'REFERENCE DATA' or
 'OTHER DATA' tables.
-
-\code{avbucket()} returns the workspace bucket, i.e., the
-google bucket associated with a workspace. Bucket content can
-be visualized under the 'DATA' tab, 'Files' item.
 
 \code{avfiles_ls()} returns the paths of files in the
 workspace bucket.  \code{avfiles_backup()} copies files from the
@@ -445,17 +431,6 @@ if (gcloud_exists() && nzchar(avworkspace_name())) {
 avdata_import(data)
 }
 
-if (gcloud_exists() && nzchar(avworkspace_name()))
-    ## From within AnVIL...
-    bucket <- avbucket()                        # discover bucket
-
-\dontrun{
-path <- file.path(bucket, "mtcars.tab")
-gsutil_ls(dirname(path))                    # no 'mtcars.tab'...
-write.table(mtcars, gsutil_pipe(path, "w")) # write to bucket
-gsutil_stat(path)                           # yep, there!
-read.table(gsutil_pipe(path, "r"))          # read from bucket
-}
 if (gcloud_exists() && nzchar(avworkspace_name()))
     avfiles_ls()
 

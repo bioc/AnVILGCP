@@ -154,7 +154,7 @@ avtables <-
 #' @return `avtable()`: a tibble of data corresponding to the AnVIL
 #'     table `table` in the specified workspace.
 #'
-#' @importFrom dplyr "%>%" select starts_with ends_with across where mutate
+#' @importFrom dplyr %>% select starts_with ends_with across where mutate
 #' @importFrom AnVIL flatten
 #'
 #' @export
@@ -880,55 +880,6 @@ avdata_import <-
         rm(list = names(buckets), envir = buckets)
     })
 })
-
-#' @rdname av
-#'
-#' @description `avbucket()` returns the workspace bucket, i.e., the
-#'     google bucket associated with a workspace. Bucket content can
-#'     be visualized under the 'DATA' tab, 'Files' item.
-#'
-#' @return `avbucket()` returns a `character(1)` bucket identifier,
-#'     prefixed with `gs://` if `as_path = TRUE`.
-#'
-#' @examples
-#' if (gcloud_exists() && nzchar(avworkspace_name()))
-#'     ## From within AnVIL...
-#'     bucket <- avbucket()                        # discover bucket
-#'
-#' \dontrun{
-#' path <- file.path(bucket, "mtcars.tab")
-#' gsutil_ls(dirname(path))                    # no 'mtcars.tab'...
-#' write.table(mtcars, gsutil_pipe(path, "w")) # write to bucket
-#' gsutil_stat(path)                           # yep, there!
-#' read.table(gsutil_pipe(path, "r"))          # read from bucket
-#' }
-#' @export
-avbucket <-
-    function(namespace = avworkspace_namespace(),
-        name = avworkspace_name(),
-        as_path = TRUE)
-{
-    stopifnot(
-        isScalarCharacter(namespace),
-        isScalarCharacter(name),
-        isScalarLogical(as_path)
-    )
-
-    if (.avbucket_cache$exists(namespace, name)) {
-        bucket <- .avbucket_cache$get(namespace, name)
-    } else {
-        response <- Terra()$getWorkspace(
-            namespace, URLencode(name), "workspace.bucketName"
-        )
-        .avstop_for_status(response, "avbucket")
-        bucket <- as.list(response)$workspace$bucketName
-        .avbucket_cache$set(namespace, name, bucket)
-    }
-
-    if (as_path)
-        bucket <- paste0("gs://", bucket)
-    bucket
-}
 
 .avbucket_path <-
     function(bucket, ...)
