@@ -1050,7 +1050,7 @@ avfiles_restore <-
 #' @rdname av
 #'
 #' @return `avfiles_rm()` on success, returns a list of the return
-#'     codes of `gsutil_rm()`, invisibly.
+#'     codes of `avremove()`, invisibly.
 #'
 #' @export
 avfiles_rm <-
@@ -1073,7 +1073,7 @@ avfiles_rm <-
     bucket <- avstorage(namespace, name)
     source <- .avbucket_path(bucket, source)
     result <- lapply(
-        source, gsutil_rm, recursive = recursive, parallel = parallel
+        source, avremove, recursive = recursive, parallel = parallel
     )
     invisible(unlist(result))
 }

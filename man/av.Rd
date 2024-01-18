@@ -263,7 +263,7 @@ workspace bucket.
 \code{avcopy()} command used to back up the files.
 
 \code{avfiles_rm()} on success, returns a list of the return
-codes of \code{gsutil_rm()}, invisibly.
+codes of \code{avremove()}, invisibly.
 
 \code{avruntimes()} returns a tibble with columns
 \itemize{
