@@ -975,10 +975,10 @@ avfiles_ls <-
 #'     workspace bucket.
 #'
 #' @param parallel logical(1) backup files using parallel transfer?
-#'     See `?gsutil_cp()`.
+#'     See `?avcopy()`.
 #'
 #' @return `avfiles_backup()` returns, invisibly, the status code of the
-#'     `gsutil_cp()` command used to back up the files.
+#'     `avcopy()` command used to back up the files.
 #'
 #' @examples
 #' \dontrun{
@@ -1012,7 +1012,7 @@ avfiles_backup <-
 
     bucket <- avstorage(namespace, name)
     destination <- .avbucket_path(bucket, destination)
-    gsutil_cp(source, destination, recursive = recursive, parallel = parallel)
+    avcopy(source, destination, recursive = recursive, parallel = parallel)
 }
 
 #' @rdname av
@@ -1044,7 +1044,7 @@ avfiles_restore <-
 
     bucket <- avstorage(namespace, name)
     source <- .avbucket_path(bucket, source)
-    gsutil_cp(source, destination, recursive = recursive, parallel = parallel)
+    avcopy(source, destination, recursive = recursive, parallel = parallel)
 }
 
 #' @rdname av

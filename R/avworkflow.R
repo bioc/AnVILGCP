@@ -449,7 +449,7 @@ avworkflow_files <-
 #'     frequently small and quickly syncronized. `type = "output"`
 #'     files are the output products of the workflow stored in the
 #'     workspace bucket. Depending on the workflow, outputs may be
-#'     large, e.g., aligned reads in bam files. See `gsutil_cp()` to
+#'     large, e.g., aligned reads in bam files. See `avcopy()` to
 #'     copy individual files from the bucket to the local drive.
 #'
 #' `avworkflow_localize()` treats `submissionId=` in the same way as

@@ -201,7 +201,7 @@ summarize workflow progress; they can be numerous but are
 frequently small and quickly syncronized. \code{type = "output"}
 files are the output products of the workflow stored in the
 workspace bucket. Depending on the workflow, outputs may be
-large, e.g., aligned reads in bam files. See \code{gsutil_cp()} to
+large, e.g., aligned reads in bam files. See \code{avcopy()} to
 copy individual files from the bucket to the local drive.
 
 \code{avworkflow_localize()} treats \verb{submissionId=} in the same way as

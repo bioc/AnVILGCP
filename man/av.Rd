@@ -213,7 +213,7 @@ entity column entries matching \code{values} are deleted.}
 workspace bucket.}
 
 \item{parallel}{logical(1) backup files using parallel transfer?
-See \code{?gsutil_cp()}.}
+See \code{?avcopy()}.}
 
 \item{project}{\code{character(1)} project (billing account) name, as
 returned by, e.g., \code{gcloud_project()} or
@@ -260,7 +260,7 @@ input table used to update the AnVIL tables.
 workspace bucket.
 
 \code{avfiles_backup()} returns, invisibly, the status code of the
-\code{gsutil_cp()} command used to back up the files.
+\code{avcopy()} command used to back up the files.
 
 \code{avfiles_rm()} on success, returns a list of the return
 codes of \code{gsutil_rm()}, invisibly.
