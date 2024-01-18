@@ -23,6 +23,12 @@ gsutil_help(cmd = character(0))
 gsutil_pipe(source, open = "r", ...)
 }
 \arguments{
+\item{source}{\code{character()} for \code{gsutil_requesterpays()} and
+\code{gsutil_exists()}: paths to a Google Storage Bucket, possibly with
+wild-cards for file-level pattern matching.}
+
+\item{...}{additional arguments passed as-is to the \code{gsutil} subcommand.}
+
 \item{header}{\code{logical(1)} when \code{TRUE} annotate each}
 
 \item{range}{(optional) \code{integer(2)} vector used to form a range

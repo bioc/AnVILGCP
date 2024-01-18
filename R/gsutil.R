@@ -60,6 +60,10 @@ NULL
 #' @description `gsutil_requesterpays()`: does the google bucket
 #'     require that the requester pay for access?
 #'
+#' @param source `character()` for `gsutil_requesterpays()` and
+#'   `gsutil_exists()`: paths to a Google Storage Bucket, possibly with
+#'   wild-cards for file-level pattern matching.
+#'
 #' @return `gsutil_requesterpays()`: named `logical()` vector TRUE
 #'     when requester-pays is enabled.
 #'
@@ -245,6 +249,8 @@ gsutil_rsync <-
 #'     from-to of bytes to concatenate. `NA` values signify
 #'     concatenation from the start (first position) or to the end
 #'     (second position) of the file.
+#'
+#' @param ... additional arguments passed as-is to the `gsutil` subcommand.
 #'
 #' @return `gsutil_cat()` returns the content as a character vector.
 #'

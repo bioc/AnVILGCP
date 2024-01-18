@@ -82,6 +82,9 @@ Default: \code{FALSE}.}
 \item{parallel}{\code{logical(1)}, perform parallel multi-threaded /
 multi-processing (default is \code{TRUE}).}
 
+\item{platform}{\code{character(1)}; the cloud platform as given by
+\code{AnVILBase::cloud_platform()}. For GCP on Terra, this is 'gcp'.}
+
 \item{force}{\code{logical(1)}: continue silently despite errors when
 removing multiple objects. Default: \code{FALSE}.}
 
@@ -98,6 +101,12 @@ operation.}
 you use this option: it's possible to delete large amounts of
 data accidentally if, for example, you erroneously reverse
 source and destination.}
+
+\item{namespace}{\code{character(1)} AnVIL workspace namespace as returned
+by, e.g., \code{avworkspace_namespace()}}
+
+\item{name}{\code{character(1)} AnVIL workspace name as returned by, e.g.,
+\code{avworkspace_name()}.}
 }
 \value{
 \code{avcopy()}: exit status of \code{avcopy()}, invisibly.

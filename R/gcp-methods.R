@@ -33,6 +33,9 @@
 #' @param parallel `logical(1)`, perform parallel multi-threaded /
 #'   multi-processing (default is `TRUE`).
 #'
+#' @param platform `character(1)`; the cloud platform as given by
+#'   `AnVILBase::cloud_platform()`. For GCP on Terra, this is 'gcp'.
+#'
 #' @param force `logical(1)`: continue silently despite errors when
 #'     removing multiple objects. Default: `FALSE`.
 #'
@@ -273,6 +276,12 @@ setMethod(
 # avstorage ---------------------------------------------------------------
 
 #' @describeIn gcp-methods get the storage bucket location
+#'
+#' @param namespace `character(1)` AnVIL workspace namespace as returned
+#'     by, e.g., `avworkspace_namespace()`
+#'
+#' @param name `character(1)` AnVIL workspace name as returned by, e.g.,
+#'     `avworkspace_name()`.
 #'
 #' @importFrom AnVILBase avstorage
 #' @exportMethod avstorage
