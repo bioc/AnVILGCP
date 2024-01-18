@@ -109,12 +109,12 @@ source and destination.}
 \verb{gs://}
 }
 \description{
-\code{gsutil_cp()}: copy contents of \code{source} to \code{destination}. At
+\code{avcopy()}: copy contents of \code{source} to \code{destination}. At
 least one of \code{source} or \code{destination} must be Google cloud bucket;
 \code{source} can be a character vector with length greater than 1. Use
 \code{gsutil_help("cp")} for \code{gsutil} help.
 
-\code{gsutil_ls()}: List contents of a google cloud bucket or, if \code{source} is
+\code{avlist()}: List contents of a google cloud bucket or, if \code{source} is
 missing, all Cloud Storage buckets under your default project ID
 
 \code{avremove()}: remove contents of a Google Cloud Bucket.

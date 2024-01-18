@@ -156,7 +156,7 @@ gsutil_exists <-
 #' if (gcloud_exists()) {
 #'     gsutil_exists(src)
 #'     gsutil_stat(src)
-#'     gsutil_ls(dirname(src))
+#'     avlist(dirname(src))
 #' }
 #'
 #' @importFrom tidyr pivot_wider

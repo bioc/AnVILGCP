@@ -246,7 +246,7 @@ avworkflow_jobs <-
             "    submissionId: '", submissionId, "'"
         )
     }
-    path <- gsutil_ls(submissionRoot, recursive = TRUE)
+    path <- avlist(submissionRoot, recursive = TRUE)
 
     ## submissionRoot/submissionId/workflow/workflowId/task/...
     objects <- substr(path, nchar(submissionRoot) + 2L, nchar(path))

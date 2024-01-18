@@ -49,7 +49,7 @@ avnotebooks <-
     if (local) {
         dir(.avnotebooks_runtime_path(name))
     } else {
-        basename(gsutil_ls(.avnotebooks_workspace_path(namespace, name)))
+        basename(avlist(.avnotebooks_workspace_path(namespace, name)))
     }
 }
 

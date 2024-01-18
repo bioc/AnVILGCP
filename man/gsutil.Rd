@@ -99,7 +99,7 @@ if (gcloud_exists())
 if (gcloud_exists()) {
     gsutil_exists(src)
     gsutil_stat(src)
-    gsutil_ls(dirname(src))
+    avlist(dirname(src))
 }
 
 if (gcloud_exists())

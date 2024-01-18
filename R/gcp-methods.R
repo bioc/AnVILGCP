@@ -2,12 +2,12 @@
 #'
 #' @title A number of methods compatible with the GCP platform class.
 #'
-#' @description `gsutil_cp()`: copy contents of `source` to `destination`. At
+#' @description `avcopy()`: copy contents of `source` to `destination`. At
 #'   least one of `source` or `destination` must be Google cloud bucket;
 #'   `source` can be a character vector with length greater than 1. Use
 #'   `gsutil_help("cp")` for `gsutil` help.
 #'
-#'   `gsutil_ls()`: List contents of a google cloud bucket or, if `source` is
+#'   `avlist()`: List contents of a google cloud bucket or, if `source` is
 #'   missing, all Cloud Storage buckets under your default project ID
 #'
 #'   `avremove()`: remove contents of a Google Cloud Bucket.

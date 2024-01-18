@@ -947,7 +947,7 @@ avfiles_ls <-
 
     bucket <- avstorage(namespace, name)
     source <- .avbucket_path(bucket, path)
-    result <- gsutil_ls(source, recursive = recursive)
+    result <- avlist(source, recursive = recursive)
     if (full_names) {
         sub(paste0(bucket, "/*"), "", result)
     } else {
