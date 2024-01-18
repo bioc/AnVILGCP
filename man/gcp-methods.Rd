@@ -105,8 +105,8 @@ source and destination.}
 \code{avremove()}: exit status of \verb{gsutil rm}, invisibly.
 \code{avbackup()}: exit status of \verb{gsutil rsync}, invisbly.
 \code{avrestore()}: exit status of \verb{gsutil rsync}, invisbly.
-\code{avbucket()} returns a \code{character(1)} bucket identifier, prefixed with
-\verb{gs://} if \code{as_path = TRUE}.
+\code{avstorage()} returns a \code{character(1)} bucket identifier prefixed with
+\verb{gs://}
 }
 \description{
 \code{gsutil_cp()}: copy contents of \code{source} to \code{destination}. At

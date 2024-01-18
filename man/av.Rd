@@ -222,10 +222,6 @@ returned by, e.g., \code{gcloud_project()} or
 \item{account}{\code{character(1)} google account (email address
 associated with billing account), as returned by
 \code{gcloud_account()}.}
-
-\item{as_path}{logical(1) when TRUE (default) return bucket with
-prefix \verb{gs://} (for \code{avbucket()}) or \verb{gs://<bucket-id>} (for
-\code{avfiles_ls()}).}
 }
 \value{
 \code{avtables()}: A tibble with columns identifying the table,

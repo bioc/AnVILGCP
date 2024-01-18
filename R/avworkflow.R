@@ -326,7 +326,7 @@ avworkflow_jobs <-
 #' @param bucket character(1) DEPRECATED (ignored in the current
 #'     release) name of the google bucket in which the workflow
 #'     products are available, as `gs://...`. Usually the bucket of
-#'     the active workspace, returned by `avbucket()`.
+#'     the active workspace, returned by `avstorage()`.
 #'
 #' @details For `avworkflow_files()`, the `submissionId` is the
 #'     identifier associated with the submission of one (or more)
@@ -375,7 +375,7 @@ avworkflow_jobs <-
 avworkflow_files <-
     function(submissionId = NULL,
              workflowId = NULL,
-             bucket = avbucket(),
+             bucket = avstorage(),
              namespace = avworkspace_namespace(),
              name = avworkspace_name())
 {
@@ -489,7 +489,7 @@ avworkflow_localize <-
          workflowId = NULL,
          destination = NULL,
          type = c("control", "output", "all"),
-         bucket = avbucket(),
+         bucket = avstorage(),
          dry = TRUE
     )
 {

@@ -16,7 +16,7 @@ avworkflow_jobs(namespace = avworkspace_namespace(), name = avworkspace_name())
 avworkflow_files(
   submissionId = NULL,
   workflowId = NULL,
-  bucket = avbucket(),
+  bucket = avstorage(),
   namespace = avworkspace_namespace(),
   name = avworkspace_name()
 )
@@ -26,7 +26,7 @@ avworkflow_localize(
   workflowId = NULL,
   destination = NULL,
   type = c("control", "output", "all"),
-  bucket = avbucket(),
+  bucket = avstorage(),
   dry = TRUE
 )
 
@@ -66,7 +66,7 @@ workflow in the submission, or NULL / missing.}
 \item{bucket}{character(1) DEPRECATED (ignored in the current
 release) name of the google bucket in which the workflow
 products are available, as \verb{gs://...}. Usually the bucket of
-the active workspace, returned by \code{avbucket()}.}
+the active workspace, returned by \code{avstorage()}.}
 
 \item{destination}{character(1) file path to the location where
 files will be synchronized. For directories in the current

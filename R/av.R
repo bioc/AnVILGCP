@@ -923,10 +923,6 @@ avdata_import <-
 #'
 #' @param recursive logical(1) list files recursively?
 #'
-#' @param as_path logical(1) when TRUE (default) return bucket with
-#'     prefix `gs://` (for `avbucket()`) or `gs://<bucket-id>` (for
-#'     `avfiles_ls()`).
-#'
 #' @return `avfiles_ls()` returns a character vector of files in the
 #'     workspace bucket.
 #'
@@ -949,7 +945,7 @@ avfiles_ls <-
         isScalarCharacter(name)
     )
 
-    bucket <- avbucket(namespace, name)
+    bucket <- avstorage(namespace, name)
     source <- .avbucket_path(bucket, path)
     result <- gsutil_ls(source, recursive = recursive)
     if (full_names) {
@@ -1014,7 +1010,7 @@ avfiles_backup <-
         isScalarCharacter(name)
     )
 
-    bucket <- avbucket(namespace, name)
+    bucket <- avstorage(namespace, name)
     destination <- .avbucket_path(bucket, destination)
     gsutil_cp(source, destination, recursive = recursive, parallel = parallel)
 }
@@ -1046,7 +1042,7 @@ avfiles_restore <-
         isScalarCharacter(name)
     )
 
-    bucket <- avbucket(namespace, name)
+    bucket <- avstorage(namespace, name)
     source <- .avbucket_path(bucket, source)
     gsutil_cp(source, destination, recursive = recursive, parallel = parallel)
 }
@@ -1074,7 +1070,7 @@ avfiles_rm <-
         isScalarCharacter(name)
     )
 
-    bucket <- avbucket(namespace, name)
+    bucket <- avstorage(namespace, name)
     source <- .avbucket_path(bucket, source)
     result <- lapply(
         source, gsutil_rm, recursive = recursive, parallel = parallel

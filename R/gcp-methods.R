@@ -57,8 +57,8 @@
 #'   `avremove()`: exit status of `gsutil rm`, invisibly.
 #'   `avbackup()`: exit status of `gsutil rsync`, invisbly.
 #'   `avrestore()`: exit status of `gsutil rsync`, invisbly.
-#'   `avbucket()` returns a `character(1)` bucket identifier, prefixed with
-#'     `gs://` if `as_path = TRUE`.
+#'   `avstorage()` returns a `character(1)` bucket identifier prefixed with
+#'     `gs://`
 #'
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'

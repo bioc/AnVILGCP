@@ -7,7 +7,7 @@
 .avnotebooks_workspace_path <-
     function(namespace, name)
 {
-    paste(avbucket(namespace, name), "notebooks", sep = "/")
+    paste(avstorage(namespace, name), "notebooks", sep = "/")
 }
 
 #' @rdname avnotebooks
