@@ -313,3 +313,23 @@ setMethod(
         paste0("gs://", bucket)
     }
 )
+
+# avworkspaces ------------------------------------------------------------
+
+#' @describeIn gcp-methods list workspaces in the current project
+#' @importFrom AnVILBase avworkspaces
+#' @exportMethod avworkspaces
+setMethod(
+    f = "avworkspaces",
+    signature = "gcp",
+    definition = function(
+        ...,
+        platform = cloud_platform()
+    ) {
+        response <- Rawls()$listWorkspaces()
+        .avstop_for_status(response, "avworkspaces")
+
+        AnVIL::flatten(response) |>
+            .avworkspaces_clean()
+    }
+)

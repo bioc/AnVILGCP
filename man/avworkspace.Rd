@@ -8,7 +8,7 @@
 \alias{avworkspace_clone}
 \title{Workspace management}
 \usage{
-avworkspaces()
+avworkspaces(..., platform)
 
 avworkspace_namespace(namespace = NULL, warn = TRUE)
 

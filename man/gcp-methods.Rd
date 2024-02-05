@@ -8,6 +8,7 @@
 \alias{avbackup,gcp-method}
 \alias{avrestore,gcp-method}
 \alias{avstorage,gcp-method}
+\alias{avworkspaces,gcp-method}
 \title{A number of methods compatible with the GCP platform class.}
 \usage{
 \S4method{avcopy}{gcp}(
@@ -65,6 +66,8 @@
   ...,
   platform = cloud_platform()
 )
+
+\S4method{avworkspaces}{gcp}(..., platform = cloud_platform())
 }
 \arguments{
 \item{source}{\code{character(1)}, (\code{character()} for \code{avlist()}, \code{avcopy()})
@@ -163,6 +166,8 @@ created.
 \item \code{avrestore(gcp)}: restore contents of \code{source} with \code{gsutil}
 
 \item \code{avstorage(gcp)}: get the storage bucket location
+
+\item \code{avworkspaces(gcp)}: list workspaces in the current project
 
 }}
 \examples{

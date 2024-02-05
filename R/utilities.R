@@ -29,3 +29,21 @@
 .isScalarCharacter_or_NULL <- function(x, na.ok = FALSE, zchar = FALSE)
     isScalarCharacter(x, na.ok, zchar) || is.null(x)
 
+.avworkspaces_clean <- function(.data) {
+    .data |>
+        select(
+            name = .data$workspace.name,
+            lastModified = .data$workspace.lastModified,
+            createdBy = .data$workspace.createdBy,
+            namespace = .data$workspace.namespace,
+            accessLevel = .data$accessLevel
+        ) |>
+        mutate(
+            lastModified = as.Date(.data$lastModified)
+        ) |>
+        arrange(
+            .data$name,
+            desc(.data$lastModified)
+        )
+}
+
