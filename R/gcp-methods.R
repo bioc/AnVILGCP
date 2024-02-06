@@ -329,7 +329,7 @@ setMethod(
         response <- Rawls()$listWorkspaces()
         avstop_for_status(response, "avworkspaces")
 
-        AnVIL::flatten(response) |>
-            .avworkspaces_clean()
+        AnVILBase::flatten(response) |>
+            AnVILBase::avworkspaces_clean()
     }
 )
