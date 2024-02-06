@@ -23,7 +23,7 @@
         content_type("application/x-www-form-urlencoded"),
         body = paste0("access_token=", token)
     )
-    .avstop_for_status(response, ".gcloud_access_token_expires")
+    avstop_for_status(response, ".gcloud_access_token_expires")
     expires <- now + content(response)$expires_in
 
     list(token = token, expires = expires)

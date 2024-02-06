@@ -42,7 +42,7 @@ avworkspaces <-
 {
 
     response <- Terra()$listWorkspaces()
-    .avstop_for_status(response, "avworkspaces")
+    avstop_for_status(response, "avworkspaces")
 
     AnVILBase::flatten(response) %>%
         AnVILBase::avworkspaces_clean()
@@ -190,7 +190,7 @@ avworkspace_clone <-
             name = URLencode(to_name)
         )
         )
-    .avstop_for_status(response, "avworkspace_clone")
+    avstop_for_status(response, "avworkspace_clone")
 
     paste(to_namespace, to_name, sep = "/")
 }

@@ -6,40 +6,6 @@
 NULL
 
 ##
-## internal
-##
-
-#' @importFrom httr status_code http_condition headers
-.avstop_for_status <-
-    function(response, op)
-{
-    status <- status_code(response)
-    if (status < 400L)
-        return(invisible(response))
-
-    cond <- http_condition(status, "error")
-    type <- headers(response)[["content-type"]]
-    msg <- NULL
-    if (nzchar(type) && grepl("application/json", type)) {
-        content <- as.list(response)
-        msg <- content[["message"]]
-        if (is.null(msg))
-            ## e.g., from bond DRS server
-            msg <- content$response$text
-    } else if (nzchar(type) && grepl("text/html", type)) {
-        ## these pages can be too long for a standard 'stop()' message
-        cat(as.character(response), file = stderr())
-    }
-
-    message <- paste0(
-        "'", op, "' failed:\n  ",
-        conditionMessage(cond),
-        if (!is.null(msg)) "\n  ", msg
-    )
-    stop(message, call.=FALSE)
-}
-
-##
 ## tables
 ##
 
@@ -66,6 +32,7 @@ NULL
 #'
 #' @importFrom tibble tibble
 #' @importFrom AnVIL Terra
+#' @importFrom AnVILBase avstop_for_status
 #' @importFrom BiocBaseUtils isCharacter isScalarCharacter isScalarLogical
 #'   isScalarNumber isScalarInteger
 #'
@@ -79,7 +46,7 @@ avtables <-
     )
 
     types <- Terra()$getEntityTypes(namespace, URLencode(name))
-    .avstop_for_status(types, "avtables")
+    avstop_for_status(types, "avtables")
     lst <- content(types)
     table <- names(lst)
     count <- vapply(lst, `[[`, integer(1), "count")
@@ -181,7 +148,7 @@ avtable <-
         )
         stop(msg, call. = FALSE)
     })
-    .avstop_for_status(entities, "avtable")
+    avstop_for_status(entities, "avtable")
     tbl <-
         entities %>%
         flatten()
@@ -240,7 +207,7 @@ avtable <-
         namespace, URLencode(name), table,
         page, pageSize, sortField, sortDirection,
         filterTerms, filterOperator)
-    .avstop_for_status(response, "avtable_paged")
+    avstop_for_status(response, "avtable_paged")
 
     lst <-
         response %>%
@@ -521,7 +488,7 @@ avtable_import <-
         deleteEmptyValues = delete_empty_values,
         entities = entities
     )
-    .avstop_for_status(response, "avtable_import")
+    avstop_for_status(response, "avtable_import")
     content(response)$jobId
 }
 
@@ -640,7 +607,7 @@ avtable_import_status <-
         job_id <- job_ids[[job_index]]
         tryCatch({
             response <- Terra()$importJobStatus(namespace, name, job_id)
-            .avstop_for_status(response, "avtable_import_status")
+            avstop_for_status(response, "avtable_import_status")
             content <- httr::content(response)
             updated_status[[job_index]] <- content$status
             if ("message" %in% names(content)) {
@@ -707,7 +674,7 @@ avtable_delete_values <-
             tbl
         )
     }
-    .avstop_for_status(response, "avtable_delete_values") # other errors
+    avstop_for_status(response, "avtable_delete_values") # other errors
 
     invisible(body)
 }
@@ -748,7 +715,7 @@ avdata <-
     response <- Terra()$getWorkspace(
         namespace, URLencode(name), "workspace.attributes"
     )
-    .avstop_for_status(response, "avworkspace_data")
+    avstop_for_status(response, "avworkspace_data")
 
     content <- content(response)[[1]][["attributes"]]
 
@@ -854,7 +821,7 @@ avdata_import <-
     response <- Terra()$importAttributesTSV(
         namespace, URLencode(name), entities
     )
-    .avstop_for_status(response, "avdata_import")
+    avstop_for_status(response, "avdata_import")
 
     invisible(.data)
 }
@@ -1139,7 +1106,7 @@ avruntimes <-
 
     leo <- Leonardo()
     response <- leo$listRuntimes()
-    .avstop_for_status(response, "avruntimes")
+    avstop_for_status(response, "avruntimes")
     runtimes <- flatten(response)
 
     .tbl_with_template(runtimes, template) %>%
@@ -1250,7 +1217,7 @@ avdisks <-
 
     leo <- Leonardo()
     response <- leo$listDisks()
-    .avstop_for_status(response, "avdisks")
+    avstop_for_status(response, "avdisks")
     runtimes <- flatten(response)
 
     .tbl_with_template(runtimes, template) %>%

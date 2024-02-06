@@ -44,7 +44,7 @@ avworkflows <-
     workflows <- Rawls()$list_method_configurations(
         namespace, URLencode(name), TRUE
     )
-    .avstop_for_status(workflows, "avworkflows")
+    avstop_for_status(workflows, "avworkflows")
     workflows %>% flatten()
 }
 
@@ -102,7 +102,7 @@ avworkflow_jobs <-
     )
 
     response <- Terra()$listSubmissions(namespace, URLencode(name))
-    .avstop_for_status(response, "avworkflow_jobs")
+    avstop_for_status(response, "avworkflow_jobs")
 
     submissions <- content(response, encoding = "UTF-8")
     if (length(submissions)) {
@@ -186,7 +186,7 @@ avworkflow_jobs <-
             ## no submissionId / workflowId association
             return(NULL)
         }
-        .avstop_for_status(
+        avstop_for_status(
             outputs, "avworkflow_files() 'workflowOutputsInSubmission'"
         )
         response <- content(outputs)
@@ -283,7 +283,7 @@ avworkflow_jobs <-
     monitor <- Terra()$monitorSubmission(
         namespace, URLencode(name), submissionId
     )
-    .avstop_for_status(monitor, "avworkflow_files() 'monitorSubmission'")
+    avstop_for_status(monitor, "avworkflow_files() 'monitorSubmission'")
     response <- content(monitor)
 
     ## FIXME -- how to know if information on outputs from workflow?
@@ -644,7 +644,7 @@ avworkflow_run <-
         ## userComment                  : NULL
         workflowFailureMode = "NoNewCalls")
 
-    .avstop_for_status(run_workflow, "avworkflow_run")
+    avstop_for_status(run_workflow, "avworkflow_run")
 
     invisible(config)
 }
@@ -705,7 +705,7 @@ avworkflow_stop <-
         workspaceNamespace = namespace,
         workspaceName = URLencode(name),
         submissionId = submissionId)
-    .avstop_for_status(response, "avworkflow_stop (current status)")
+    avstop_for_status(response, "avworkflow_stop (current status)")
     current_status <- content(response, encoding = "UTF-8")$status
     WORKFLOW_STATUS_ENUM <- c("Aborting", "Aborted", "Done")
     if (current_status %in% WORKFLOW_STATUS_ENUM) {
@@ -739,7 +739,7 @@ avworkflow_stop <-
         workspaceNamespace = namespace,
         workspaceName = URLencode(name),
         submissionId = submissionId)
-    .avstop_for_status(abort_workflow, "avworkflow_stop (abort workflow)")
+    avstop_for_status(abort_workflow, "avworkflow_stop (abort workflow)")
 
     invisible(TRUE)
 }

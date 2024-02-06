@@ -305,7 +305,7 @@ setMethod(
             response <- Terra()$getWorkspace(
                 namespace, URLencode(name), "workspace.bucketName"
             )
-            .avstop_for_status(response, "avbucket")
+            avstop_for_status(response, "avbucket")
             bucket <- as.list(response)$workspace$bucketName
             .avbucket_cache$set(namespace, name, bucket)
         }
@@ -327,7 +327,7 @@ setMethod(
         platform = cloud_platform()
     ) {
         response <- Rawls()$listWorkspaces()
-        .avstop_for_status(response, "avworkspaces")
+        avstop_for_status(response, "avworkspaces")
 
         AnVIL::flatten(response) |>
             .avworkspaces_clean()
