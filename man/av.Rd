@@ -5,7 +5,6 @@
 \alias{avtables}
 \alias{avtable}
 \alias{avtable_paged}
-\alias{avtable_import}
 \alias{avtable_import_set}
 \alias{avtable_import_status}
 \alias{avtable_delete_values}
@@ -41,18 +40,6 @@ avtable_paged(
   namespace = avworkspace_namespace(),
   name = avworkspace_name(),
   na = c("", "NA")
-)
-
-avtable_import(
-  .data,
-  entity = names(.data)[[1]],
-  namespace = avworkspace_namespace(),
-  name = avworkspace_name(),
-  delete_empty_values = FALSE,
-  na = "NA",
-  n = Inf,
-  page = 1L,
-  pageSize = NULL
 )
 
 avtable_import_set(
@@ -163,22 +150,6 @@ an exact (substring) matches in column.}
 \item{filterOperator}{character(1) operator to use when multiple
 terms in \verb{filterTerms=}, either \code{"and"} (default) or \code{"or"}.}
 
-\item{.data}{A tibble or data.frame for import as an AnVIL table.}
-
-\item{entity}{\code{character(1)} column name of \code{.data} to be used as
-imported table name. When the table comes from R, this is
-usually a column name such as \code{sample}. The data will be
-imported into AnVIL as a table \code{sample}, with the \code{sample}
-column included with suffix \verb{_id}, e.g., \code{sample_id}. A column
-in \code{.data} with suffix \verb{_id} can also be used, e.g., \code{entity = "sample_id"}, creating the table \code{sample} with column
-\code{sample_id} in AnVIL. Finally, a value of \code{entity} that is not
-a column in \code{.data}, e.g., \code{entity = "unknown"}, will cause a
-new table with name \code{entity} and entity values
-\code{seq_len(nrow(.data))}.}
-
-\item{delete_empty_values}{logical(1) when \code{TRUE}, remove entities
-not include in \code{.data} from the DATA table. Default: \code{FALSE}.}
-
 \item{origin}{character(1) name of the entity (table) used to
 create the set e.g "sample", "participant",
 etc.}
@@ -232,12 +203,6 @@ table \code{table} in the specified workspace.
 
 \code{avtable_paged()}: a tibble of data corresponding to the
 AnVIL table \code{table} in the specified workspace.
-
-\code{avtable_import()} returns a \code{tibble()} containing the page
-number, 'from' and 'to' rows included in the page, job
-identifier, initial status of the uploaded 'chunks', and any
-(error) messages generated during status check. Use
-\code{avtable_import_status()} to query current status.
 
 \code{avtable_import_set()} returns a \code{character(1)} name of the
 imported AnVIL tibble.
@@ -372,20 +337,6 @@ round-trip data containing both \code{NA_character_} and "NA". Use
 a distinct string, e.g., \code{na = "__MISSING_VALUE__"}, for both
 arguments if the data contains a string \code{"NA"} as well as
 \code{NA_character_}.
-
-\code{avtable_import()} tries to work around limitations in
-\code{.data} size in the AnVIL platform, using \code{pageSize} (number of
-rows) to import so that approximately 1500000 elements (rows x
-columns) are uploaded per chunk. For large \code{.data}, a progress
-bar summarizes progress on the import. Individual chunks may
-nonetheless fail to upload, with common reasons being an
-internal server error (HTTP error code 500) or transient
-authorization failure (HTTP 401). In these and other cases
-\code{avtable_import()} reports the failed page(s) as warnings. The
-user can attempt to import these individually using the \code{page}
-argument. If many pages fail to import, a strategy might be to
-provide an explicit \code{pageSize} less than the automatically
-determined size.
 
 \code{avtable_import_set()} creates new rows in a table
 \verb{<origin>_set}. One row will be created for each distinct value

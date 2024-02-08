@@ -29,27 +29,6 @@ NULL
 
 #' @rdname avworkspace
 #'
-#' @description `avworkspaces()` returns a tibble with available
-#'     workspaces.
-#'
-#' @return `avworkspaces()` returns a tibble with columns including
-#'     the name, last modification time, namespace, and owner status.
-#'
-#'
-#' @export
-avworkspaces <-
-    function()
-{
-
-    response <- Terra()$listWorkspaces()
-    avstop_for_status(response, "avworkspaces")
-
-    AnVILBase::flatten(response) %>%
-        AnVILBase::avworkspaces_clean()
-}
-
-#' @rdname avworkspace
-#'
 #' @description `avworkspace_namespace()` and `avworkspace_name()` are
 #'     utiliity functions to retrieve workspace namespace and name
 #'     from environment variables or interfaces usually available in

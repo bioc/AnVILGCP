@@ -1,6 +1,9 @@
 #' @name gcp-methods
 #'
-#' @title A number of methods compatible with the GCP platform class.
+#' @aliases avcopy avlist avremove avbackup avrestore avstorage avworkspaces
+#'   avtable_import
+#'
+#' @title Methods compatible with the GCP platform class
 #'
 #' @description `avcopy()`: copy contents of `source` to `destination`. At
 #'   least one of `source` or `destination` must be Google cloud bucket;
@@ -19,6 +22,14 @@
 #'   `avstorage()` returns the workspace bucket, i.e., the google bucket
 #'   associated with a workspace. Bucket content can be visualized under the
 #'   'DATA' tab, 'Files' item.
+#'
+#'   `avworkspaces()`: returns a tibble with columns including the name, last
+#'   modification time, namespace, and owner status.
+#'
+#'   `avtable_import()`: returns a `tibble()` containing the page number, 'from'
+#'   and 'to' rows included in the page, job identifier, initial status of the
+#'   uploaded 'chunks', and any (error) messages generated during status check.
+#'   Use `avtable_import_status()` to query current status.
 #'
 #' @param source `character(1)`, (`character()` for `avlist()`, `avcopy()`)
 #'   paths to a google storage bucket, possibly with wild-cards for file-level
@@ -316,7 +327,7 @@ setMethod(
 
 # avworkspaces ------------------------------------------------------------
 
-#' @describeIn gcp-methods list workspaces in the current project
+#' @describeIn gcp-methods list workspaces in the current project as a tibble
 #' @importFrom AnVILBase avworkspaces
 #' @exportMethod avworkspaces
 setMethod(
@@ -331,5 +342,80 @@ setMethod(
 
         AnVILBase::flatten(response) |>
             AnVILBase::avworkspaces_clean()
+    }
+)
+
+# avtable_import ----------------------------------------------------------
+
+#' @describeIn gcp-methods upload a table to the DATA tab
+#'
+#' @param .data A tibble or data.frame for import as an AnVIL table.
+#'
+#' @param entity `character(1)` column name of `.data` to be used as
+#'     imported table name. When the table comes from R, this is
+#'     usually a column name such as `sample`. The data will be
+#'     imported into AnVIL as a table `sample`, with the `sample`
+#'     column included with suffix `_id`, e.g., `sample_id`. A column
+#'     in `.data` with suffix `_id` can also be used, e.g., `entity =
+#'     "sample_id"`, creating the table `sample` with column
+#'     `sample_id` in AnVIL. Finally, a value of `entity` that is not
+#'     a column in `.data`, e.g., `entity = "unknown"`, will cause a
+#'     new table with name `entity` and entity values
+#'     `seq_len(nrow(.data))`.
+#'
+#' @param delete_empty_values logical(1) when `TRUE`, remove entities
+#'     not include in `.data` from the DATA table. Default: `FALSE`.
+#'
+#' @details `avtable_import()` tries to work around limitations in
+#'     `.data` size in the AnVIL platform, using `pageSize` (number of
+#'     rows) to import so that approximately 1500000 elements (rows x
+#'     columns) are uploaded per chunk. For large `.data`, a progress
+#'     bar summarizes progress on the import. Individual chunks may
+#'     nonetheless fail to upload, with common reasons being an
+#'     internal server error (HTTP error code 500) or transient
+#'     authorization failure (HTTP 401). In these and other cases
+#'     `avtable_import()` reports the failed page(s) as warnings. The
+#'     user can attempt to import these individually using the `page`
+#'     argument. If many pages fail to import, a strategy might be to
+#'     provide an explicit `pageSize` less than the automatically
+#'     determined size.
+#'
+#' @importFrom AnVILBase avtable_import
+#' @exportMethod avtable_import
+setMethod(
+    f = "avtable_import",
+    signature = "gcp",
+    definition = function(
+        .data,
+        entity = names(.data)[[1L]],
+        namespace = avworkspace_namespace(),
+        name = avworkspace_name(),
+        delete_empty_values = FALSE,
+        na = "NA",
+        n = Inf,
+        page = 1L,
+        pageSize = NULL,
+        ...,
+        platform = cloud_platform()
+    ) {
+        stopifnot(
+            is.data.frame(.data),
+            isScalarCharacter(entity),
+            isScalarCharacter(namespace),
+            isScalarCharacter(name),
+            isScalarLogical(delete_empty_values),
+            isScalarCharacter(na, zchar = TRUE),
+            isScalarNumber(n, infinite.ok = TRUE),
+            isScalarInteger(as.integer(page)),
+            is.null(pageSize) || isScalarInteger(as.integer(pageSize))
+        )
+
+        ## identify the 'entity' column
+        .data <- .avtable_import_set_entity(.data, entity)
+        ## divide large tables into chunks, if necessary
+        .avtable_import_chunks(
+            .data, namespace, name, delete_empty_values, na,
+            n, page, pageSize
+        )
     }
 )
