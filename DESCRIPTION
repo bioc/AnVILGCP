@@ -1,6 +1,6 @@
 Package: AnVILGCP
 Title: The GCP R Client for the AnVIL
-Version: 0.99.5
+Version: 0.99.6
 Authors@R: c(
     person("Marcel", "Ramos", , "marcel.ramos@roswellpark.org",
       c("aut", "cre"), c(ORCID = "0000-0002-3242-0582")
@@ -35,4 +35,4 @@ License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Date: 2024-02-06
+Date: 2024-02-08
