@@ -4,7 +4,7 @@
 #'
 #' @title Workflow submissions and file outputs
 #'
-#' @inheritParams avworkspace
+#' @inheritParams avworkspace-methods
 NULL
 
 #' @rdname avworkflow

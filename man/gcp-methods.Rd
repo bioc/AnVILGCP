@@ -16,7 +16,6 @@
 \alias{avbackup,gcp-method}
 \alias{avrestore,gcp-method}
 \alias{avstorage,gcp-method}
-\alias{avworkspaces,gcp-method}
 \alias{avtable_import,gcp-method}
 \title{Methods compatible with the GCP platform class}
 \usage{
@@ -75,8 +74,6 @@
   ...,
   platform = cloud_platform()
 )
-
-\S4method{avworkspaces}{gcp}(..., platform = cloud_platform())
 
 \S4method{avtable_import}{gcp}(
   .data,
@@ -227,8 +224,6 @@ determined size.
 \item \code{avrestore(gcp)}: restore contents of \code{source} with \code{gsutil}
 
 \item \code{avstorage(gcp)}: get the storage bucket location
-
-\item \code{avworkspaces(gcp)}: list workspaces in the current project as a tibble
 
 \item \code{avtable_import(gcp)}: upload a table to the DATA tab
 

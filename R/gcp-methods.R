@@ -325,26 +325,6 @@ setMethod(
     }
 )
 
-# avworkspaces ------------------------------------------------------------
-
-#' @describeIn gcp-methods list workspaces in the current project as a tibble
-#' @importFrom AnVILBase avworkspaces
-#' @exportMethod avworkspaces
-setMethod(
-    f = "avworkspaces",
-    signature = "gcp",
-    definition = function(
-        ...,
-        platform = cloud_platform()
-    ) {
-        response <- Rawls()$listWorkspaces()
-        avstop_for_status(response, "avworkspaces")
-
-        AnVILBase::flatten(response) |>
-            AnVILBase::avworkspaces_clean()
-    }
-)
-
 # avtable_import ----------------------------------------------------------
 
 #' @describeIn gcp-methods upload a table to the DATA tab

@@ -28,3 +28,21 @@
 
 .isScalarCharacter_or_NULL <- function(x, na.ok = FALSE, zchar = FALSE)
     isScalarCharacter(x, na.ok, zchar) || is.null(x)
+
+.avworkspace <- local({
+    hash <- new.env(parent = emptyenv())
+    function(fun, key, value, warn = TRUE) {
+        sysvar <- toupper(paste0("WORKSPACE_", key))
+        if (is.null(value)) {
+            if (is.null(hash[[key]])) {
+                ## initialize
+                hash[[key]] <- Sys.getenv(sysvar)
+                if (!nzchar(hash[[key]]) && warn && interactive())
+                    warning("'", sysvar, "' undefined; use `", fun, "()` to set")
+            }
+        } else {
+            hash[[key]] <- ifelse(is.na(value), Sys.getenv(sysvar), value)
+        }
+        hash[[key]]
+    }
+})
