@@ -39,9 +39,10 @@ Date: 2024-02-13
 Collate: 
     'av.R'
     'avnotebooks.R'
+    'gcp-class.R'
+    'avtable-methods.R'
     'avworkflow.R'
     'avworkflow_configuration.R'
-    'gcp-class.R'
     'avworkspace-methods.R'
     'avworkspace.R'
     'gcloud.R'
