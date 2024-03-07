@@ -16,7 +16,6 @@
 \alias{avbackup,gcp-method}
 \alias{avrestore,gcp-method}
 \alias{avstorage,gcp-method}
-\alias{avtable_import,gcp-method}
 \title{Methods compatible with the GCP platform class}
 \usage{
 \S4method{avcopy}{gcp}(
@@ -74,20 +73,6 @@
   ...,
   platform = cloud_platform()
 )
-
-\S4method{avtable_import}{gcp}(
-  .data,
-  entity = names(.data)[[1L]],
-  namespace = avworkspace_namespace(),
-  name = avworkspace_name(),
-  delete_empty_values = FALSE,
-  na = "NA",
-  n = Inf,
-  page = 1L,
-  pageSize = NULL,
-  ...,
-  platform = cloud_platform()
-)
 }
 \arguments{
 \item{source}{\code{character(1)}, (\code{character()} for \code{avlist()}, \code{avcopy()})
@@ -130,22 +115,6 @@ by, e.g., \code{avworkspace_namespace()}}
 
 \item{name}{\code{character(1)} AnVIL workspace name as returned by, e.g.,
 \code{avworkspace_name()}.}
-
-\item{.data}{A tibble or data.frame for import as an AnVIL table.}
-
-\item{entity}{\code{character(1)} column name of \code{.data} to be used as
-imported table name. When the table comes from R, this is
-usually a column name such as \code{sample}. The data will be
-imported into AnVIL as a table \code{sample}, with the \code{sample}
-column included with suffix \verb{_id}, e.g., \code{sample_id}. A column
-in \code{.data} with suffix \verb{_id} can also be used, e.g., \code{entity = "sample_id"}, creating the table \code{sample} with column
-\code{sample_id} in AnVIL. Finally, a value of \code{entity} that is not
-a column in \code{.data}, e.g., \code{entity = "unknown"}, will cause a
-new table with name \code{entity} and entity values
-\code{seq_len(nrow(.data))}.}
-
-\item{delete_empty_values}{logical(1) when \code{TRUE}, remove entities
-not include in \code{.data} from the DATA table. Default: \code{FALSE}.}
 }
 \value{
 \code{avcopy()}: exit status of \code{avcopy()}, invisibly.
@@ -195,20 +164,6 @@ gs://mybucket/data:
 
 If \code{destination} is a local path and does not exist, it will be
 created.
-
-\code{avtable_import()} tries to work around limitations in
-\code{.data} size in the AnVIL platform, using \code{pageSize} (number of
-rows) to import so that approximately 1500000 elements (rows x
-columns) are uploaded per chunk. For large \code{.data}, a progress
-bar summarizes progress on the import. Individual chunks may
-nonetheless fail to upload, with common reasons being an
-internal server error (HTTP error code 500) or transient
-authorization failure (HTTP 401). In these and other cases
-\code{avtable_import()} reports the failed page(s) as warnings. The
-user can attempt to import these individually using the \code{page}
-argument. If many pages fail to import, a strategy might be to
-provide an explicit \code{pageSize} less than the automatically
-determined size.
 }
 \section{Functions}{
 \itemize{
@@ -224,8 +179,6 @@ determined size.
 \item \code{avrestore(gcp)}: restore contents of \code{source} with \code{gsutil}
 
 \item \code{avstorage(gcp)}: get the storage bucket location
-
-\item \code{avtable_import(gcp)}: upload a table to the DATA tab
 
 }}
 \examples{

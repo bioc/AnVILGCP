@@ -2,9 +2,16 @@
 % Please edit documentation in R/avtable-methods.R
 \name{avtable-methods}
 \alias{avtable-methods}
+\alias{avtables}
+\alias{avtable}
+\alias{avtable_import}
+\alias{avtable_import_set}
+\alias{avtable_delete_values}
 \alias{avtables,gcp-method}
 \alias{avtable,gcp-method}
+\alias{avtable_import,gcp-method}
 \alias{avtable_import_set,gcp-method}
+\alias{avtable_delete,gcp-method}
 \alias{avtable_delete_values,gcp-method}
 \title{Methods that work with the primary datasets in the DATA tab}
 \usage{
@@ -24,6 +31,20 @@
   platform = cloud_platform()
 )
 
+\S4method{avtable_import}{gcp}(
+  .data,
+  entity = names(.data)[[1L]],
+  namespace = avworkspace_namespace(),
+  name = avworkspace_name(),
+  delete_empty_values = FALSE,
+  na = "NA",
+  n = Inf,
+  page = 1L,
+  pageSize = NULL,
+  ...,
+  platform = cloud_platform()
+)
+
 \S4method{avtable_import_set}{gcp}(
   .data,
   origin,
@@ -36,6 +57,14 @@
   n = Inf,
   page = 1L,
   pageSize = NULL,
+  ...,
+  platform = cloud_platform()
+)
+
+\S4method{avtable_delete}{gcp}(
+  table,
+  namespace = avworkspace_namespace(),
+  name = avworkspace_name(),
   ...,
   platform = cloud_platform()
 )
@@ -63,6 +92,29 @@ strings to be interpretted as missing values. In
 \code{avtable_import()} character(1) value to use for representing
 \code{NA_character_}. See Details.}
 
+\item{.data}{A tibble or data.frame for import as an AnVIL table.}
+
+\item{entity}{\code{character(1)} column name of \code{.data} to be used as
+imported table name. When the table comes from R, this is
+usually a column name such as \code{sample}. The data will be
+imported into AnVIL as a table \code{sample}, with the \code{sample}
+column included with suffix \verb{_id}, e.g., \code{sample_id}. A column
+in \code{.data} with suffix \verb{_id} can also be used, e.g., \code{entity = "sample_id"}, creating the table \code{sample} with column
+\code{sample_id} in AnVIL. Finally, a value of \code{entity} that is not
+a column in \code{.data}, e.g., \code{entity = "unknown"}, will cause a
+new table with name \code{entity} and entity values
+\code{seq_len(nrow(.data))}.}
+
+\item{delete_empty_values}{logical(1) when \code{TRUE}, remove entities
+not include in \code{.data} from the DATA table. Default: \code{FALSE}.}
+
+\item{n}{numeric(1) maximum number of rows to return}
+
+\item{page}{integer(1) first page of iteration}
+
+\item{pageSize}{integer(1) number of records per page. Generally,
+larger page sizes are more efficient.}
+
 \item{origin}{character(1) name of the entity (table) used to
 create the set e.g "sample", "participant",
 etc.}
@@ -73,13 +125,6 @@ set(s) to be created.}
 \item{member}{\code{character()} vector of entity from the avtable
 identified by \code{origin}. The values may repeat if an ID is in
 more than one set}
-
-\item{n}{numeric(1) maximum number of rows to return}
-
-\item{page}{integer(1) first page of iteration}
-
-\item{pageSize}{integer(1) number of records per page. Generally,
-larger page sizes are more efficient.}
 
 \item{values}{vector of values in the entity (key) column of
 \code{table} to be deleted. A table \code{sample} has an associated
@@ -95,6 +140,9 @@ table \code{table} in the specified workspace.
 
 \code{avtable_import_set()} returns a \code{character(1)} name of the
 imported AnVIL tibble.
+
+\code{avtable_delete()} returns \code{TRUE} if the table is successfully
+deleted.
 
 \code{avtable_delete_values()} returns a \code{tibble} representing
 deleted entities, invisibly.
@@ -138,6 +186,20 @@ a distinct string, e.g., \code{na = "__MISSING_VALUE__"}, for both
 arguments if the data contains a string \code{"NA"} as well as
 \code{NA_character_}.
 
+\code{avtable_import()} tries to work around limitations in
+\code{.data} size in the AnVIL platform, using \code{pageSize} (number of
+rows) to import so that approximately 1500000 elements (rows x
+columns) are uploaded per chunk. For large \code{.data}, a progress
+bar summarizes progress on the import. Individual chunks may
+nonetheless fail to upload, with common reasons being an
+internal server error (HTTP error code 500) or transient
+authorization failure (HTTP 401). In these and other cases
+\code{avtable_import()} reports the failed page(s) as warnings. The
+user can attempt to import these individually using the \code{page}
+argument. If many pages fail to import, a strategy might be to
+provide an explicit \code{pageSize} less than the automatically
+determined size.
+
 \code{avtable_import_set()} creates new rows in a table
 \verb{<origin>_set}. One row will be created for each distinct value
 in the column identified by \code{set}. Each row entry has a
@@ -153,12 +215,52 @@ workspace
 \item \code{avtable(gcp)}: \code{avtable()} retrieves a table from an AnVIL
 workspace
 
+\item \code{avtable_import(gcp)}: upload a table to the DATA tab
+
 \item \code{avtable_import_set(gcp)}: 
+
+\item \code{avtable_delete(gcp)}: Delete a table from the AnVIL workspace.
 
 \item \code{avtable_delete_values(gcp)}: 
 
 }}
 \examples{
+if (interactive()) {
+    avtables("waldronlab-terra", "Tumor_Only_CNV")
+    avtable("participant", "waldronlab-terra", "Tumor_Only_CNV")
+
+    library(dplyr)
+    ## mtcars dataset
+    mtcars_tbl <-
+        mtcars |>
+        as_tibble(rownames = "model_id") |>
+        mutate(model_id = gsub(" ", "-", model_id))
+
+    avworkspace("waldronlab-terra/mramos-wlab-gcp-0")
+
+    avstatus <- avtable_import(mtcars_tbl)
+
+    avtable_import_status(avstatus)
+
+    set_status <- avtable("model") |>
+        avtable_import_set("model", "cyl", "model_id")
+
+    avtable_import_status(set_status)
+
+    ## won't be able to delete a row that is referenced in another table
+    avtable_delete_values("model", "Mazda-RX4")
+
+    ## delete the set
+    avtable_delete("model_set")
+
+    ## then delete the row
+    avtable_delete_values("model", "Mazda-RX4")
+
+    ## recreate the set (if needed)
+    avtable("model") |>
+        avtable_import_set("model", "cyl", "model_id")
+
+}
 \dontrun{
 ## editable copy of '1000G-high-coverage-2019' workspace
 avworkspace("bioconductor-rpci-anvil/1000G-high-coverage-2019")

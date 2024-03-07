@@ -1,5 +1,8 @@
 #' @name avtable-methods
 #'
+#' @aliases avtables avtable avtable_import avtable_import_set
+#'   avtable_delete_values
+#'
 #' @title Methods that work with the primary datasets in the DATA tab
 #'
 #' @description  Tables can be visualized under the DATA tab, TABLES
@@ -29,6 +32,43 @@
 #' @importFrom BiocBaseUtils isCharacter isScalarCharacter isScalarLogical
 #'   isScalarNumber isScalarInteger
 #'
+#' @examples
+#' if (interactive()) {
+#'     avtables("waldronlab-terra", "Tumor_Only_CNV")
+#'     avtable("participant", "waldronlab-terra", "Tumor_Only_CNV")
+#'
+#'     library(dplyr)
+#'     ## mtcars dataset
+#'     mtcars_tbl <-
+#'         mtcars |>
+#'         as_tibble(rownames = "model_id") |>
+#'         mutate(model_id = gsub(" ", "-", model_id))
+#'
+#'     avworkspace("waldronlab-terra/mramos-wlab-gcp-0")
+#'
+#'     avstatus <- avtable_import(mtcars_tbl)
+#'
+#'     avtable_import_status(avstatus)
+#'
+#'     set_status <- avtable("model") |>
+#'         avtable_import_set("model", "cyl", "model_id")
+#'
+#'     avtable_import_status(set_status)
+#'
+#'     ## won't be able to delete a row that is referenced in another table
+#'     avtable_delete_values("model", "Mazda-RX4")
+#'
+#'     ## delete the set
+#'     avtable_delete("model_set")
+#'
+#'     ## then delete the row
+#'     avtable_delete_values("model", "Mazda-RX4")
+#'
+#'     ## recreate the set (if needed)
+#'     avtable("model") |>
+#'         avtable_import_set("model", "cyl", "model_id")
+#'
+#' }
 #' @include gcp-class.R
 NULL
 
@@ -311,6 +351,80 @@ setMethod("avtable", signature = c(platform = "gcp"), definition =
     content(response)$jobId
 }
 
+# avtable_import ----------------------------------------------------------
+
+#' @describeIn avtable-methods upload a table to the DATA tab
+#'
+#' @param .data A tibble or data.frame for import as an AnVIL table.
+#'
+#' @param entity `character(1)` column name of `.data` to be used as
+#'     imported table name. When the table comes from R, this is
+#'     usually a column name such as `sample`. The data will be
+#'     imported into AnVIL as a table `sample`, with the `sample`
+#'     column included with suffix `_id`, e.g., `sample_id`. A column
+#'     in `.data` with suffix `_id` can also be used, e.g., `entity =
+#'     "sample_id"`, creating the table `sample` with column
+#'     `sample_id` in AnVIL. Finally, a value of `entity` that is not
+#'     a column in `.data`, e.g., `entity = "unknown"`, will cause a
+#'     new table with name `entity` and entity values
+#'     `seq_len(nrow(.data))`.
+#'
+#' @param delete_empty_values logical(1) when `TRUE`, remove entities
+#'     not include in `.data` from the DATA table. Default: `FALSE`.
+#'
+#' @details `avtable_import()` tries to work around limitations in
+#'     `.data` size in the AnVIL platform, using `pageSize` (number of
+#'     rows) to import so that approximately 1500000 elements (rows x
+#'     columns) are uploaded per chunk. For large `.data`, a progress
+#'     bar summarizes progress on the import. Individual chunks may
+#'     nonetheless fail to upload, with common reasons being an
+#'     internal server error (HTTP error code 500) or transient
+#'     authorization failure (HTTP 401). In these and other cases
+#'     `avtable_import()` reports the failed page(s) as warnings. The
+#'     user can attempt to import these individually using the `page`
+#'     argument. If many pages fail to import, a strategy might be to
+#'     provide an explicit `pageSize` less than the automatically
+#'     determined size.
+#'
+#' @importFrom AnVILBase avtable_import
+#' @exportMethod avtable_import
+setMethod(
+    "avtable_import",
+    signature = "gcp",
+    definition = function(
+        .data,
+        entity = names(.data)[[1L]],
+        namespace = avworkspace_namespace(),
+        name = avworkspace_name(),
+        delete_empty_values = FALSE,
+        na = "NA",
+        n = Inf,
+        page = 1L,
+        pageSize = NULL,
+        ...,
+        platform = cloud_platform()
+    ) {
+        stopifnot(
+            is.data.frame(.data),
+            isScalarCharacter(entity),
+            isScalarCharacter(namespace),
+            isScalarCharacter(name),
+            isScalarLogical(delete_empty_values),
+            isScalarCharacter(na, zchar = TRUE),
+            isScalarNumber(n, infinite.ok = TRUE),
+            isScalarInteger(as.integer(page)),
+            is.null(pageSize) || isScalarInteger(as.integer(pageSize))
+        )
+
+        ## identify the 'entity' column
+        .data <- .avtable_import_set_entity(.data, entity)
+        ## divide large tables into chunks, if necessary
+        .avtable_import_chunks(
+            .data, namespace, name, delete_empty_values, na,
+            n, page, pageSize
+        )
+    }
+)
 # avtable_import_set ------------------------------------------------------
 
 #' @describeIn avtable-methods
@@ -390,6 +504,40 @@ setMethod("avtable_import_set", signature = c(platform = "gcp"), definition =
     }
 )
 
+
+# avtable_delete ----------------------------------------------------------
+
+#' @describeIn avtable-methods Delete a table from the AnVIL workspace.
+#'
+#' @return `avtable_delete()` returns `TRUE` if the table is successfully
+#'   deleted.
+#'
+#' @importFrom AnVILBase avtable_delete
+#' @exportMethod avtable_delete
+setMethod(
+    "avtable_delete",
+    signature = "gcp",
+    definition = function(
+        table,
+        namespace = avworkspace_namespace(),
+        name = avworkspace_name(),
+        ...,
+        platform = cloud_platform()
+    ) {
+        stopifnot(
+            isScalarCharacter(table),
+            isScalarCharacter(namespace),
+            isScalarCharacter(name)
+        )
+        table <- URLencode(table)
+        response <- Rawls()$deleteEntitiesOfType(
+            namespace, URLencode(name), table
+        )
+        avstop_for_status(response, "avtable_delete")
+        TRUE
+    }
+)
+
 # avtable_delete_values ---------------------------------------------------
 
 #' @describeIn avtable-methods
@@ -403,6 +551,7 @@ setMethod("avtable_import_set", signature = c(platform = "gcp"), definition =
 #'     deleted entities, invisibly.
 #'
 #' @importFrom utils capture.output
+#' @importFrom httr status_code
 #'
 #' @exportMethod avtable_delete_values
 setMethod("avtable_delete_values", signature = c(platform = "gcp"),
@@ -418,7 +567,6 @@ setMethod("avtable_delete_values", signature = c(platform = "gcp"),
             isScalarCharacter(name)
         )
 
-        name <- URLencode(name)
         body <- tibble(entityType = table, entityName = as.character(values))
 
         response <- Terra()$deleteEntities(namespace, URLencode(name), body)

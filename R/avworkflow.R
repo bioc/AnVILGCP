@@ -156,6 +156,7 @@ avworkflow_jobs <-
     type
 }
 
+#' @importFrom httr status_code
 .avworkflow_files_from_api <-
     function(response, submissionId, namespace, name)
 {
