@@ -132,6 +132,7 @@ avtable_paged <-
 #' @param job_status tibble() of job identifiers, returned by
 #'     `avtable_import()` and `avtable_import_set()`.
 #'
+#' @importFrom httr content
 #' @export
 avtable_import_status <-
     function(job_status,
@@ -165,7 +166,7 @@ avtable_import_status <-
         tryCatch({
             response <- Terra()$importJobStatus(namespace, name, job_id)
             avstop_for_status(response, "avtable_import_status")
-            content <- httr::content(response)
+            content <- content(response)
             updated_status[[job_index]] <- content$status
             if ("message" %in% names(content)) {
                 updated_message[[job_index]] <- gsub(
