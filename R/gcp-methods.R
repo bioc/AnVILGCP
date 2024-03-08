@@ -108,7 +108,7 @@ NULL
 #' @exportMethod avcopy
 setMethod(
     "avcopy",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition =  function(
         source, destination,
         ...,
@@ -145,7 +145,7 @@ setMethod(
 #' @exportMethod avlist
 setMethod(
     "avlist",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         source = character(),
         recursive = FALSE,
@@ -177,7 +177,7 @@ setMethod(
 #' @exportMethod avremove
 setMethod(
     "avremove",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         source,
         recursive = FALSE,
@@ -232,7 +232,7 @@ setMethod(
 #' @exportMethod avbackup
 setMethod(
     "avbackup",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         source, destination,
         recursive = FALSE,
@@ -263,7 +263,7 @@ setMethod(
 #' @exportMethod avrestore
 setMethod(
     "avrestore",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         source, destination,
         recursive = FALSE,
@@ -300,7 +300,7 @@ setMethod(
 #' @exportMethod avstorage
 setMethod(
     "avstorage",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         namespace = avworkspace_namespace(),
         name = avworkspace_name(),

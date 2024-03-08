@@ -61,7 +61,7 @@ NULL
 #' @exportMethod avworkspaces
 setMethod(
     "avworkspaces",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         ...,
         platform = cloud_platform()
@@ -83,7 +83,7 @@ setMethod(
 #' @exportMethod avworkspace_namespace
 setMethod(
     "avworkspace_namespace",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         namespace = NULL,
         warn = TRUE,
@@ -117,7 +117,7 @@ setMethod(
 #' @exportMethod avworkspace_name
 setMethod(
     "avworkspace_name",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         name = NULL,
         warn = TRUE,
@@ -138,7 +138,7 @@ setMethod(
 #' @exportMethod avworkspace
 setMethod(
     "avworkspace",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(workspace = NULL, ..., platform = cloud_platform())
     {
         stopifnot(

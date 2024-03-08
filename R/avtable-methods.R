@@ -390,7 +390,7 @@ setMethod("avtable", signature = c(platform = "gcp"), definition =
 #' @exportMethod avtable_import
 setMethod(
     "avtable_import",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         .data,
         entity = names(.data)[[1L]],
@@ -516,7 +516,7 @@ setMethod("avtable_import_set", signature = c(platform = "gcp"), definition =
 #' @exportMethod avtable_delete
 setMethod(
     "avtable_delete",
-    signature = "gcp",
+    signature = c(platform = "gcp"),
     definition = function(
         table,
         namespace = avworkspace_namespace(),
