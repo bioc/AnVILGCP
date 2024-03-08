@@ -58,7 +58,7 @@ NULL
 #' @importFrom AnVILBase avworkspaces
 #' @exportMethod avworkspaces
 setMethod(
-    f = "avworkspaces",
+    "avworkspaces",
     signature = "gcp",
     definition = function(
         ...,
@@ -80,7 +80,7 @@ setMethod(
 #' @importFrom AnVILBase avworkspace_namespace
 #' @exportMethod avworkspace_namespace
 setMethod(
-    f = "avworkspace_namespace",
+    "avworkspace_namespace",
     signature = "gcp",
     definition = function(
         namespace = NULL,
@@ -114,7 +114,7 @@ setMethod(
 #'
 #' @exportMethod avworkspace_name
 setMethod(
-    f = "avworkspace_name",
+    "avworkspace_name",
     signature = "gcp",
     definition = function(
         name = NULL,
@@ -135,7 +135,7 @@ setMethod(
 #' @importFrom AnVILBase avworkspace
 #' @exportMethod avworkspace
 setMethod(
-    f = "avworkspace",
+    "avworkspace",
     signature = "gcp",
     definition = function(workspace = NULL, ..., platform = cloud_platform())
     {

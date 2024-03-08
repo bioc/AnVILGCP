@@ -105,7 +105,7 @@ NULL
 #' @importFrom AnVILBase avcopy
 #' @exportMethod avcopy
 setMethod(
-    f = "avcopy",
+    "avcopy",
     signature = "gcp",
     definition =  function(
         source, destination,
@@ -142,7 +142,7 @@ setMethod(
 #' @importFrom BiocBaseUtils isScalarLogical
 #' @exportMethod avlist
 setMethod(
-    f = "avlist",
+    "avlist",
     signature = "gcp",
     definition = function(
         source = character(),
@@ -174,7 +174,7 @@ setMethod(
 #' @importFrom AnVILBase avremove
 #' @exportMethod avremove
 setMethod(
-    f = "avremove",
+    "avremove",
     signature = "gcp",
     definition = function(
         source,
@@ -229,7 +229,7 @@ setMethod(
 #'
 #' @exportMethod avbackup
 setMethod(
-    f = "avbackup",
+    "avbackup",
     signature = "gcp",
     definition = function(
         source, destination,
@@ -260,7 +260,7 @@ setMethod(
 #' @importFrom AnVILBase avrestore
 #' @exportMethod avrestore
 setMethod(
-    f = "avrestore",
+    "avrestore",
     signature = "gcp",
     definition = function(
         source, destination,
@@ -297,7 +297,7 @@ setMethod(
 #' @importFrom AnVILBase avstorage
 #' @exportMethod avstorage
 setMethod(
-    f = "avstorage",
+    "avstorage",
     signature = "gcp",
     definition = function(
         namespace = avworkspace_namespace(),
