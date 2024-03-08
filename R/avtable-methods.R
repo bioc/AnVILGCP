@@ -169,7 +169,7 @@ setMethod("avtables", signature = c(platform = "gcp"), definition =
 #'     table `table` in the specified workspace.
 #'
 #' @importFrom dplyr %>% select starts_with ends_with across where mutate
-#' @importFrom AnVIL flatten
+#' @importFrom AnVILBase flatten
 #'
 #' @exportMethod avtable
 setMethod("avtable", signature = c(platform = "gcp"), definition =
