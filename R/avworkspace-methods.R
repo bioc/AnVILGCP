@@ -6,7 +6,9 @@
 #'   functions to retrieve workspace namespace and name from environment
 #'   variables or interfaces usually available in AnVIL notebooks or RStudio
 #'   sessions. `avworkspace()` provides a convenient way to specify workspace
-#'   namespace and name in a single command.
+#'   namespace and name in a single command. `avworkspace_clone()` clones
+#'   (copies) an existing workspace, possibly into a new namespace (billing
+#'   account).
 #'
 #' @details `avworkspace_namespace()` is the billing account. If the
 #'     `namespace=` argument is not provided, try `gcloud_project()`,
@@ -151,5 +153,63 @@ setMethod(
             avworkspace_name(wkspc[[2]])
         }
         paste0(avworkspace_namespace(), "/", avworkspace_name())
+    }
+)
+
+# avworkspace_clone -------------------------------------------------------
+
+#' @describeIn avworkspace-methods Clone the current workspace
+#'
+#' @param to_namespace character(1) workspace (billing account) in
+#'     which to make the clone.
+#'
+#' @param to_name character(1) name of the cloned workspace.
+#'
+#' @param bucket_location character(1) region (NO multi-region, except
+#'     the default) in which bucket attached to the workspace should
+#'     be created.
+#'
+#' @return `avworkspace_clone()` returns the namespace and name, in
+#'     the format `namespace/name`, of the cloned workspace.
+#'
+#'
+#' @importFrom AnVILBase avworkspace_clone
+#' @exportMethod avworkspace_clone
+setMethod("avworkspace_clone",
+    signature = c(platform = "gcp"),
+    definition = function(
+        namespace = avworkspace_namespace(),
+        name = avworkspace_name(),
+        to_namespace = namespace,
+        to_name,
+        bucket_location = "US",
+        ...,
+        platform = cloud_platform()
+    ) {
+
+        stopifnot(
+            isScalarCharacter(namespace),
+            isScalarCharacter(name),
+            isScalarCharacter(to_namespace),
+            isScalarCharacter(to_name),
+            isScalarCharacter(bucket_location),
+            `source and destination 'namespace/name' must be different` =
+                !identical(namespace, to_namespace) || !identical(name, to_name)
+        )
+
+        response <- Terra()$cloneWorkspace(
+            workspaceNamespace = namespace,
+            workspaceName = URLencode(name),
+            .__body__ = list(
+                attributes = setNames(list(), character()),  # json '{}'
+                bucketLocation = bucket_location,
+                copyFilesWithPrefix = "notebooks/",
+                namespace = to_namespace,
+                name = URLencode(to_name)
+            )
+        )
+        .avstop_for_status(response, "avworkspace_clone")
+
+        paste(to_namespace, to_name, sep = "/")
     }
 )

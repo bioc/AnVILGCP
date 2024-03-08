@@ -6,6 +6,7 @@
 \alias{avworkspace_namespace,gcp-method}
 \alias{avworkspace_name,gcp-method}
 \alias{avworkspace,gcp-method}
+\alias{avworkspace_clone,gcp-method}
 \title{AnVIL Workspace GCP methods}
 \usage{
 \S4method{avworkspaces}{gcp}(..., platform = cloud_platform())
@@ -20,6 +21,16 @@
 \S4method{avworkspace_name}{gcp}(name = NULL, warn = TRUE, ..., platform = cloud_platform())
 
 \S4method{avworkspace}{gcp}(workspace = NULL, ..., platform = cloud_platform())
+
+\S4method{avworkspace_clone}{gcp}(
+  namespace = avworkspace_namespace(),
+  name = avworkspace_name(),
+  to_namespace = namespace,
+  to_name,
+  bucket_location = "US",
+  ...,
+  platform = cloud_platform()
+)
 }
 \arguments{
 \item{...}{additional arguments passed as-is to the \code{gsutil} subcommand.}
@@ -39,6 +50,15 @@ when the workspace namespace or name cannot be determined.}
 \item{workspace}{when present, a \code{character(1)} providing the
 concatenated namespace and name, e.g.,
 \code{"bioconductor-rpci-anvil/Bioconductor-Package-AnVIL"}}
+
+\item{to_namespace}{character(1) workspace (billing account) in
+which to make the clone.}
+
+\item{to_name}{character(1) name of the cloned workspace.}
+
+\item{bucket_location}{character(1) region (NO multi-region, except
+the default) in which bucket attached to the workspace should
+be created.}
 }
 \value{
 \code{avworkspace_namespace()}, and \code{avworkspace_name()} return
@@ -46,13 +66,18 @@ concatenated namespace and name, e.g.,
 character(1) concatenated namespace and name. The value
 returned by \code{avworkspace_name()} will be percent-encoded (e.g.,
 spaces \code{" "} replaced by \code{"\%20"}).
+
+\code{avworkspace_clone()} returns the namespace and name, in
+the format \code{namespace/name}, of the cloned workspace.
 }
 \description{
 \code{avworkspace_namespace()} and \code{avworkspace_name()} are utiliity
 functions to retrieve workspace namespace and name from environment
 variables or interfaces usually available in AnVIL notebooks or RStudio
 sessions. \code{avworkspace()} provides a convenient way to specify workspace
-namespace and name in a single command.
+namespace and name in a single command. \code{avworkspace_clone()} clones
+(copies) an existing workspace, possibly into a new namespace (billing
+account).
 }
 \details{
 \code{avworkspace_namespace()} is the billing account. If the
@@ -79,6 +104,8 @@ workspace
 
 \item \code{avworkspace(gcp)}: Get the current workspace namespace and name
 combination
+
+\item \code{avworkspace_clone(gcp)}: Clone the current workspace
 
 }}
 \examples{
