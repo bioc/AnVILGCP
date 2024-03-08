@@ -44,10 +44,12 @@
 #' @include gcp-class.R
 #'
 #' @examples
-#' avworkspace_namespace()
-#' avworkspace_name()
-#' avworkspace()
-#'
+#' if (gcloud_exists() && nzchar(avworkspace_name())) {
+#'     avworkspaces()
+#'     avworkspace_namespace()
+#'     avworkspace_name()
+#'     avworkspace()
+#' }
 NULL
 
 # avworkspaces ------------------------------------------------------------

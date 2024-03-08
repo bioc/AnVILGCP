@@ -27,7 +27,8 @@
 #'     `~/google-cloud-sdk`.
 #'
 #' @examples
-#'     src <- "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
+#' src <-
+#'   "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
 NULL
 
 ## evaluate the gsutil command and arguments in `args`

@@ -87,7 +87,7 @@ preference to this.
 }
 \examples{
 if (gcloud_exists())
-    gcloud_access_token()
+    gcloud_access_token("rawls")
 
 gcloud_exists()
 

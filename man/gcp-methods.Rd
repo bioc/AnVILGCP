@@ -182,9 +182,11 @@ created.
 
 }}
 \examples{
+src <-
+   "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
 if (gcloud_exists()) {
    avcopy(src, tempdir())
-   ## gsutil_*() commands work with spaces in the source or destination
+   ## internal gsutil_*() commands work with spaces in source or destination
    destination <- file.path(tempdir(), "foo bar")
    avcopy(src, destination)
    file.exists(destination)

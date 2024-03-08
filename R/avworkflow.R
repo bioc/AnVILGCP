@@ -365,11 +365,14 @@ avworkflow_jobs <-
 #' @examples
 #' if (gcloud_exists() && nzchar(avworkspace_name())) {
 #'     ## e.g., from within AnVIL
-#'     avworkflow_jobs() |>
-#'     ## select most recent workflow
-#'     head(1) |>
-#'     ## find paths to output and log files on the bucket
-#'     avworkflow_files()
+#'     jobs <- avworkflow_jobs()
+#'     if (nrow(jobs)) {
+#'         jobs |>
+#'         ## select most recent workflow
+#'         head(1) |>
+#'         ## find paths to output and log files on the bucket
+#'         avworkflow_files()
+#'     }
 #' }
 #'
 #' @export

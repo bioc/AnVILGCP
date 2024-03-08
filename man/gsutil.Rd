@@ -98,7 +98,8 @@ directories.  On linux / macOS, the search continues with
 \verb{~/google-cloud-sdk}.
 }
 \examples{
-    src <- "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
+src <-
+  "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
 if (gcloud_exists())
     gsutil_requesterpays(src) # FALSE -- no cost download
 

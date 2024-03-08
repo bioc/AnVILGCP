@@ -57,7 +57,7 @@ NULL
 #'
 #' @examples
 #' if (gcloud_exists())
-#'     gcloud_access_token()
+#'     gcloud_access_token("rawls")
 #'
 #' @export
 gcloud_access_token <-
