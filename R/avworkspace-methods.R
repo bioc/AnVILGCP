@@ -174,7 +174,7 @@ setMethod(
 #'     the format `namespace/name`, of the cloned workspace.
 #'
 #'
-#' @importFrom AnVILBase avworkspace_clone
+#' @importFrom AnVILBase avworkspace_clone avstop_for_status
 #' @exportMethod avworkspace_clone
 setMethod("avworkspace_clone",
     signature = c(platform = "gcp"),
@@ -209,7 +209,7 @@ setMethod("avworkspace_clone",
                 name = URLencode(to_name)
             )
         )
-        .avstop_for_status(response, "avworkspace_clone")
+        avstop_for_status(response, "avworkspace_clone")
 
         paste(to_namespace, to_name, sep = "/")
     }

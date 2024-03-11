@@ -22,6 +22,13 @@
 #' @param name character(1) AnVIL workspace name as returned by, eg.,
 #'     `avworkspace_name()`.
 #'
+#' @param ... Additional arguments passed to lower level functions (not used).
+#'
+#' @param platform `gcp()` The cloud platform class to dispatch on as given by
+#'   [AnVILBase::cloud_platform]. Typically not set manually as
+#'   `cloud_platform()` returns the `"gcp"` class for Google Cloud Platform
+#'   workspaces on AnVIL.
+#'
 #' @return `avtables()`: A tibble with columns identifying the table,
 #'     the number of records, and the column names.
 #'

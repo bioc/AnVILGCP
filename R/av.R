@@ -79,6 +79,8 @@
 #' @param filterOperator character(1) operator to use when multiple
 #'     terms in `filterTerms=`, either `"and"` (default) or `"or"`.
 #'
+#' @inheritParams avtable-methods
+#'
 #' @return `avtable_paged()`: a tibble of data corresponding to the
 #'     AnVIL table `table` in the specified workspace.
 #'

@@ -31,7 +31,7 @@ to use for authentication.}
 
 \item{project}{character(1) billing project name.}
 
-\item{...}{Additional arguments appended to gcloud commands.}
+\item{...}{Additional arguments appended to \code{gcloud} commands.}
 
 \item{cmd}{\code{character(1)} representing a command used to evaluate
 \verb{gcloud cmd ...}.}

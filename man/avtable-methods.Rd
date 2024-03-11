@@ -85,6 +85,13 @@ by, e.g., \code{avworkspace_namespace()}}
 \item{name}{character(1) AnVIL workspace name as returned by, eg.,
 \code{avworkspace_name()}.}
 
+\item{...}{Additional arguments passed to lower level functions (not used).}
+
+\item{platform}{\code{gcp()} The cloud platform class to dispatch on as given by
+\link[AnVILBase:cloud_platform]{AnVILBase::cloud_platform}. Typically not set manually as
+\code{cloud_platform()} returns the \code{"gcp"} class for Google Cloud Platform
+workspaces on AnVIL.}
+
 \item{table}{character(1) table name as returned by, e.g., \code{avtables()}.}
 
 \item{na}{in \code{avtable()} and \code{avtable_paged()}, character() of

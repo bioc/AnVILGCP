@@ -1,7 +1,6 @@
 #' @name gcp-methods
 #'
-#' @aliases avcopy avlist avremove avbackup avrestore avstorage avworkspaces
-#'   avtable_import
+#' @aliases avcopy avlist avremove avbackup avrestore avstorage
 #'
 #' @title Methods compatible with the GCP platform class
 #'

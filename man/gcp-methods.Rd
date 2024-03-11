@@ -8,8 +8,6 @@
 \alias{avbackup}
 \alias{avrestore}
 \alias{avstorage}
-\alias{avworkspaces}
-\alias{avtable_import}
 \alias{avcopy,gcp-method}
 \alias{avlist,gcp-method}
 \alias{avremove,gcp-method}

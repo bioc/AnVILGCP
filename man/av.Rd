@@ -84,6 +84,8 @@ avruntime(project = gcloud_project(), account = gcloud_account())
 avdisks()
 }
 \arguments{
+\item{table}{character(1) table name as returned by, e.g., \code{avtables()}.}
+
 \item{n}{numeric(1) maximum number of rows to return}
 
 \item{page}{integer(1) first page of iteration}
@@ -103,8 +105,21 @@ an exact (substring) matches in column.}
 \item{filterOperator}{character(1) operator to use when multiple
 terms in \verb{filterTerms=}, either \code{"and"} (default) or \code{"or"}.}
 
+\item{namespace}{character(1) AnVIL workspace namespace as returned
+by, e.g., \code{avworkspace_namespace()}}
+
+\item{name}{character(1) AnVIL workspace name as returned by, eg.,
+\code{avworkspace_name()}.}
+
+\item{na}{in \code{avtable()} and \code{avtable_paged()}, character() of
+strings to be interpretted as missing values. In
+\code{avtable_import()} character(1) value to use for representing
+\code{NA_character_}. See Details.}
+
 \item{job_status}{tibble() of job identifiers, returned by
 \code{avtable_import()} and \code{avtable_import_set()}.}
+
+\item{.data}{A tibble or data.frame for import as an AnVIL table.}
 
 \item{path}{For \verb{avfiles_ls(), the character(1) file or directory path to list. For }avfiles_rm()\verb{, the character() (perhaps with length greater than 1) of files or directory paths to be removed. The elements of }path\verb{can contain glob-style patterns, e.g.,}vign*`.}
 
