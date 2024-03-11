@@ -86,15 +86,16 @@ execution via \verb{gcloud ...}. Use pre-defined functions in
 preference to this.
 }
 \examples{
-if (gcloud_exists())
+library(AnVILBase)
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
     gcloud_access_token("rawls")
 
 gcloud_exists()
 
-if (gcloud_exists())
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
     gcloud_account()
 
-if (gcloud_exists())
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
     gcloud_help()
 
 }

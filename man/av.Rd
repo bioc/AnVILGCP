@@ -236,7 +236,11 @@ full.names = TRUE))\verb{.  Naming conventions are described in detail in }gsuti
 the compute node file system.
 }
 \examples{
-if (gcloud_exists() && nzchar(avworkspace_name())) {
+library(AnVILBase)
+if (
+    gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+    nzchar(avworkspace_name())
+) {
     ## from within AnVIL
     data <- avdata()
     data
@@ -246,7 +250,8 @@ if (gcloud_exists() && nzchar(avworkspace_name())) {
 avdata_import(data)
 }
 
-if (gcloud_exists() && nzchar(avworkspace_name()))
+library(AnVILBase)
+if (gcloud_exists() && identical(cloud_platform(), "AnVILGCP"))
     avfiles_ls()
 
 \dontrun{
@@ -258,11 +263,14 @@ avfiles_backup(dir())
 avfiles_backup(getwd(), recursive = TRUE)
 }
 
-if (gcloud_exists())
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
     ## from within AnVIL
     avruntimes()
 
-if (gcloud_exists())
+if (
+    gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+    nzchar(avworkspace_name())
+)
     ## from within AnVIL
     avdisks()
 

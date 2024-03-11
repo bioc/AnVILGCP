@@ -29,7 +29,11 @@ NULL
 #' @importFrom AnVIL Rawls
 #'
 #' @examples
-#' if (gcloud_exists() && nzchar(avworkspace_name()))
+#' library(AnVILBase)
+#' if (
+#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     nzchar(avworkspace_name())
+#' )
 #'     ## from within AnVIL
 #'     avworkflows() %>% select(namespace, name)
 #'
@@ -86,7 +90,10 @@ avworkflows <-
 #' - failed integer() number of workflows failing.
 #'
 #' @examples
-#' if (gcloud_exists() && nzchar(avworkspace_name()))
+#' if (
+#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     nzchar(avworkspace_name())
+#' )
 #'     ## from within AnVIL
 #'     avworkflow_jobs()
 #'
@@ -363,7 +370,10 @@ avworkflow_jobs <-
 #' @importFrom rlang .env
 #'
 #' @examples
-#' if (gcloud_exists() && nzchar(avworkspace_name())) {
+#' if (
+#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     nzchar(avworkspace_name())
+#' ) {
 #'     ## e.g., from within AnVIL
 #'     jobs <- avworkflow_jobs()
 #'     if (nrow(jobs)) {
@@ -482,9 +492,11 @@ avworkflow_files <-
 #'     name and bucket path of files to be synchronized.
 #'
 #' @examples
-#' if (gcloud_exists() && nzchar(avworkspace_name())) {
+#' if (
+#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     nzchar(avworkspace_name())
+#' )
 #'     avworkflow_localize(dry = TRUE)
-#' }
 #'
 #' @export
 avworkflow_localize <-

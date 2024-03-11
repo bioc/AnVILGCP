@@ -217,15 +217,16 @@ to provide a quoted string \code{unbox('"foo"')}.
 ## set the namespace and name as appropriate
 avworkspace("bioconductor-rpci-anvil/Bioconductor-Workflow-DESeq2")
 
+library(AnVILBase)
 ## discover available workflows in the workspace
-if (gcloud_exists())
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
     avworkflows()
 
 ## record the workflow of interest
 avworkflow("bioconductor-rpci-anvil/AnVILBulkRNASeq")
 
 ## what workflows are available?
-if (gcloud_exists()) {
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
     available_workflows <- avworkflows()
 
     ## retrieve the current configuration

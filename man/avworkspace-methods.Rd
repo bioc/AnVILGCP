@@ -109,7 +109,8 @@ combination
 
 }}
 \examples{
-if (gcloud_exists() && nzchar(avworkspace_name())) {
+library(AnVILBase)
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
     avworkspaces()
     avworkspace_namespace()
     avworkspace_name()
