@@ -214,19 +214,18 @@ as a warning() about invalid inputs or outputs, and the solution is
 to provide a quoted string \code{unbox('"foo"')}.
 }
 \examples{
-## set the namespace and name as appropriate
-avworkspace("bioconductor-rpci-anvil/Bioconductor-Workflow-DESeq2")
-
 library(AnVILBase)
-## discover available workflows in the workspace
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
+    ## set the namespace and name as appropriate
+    avworkspace("bioconductor-rpci-anvil/Bioconductor-Workflow-DESeq2")
+
+    ## discover available workflows in the workspace
     avworkflows()
 
-## record the workflow of interest
-avworkflow("bioconductor-rpci-anvil/AnVILBulkRNASeq")
+    ## record the workflow of interest
+    avworkflow("bioconductor-rpci-anvil/AnVILBulkRNASeq")
 
-## what workflows are available?
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
+    ## what workflows are available?
     available_workflows <- avworkflows()
 
     ## retrieve the current configuration

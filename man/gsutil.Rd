@@ -104,7 +104,7 @@ library(AnVILBase)
 if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
     gsutil_requesterpays(src) # FALSE -- no cost download
 
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP") {
+if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
     gsutil_exists(src)
     gsutil_stat(src)
     avlist(dirname(src))

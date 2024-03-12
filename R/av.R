@@ -413,7 +413,7 @@ avdata_import <-
 #'
 #' @examples
 #' library(AnVILBase)
-#' if (gcloud_exists() && identical(cloud_platform(), "AnVILGCP"))
+#' if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
 #'     avfiles_ls()
 #'
 #' @export
