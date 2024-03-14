@@ -88,8 +88,10 @@ Default: \code{FALSE}.}
 \item{parallel}{\code{logical(1)}, perform parallel multi-threaded /
 multi-processing (default is \code{TRUE}).}
 
-\item{platform}{\code{character(1)}; the cloud platform as given by
-\code{AnVILBase::cloud_platform()}. For GCP on Terra, this is 'gcp'.}
+\item{platform}{\code{gcp()} The cloud platform class to dispatch on as given by
+\link[AnVILBase:cloud_platform]{AnVILBase::cloud_platform}. Typically not set manually as
+\code{cloud_platform()} returns the \code{"gcp"} class for Google Cloud Platform
+workspaces on AnVIL.}
 
 \item{force}{\code{logical(1)}: continue silently despite errors when
 removing multiple objects. Default: \code{FALSE}.}

@@ -43,8 +43,10 @@
 #' @param parallel `logical(1)`, perform parallel multi-threaded /
 #'   multi-processing (default is `TRUE`).
 #'
-#' @param platform `character(1)`; the cloud platform as given by
-#'   `AnVILBase::cloud_platform()`. For GCP on Terra, this is 'gcp'.
+#' @param platform `gcp()` The cloud platform class to dispatch on as given by
+#'   [AnVILBase::cloud_platform]. Typically not set manually as
+#'   `cloud_platform()` returns the `"gcp"` class for Google Cloud Platform
+#'   workspaces on AnVIL.
 #'
 #' @param force `logical(1)`: continue silently despite errors when
 #'     removing multiple objects. Default: `FALSE`.

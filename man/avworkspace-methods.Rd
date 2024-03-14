@@ -35,16 +35,18 @@
 \arguments{
 \item{...}{additional arguments passed as-is to the \code{gsutil} subcommand.}
 
-\item{platform}{\code{character(1)}; the cloud platform as given by
-\code{AnVILBase::cloud_platform()}. For GCP on Terra, this is 'gcp'.}
+\item{platform}{\code{gcp()} The cloud platform class to dispatch on as given by
+\link[AnVILBase:cloud_platform]{AnVILBase::cloud_platform}. Typically not set manually as
+\code{cloud_platform()} returns the \code{"gcp"} class for Google Cloud Platform
+workspaces on AnVIL.}
 
-\item{namespace}{character(1) AnVIL workspace namespace as returned
+\item{namespace}{\code{character(1)} AnVIL workspace namespace as returned
 by, e.g., \code{avworkspace_namespace()}}
 
 \item{warn}{logical(1) when \code{TRUE} (default), generate a warning
 when the workspace namespace or name cannot be determined.}
 
-\item{name}{character(1) AnVIL workspace name as returned by, eg.,
+\item{name}{\code{character(1)} AnVIL workspace name as returned by, e.g.,
 \code{avworkspace_name()}.}
 
 \item{workspace}{when present, a \code{character(1)} providing the

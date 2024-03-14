@@ -58,10 +58,10 @@ by, e.g., the \code{name} column of \code{avworkflows()}.}
 \item{workflow}{character(1) representing the combined workflow
 namespace and name, as \code{namespace/name}.}
 
-\item{namespace}{character(1) AnVIL workspace namespace as returned
+\item{namespace}{\code{character(1)} AnVIL workspace namespace as returned
 by, e.g., \code{avworkspace_namespace()}}
 
-\item{name}{character(1) AnVIL workspace name as returned by, eg.,
+\item{name}{\code{character(1)} AnVIL workspace name as returned by, e.g.,
 \code{avworkspace_name()}.}
 
 \item{config}{a named list describing the full configuration, e.g.,

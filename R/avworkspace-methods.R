@@ -23,12 +23,7 @@
 #' session. Revert to system settings with arguments `NA`.
 #'
 #' @inheritParams gcp-methods
-#'
-#' @param namespace character(1) AnVIL workspace namespace as returned
-#'     by, e.g., `avworkspace_namespace()`
-#'
-#' @param name character(1) AnVIL workspace name as returned by, eg.,
-#'     `avworkspace_name()`.
+#' @inheritParams avdata-methods
 #'
 #' @param warn logical(1) when `TRUE` (default), generate a warning
 #'     when the workspace namespace or name cannot be determined.

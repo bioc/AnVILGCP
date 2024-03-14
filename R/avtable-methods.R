@@ -15,19 +15,7 @@
 #'     removes rows from an AnVIL table.
 #'
 #' @inheritParams av
-#'
-#' @param namespace character(1) AnVIL workspace namespace as returned
-#'     by, e.g., `avworkspace_namespace()`
-#'
-#' @param name character(1) AnVIL workspace name as returned by, eg.,
-#'     `avworkspace_name()`.
-#'
-#' @param ... Additional arguments passed to lower level functions (not used).
-#'
-#' @param platform `gcp()` The cloud platform class to dispatch on as given by
-#'   [AnVILBase::cloud_platform]. Typically not set manually as
-#'   `cloud_platform()` returns the `"gcp"` class for Google Cloud Platform
-#'   workspaces on AnVIL.
+#' @inheritParams avdata-methods
 #'
 #' @return `avtables()`: A tibble with columns identifying the table,
 #'     the number of records, and the column names.
@@ -361,8 +349,6 @@ setMethod("avtable", signature = c(platform = "gcp"), definition =
 # avtable_import ----------------------------------------------------------
 
 #' @describeIn avtable-methods upload a table to the DATA tab
-#'
-#' @param .data A tibble or data.frame for import as an AnVIL table.
 #'
 #' @param entity `character(1)` column name of `.data` to be used as
 #'     imported table name. When the table comes from R, this is

@@ -50,10 +50,10 @@ avworkflow_stop(
 )
 }
 \arguments{
-\item{namespace}{character(1) AnVIL workspace namespace as returned
+\item{namespace}{\code{character(1)} AnVIL workspace namespace as returned
 by, e.g., \code{avworkspace_namespace()}}
 
-\item{name}{character(1) AnVIL workspace name as returned by, eg.,
+\item{name}{\code{character(1)} AnVIL workspace name as returned by, e.g.,
 \code{avworkspace_name()}.}
 
 \item{submissionId}{a character() of workflow submission ids, or a

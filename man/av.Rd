@@ -4,8 +4,6 @@
 \alias{av}
 \alias{avtable_paged}
 \alias{avtable_import_status}
-\alias{avdata}
-\alias{avdata_import}
 \alias{avfiles_ls}
 \alias{avfiles_backup}
 \alias{avfiles_restore}
@@ -31,14 +29,6 @@ avtable_paged(
 
 avtable_import_status(
   job_status,
-  namespace = avworkspace_namespace(),
-  name = avworkspace_name()
-)
-
-avdata(namespace = avworkspace_namespace(), name = avworkspace_name())
-
-avdata_import(
-  .data,
   namespace = avworkspace_namespace(),
   name = avworkspace_name()
 )
@@ -105,10 +95,10 @@ an exact (substring) matches in column.}
 \item{filterOperator}{character(1) operator to use when multiple
 terms in \verb{filterTerms=}, either \code{"and"} (default) or \code{"or"}.}
 
-\item{namespace}{character(1) AnVIL workspace namespace as returned
+\item{namespace}{\code{character(1)} AnVIL workspace namespace as returned
 by, e.g., \code{avworkspace_namespace()}}
 
-\item{name}{character(1) AnVIL workspace name as returned by, eg.,
+\item{name}{\code{character(1)} AnVIL workspace name as returned by, eg.,
 \code{avworkspace_name()}.}
 
 \item{na}{in \code{avtable()} and \code{avtable_paged()}, character() of
@@ -118,8 +108,6 @@ strings to be interpretted as missing values. In
 
 \item{job_status}{tibble() of job identifiers, returned by
 \code{avtable_import()} and \code{avtable_import_set()}.}
-
-\item{.data}{A tibble or data.frame for import as an AnVIL table.}
 
 \item{path}{For \verb{avfiles_ls(), the character(1) file or directory path to list. For }avfiles_rm()\verb{, the character() (perhaps with length greater than 1) of files or directory paths to be removed. The elements of }path\verb{can contain glob-style patterns, e.g.,}vign*`.}
 
@@ -149,17 +137,6 @@ associated with billing account), as returned by
 \value{
 \code{avtable_paged()}: a tibble of data corresponding to the
 AnVIL table \code{table} in the specified workspace.
-
-\code{avdata()} returns a tibble with five columns: \code{"type"}
-represents the origin of the data from the 'REFERENCE' or
-'OTHER' data menus. \code{"table"} is the table name in the
-\code{REFERENCE} menu, or 'workspace' for the table in the 'OTHER'
-menu, the key used to access the data element, the value label
-associated with the data element and the value (e.g., google
-bucket) of the element.
-
-\code{avdata_import()} returns, invisibly, the subset of the
-input table used to update the AnVIL tables.
 
 \code{avfiles_ls()} returns a character vector of files in the
 workspace bucket.
@@ -214,12 +191,6 @@ the return value of \code{avruntimes()}.
 \code{avtable_import_status()} queries for the status of an
 'asynchronous' table import.
 
-\code{avdata()} returns key-value tables representing the
-information visualized under the DATA tab, 'REFERENCE DATA' and
-'OTHER DATA' items.  \code{avdata_import()} updates (modifies or
-creates new, but does not delete) rows in 'REFERENCE DATA' or
-'OTHER DATA' tables.
-
 \code{avfiles_ls()} returns the paths of files in the
 workspace bucket.  \code{avfiles_backup()} copies files from the
 compute node file system to the workspace bucket.
@@ -251,20 +222,6 @@ full.names = TRUE))\verb{.  Naming conventions are described in detail in }gsuti
 the compute node file system.
 }
 \examples{
-library(AnVILBase)
-if (
-    gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-) {
-    ## from within AnVIL
-    data <- avdata()
-    data
-}
-
-\dontrun{
-avdata_import(data)
-}
-
 library(AnVILBase)
 if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
     avfiles_ls()
