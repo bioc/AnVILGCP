@@ -27,7 +27,8 @@
   name = avworkspace_name(),
   to_namespace = namespace,
   to_name,
-  bucket_location = "US",
+  storage_region = "US",
+  bucket_location = storage_region,
   ...,
   platform = cloud_platform()
 )
@@ -58,9 +59,12 @@ which to make the clone.}
 
 \item{to_name}{character(1) name of the cloned workspace.}
 
-\item{bucket_location}{character(1) region (NO multi-region, except
-the default) in which bucket attached to the workspace should
-be created.}
+\item{storage_region}{character(1) region (NO multi-region, except the
+default) in which bucket attached to the workspace should be created.}
+
+\item{bucket_location}{character(1) DEPRECATED; use \code{storage_region} instead.
+Region (NO multi-region, except the default) in which bucket attached to
+the workspace should be created.}
 }
 \value{
 \code{avworkspace_namespace()}, and \code{avworkspace_name()} return

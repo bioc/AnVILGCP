@@ -161,9 +161,12 @@ setMethod(
 #'
 #' @param to_name character(1) name of the cloned workspace.
 #'
-#' @param bucket_location character(1) region (NO multi-region, except
-#'     the default) in which bucket attached to the workspace should
-#'     be created.
+#' @param storage_region character(1) region (NO multi-region, except the
+#'   default) in which bucket attached to the workspace should be created.
+#'
+#' @param bucket_location character(1) DEPRECATED; use `storage_region` instead.
+#'   Region (NO multi-region, except the default) in which bucket attached to
+#'   the workspace should be created.
 #'
 #' @return `avworkspace_clone()` returns the namespace and name, in
 #'     the format `namespace/name`, of the cloned workspace.
@@ -178,7 +181,8 @@ setMethod("avworkspace_clone",
         name = avworkspace_name(),
         to_namespace = namespace,
         to_name,
-        bucket_location = "US",
+        storage_region = "US",
+        bucket_location = storage_region,
         ...,
         platform = cloud_platform()
     ) {
@@ -188,17 +192,30 @@ setMethod("avworkspace_clone",
             isScalarCharacter(name),
             isScalarCharacter(to_namespace),
             isScalarCharacter(to_name),
-            isScalarCharacter(bucket_location),
+            isScalarCharacter(storage_region) ||
+                isScalarCharacter(bucket_location),
             `source and destination 'namespace/name' must be different` =
                 !identical(namespace, to_namespace) || !identical(name, to_name)
         )
 
+        if (!missing(bucket_location)) {
+            .Deprecated(
+                new = "storage_region =",
+                package = "AnVILGCP",
+                msg = c(
+                    "argument 'bucket_location' is deprecated; ",
+                    "use 'storage_region' instead"
+                ),
+                old = "bucket_location ="
+            )
+            storage_region <- bucket_location
+        }
         response <- Terra()$cloneWorkspace(
             workspaceNamespace = namespace,
             workspaceName = URLencode(name),
             .__body__ = list(
                 attributes = setNames(list(), character()),  # json '{}'
-                bucketLocation = bucket_location,
+                bucketLocation = storage_region,
                 copyFilesWithPrefix = "notebooks/",
                 namespace = to_namespace,
                 name = URLencode(to_name)
