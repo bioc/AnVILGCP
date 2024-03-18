@@ -57,7 +57,7 @@ NULL
 #'
 #' @examples
 #' library(AnVILBase)
-#' if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
 #'     gcloud_access_token("rawls")
 #'
 #' @export
@@ -140,7 +140,7 @@ gcloud_exists <-
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
 #' @examples
-#' if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
 #'     gcloud_account()
 #'
 #' @export
@@ -189,7 +189,7 @@ gcloud_project <- function(project = NULL) {
 #'     `gcloud help ...`.
 #'
 #' @examples
-#' if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
 #'     gcloud_help()
 #'
 #' @export

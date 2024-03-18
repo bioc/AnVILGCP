@@ -101,19 +101,19 @@ directories.  On linux / macOS, the search continues with
 src <-
   "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
 library(AnVILBase)
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     gsutil_requesterpays(src) # FALSE -- no cost download
 
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
     gsutil_exists(src)
     gsutil_stat(src)
     avlist(dirname(src))
 }
 
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     gsutil_help("ls")
 
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
     df <- read.csv(gsutil_pipe(src), 5L)
     class(df)
     dim(df)

@@ -185,7 +185,7 @@ created.
 library(AnVILBase)
 src <-
    "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
    avcopy(src, tempdir())
    ## internal gsutil_*() commands work with spaces in source or destination
    destination <- file.path(tempdir(), "foo bar")
@@ -193,7 +193,7 @@ if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
    file.exists(destination)
 }
 if (
-    gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
     nzchar(avworkspace_name())
 )
     ## From within AnVIL...

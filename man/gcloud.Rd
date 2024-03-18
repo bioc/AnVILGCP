@@ -87,15 +87,15 @@ preference to this.
 }
 \examples{
 library(AnVILBase)
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     gcloud_access_token("rawls")
 
 gcloud_exists()
 
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     gcloud_account()
 
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     gcloud_help()
 
 }

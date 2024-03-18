@@ -76,19 +76,19 @@ bucket.
 \examples{
 library(AnVILBase)
 if (
-    gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
     nzchar(avworkspace_name())
 )
     avnotebooks()
 
 if (
-    gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
     nzchar(avworkspace_name())
 )
     avnotebooks_localize()  # dry run
 
 if (
-    gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
     nzchar(avworkspace_name())
 )
     try(avnotebooks_delocalize())  # dry run, fails if no local resource

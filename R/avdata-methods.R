@@ -36,7 +36,7 @@
 #' @examples
 #' library(AnVILBase)
 #' if (
-#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
 #'     nzchar(avworkspace_name())
 #' ) {
 #'     ## from within AnVIL

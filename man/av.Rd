@@ -223,7 +223,7 @@ the compute node file system.
 }
 \examples{
 library(AnVILBase)
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     avfiles_ls()
 
 \dontrun{
@@ -235,12 +235,12 @@ avfiles_backup(dir())
 avfiles_backup(getwd(), recursive = TRUE)
 }
 
-if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     ## from within AnVIL
     avruntimes()
 
 if (
-    gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
     nzchar(avworkspace_name())
 )
     ## from within AnVIL

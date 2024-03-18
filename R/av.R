@@ -262,7 +262,7 @@ avtable_import_status <-
 #'
 #' @examples
 #' library(AnVILBase)
-#' if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
 #'     avfiles_ls()
 #'
 #' @export
@@ -444,7 +444,7 @@ avfiles_rm <-
 #'   `avdisks()`), or `NA`.
 #'
 #' @examples
-#' if (gcloud_exists() && identical(get_platform(), "AnVILGCP"))
+#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
 #'     ## from within AnVIL
 #'     avruntimes()
 #'
@@ -561,7 +561,7 @@ avruntime <-
 #'
 #' @examples
 #' if (
-#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
 #'     nzchar(avworkspace_name())
 #' )
 #'     ## from within AnVIL

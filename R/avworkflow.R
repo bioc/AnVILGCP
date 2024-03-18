@@ -31,7 +31,7 @@ NULL
 #' @examples
 #' library(AnVILBase)
 #' if (
-#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
 #'     nzchar(avworkspace_name())
 #' )
 #'     ## from within AnVIL
@@ -91,7 +91,7 @@ avworkflows <-
 #'
 #' @examples
 #' if (
-#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
 #'     nzchar(avworkspace_name())
 #' )
 #'     ## from within AnVIL
@@ -371,7 +371,7 @@ avworkflow_jobs <-
 #'
 #' @examples
 #' if (
-#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
 #'     nzchar(avworkspace_name())
 #' ) {
 #'     ## e.g., from within AnVIL
@@ -493,7 +493,7 @@ avworkflow_files <-
 #'
 #' @examples
 #' if (
-#'     gcloud_exists() && identical(get_platform(), "AnVILGCP") &&
+#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
 #'     nzchar(avworkspace_name())
 #' )
 #'     avworkflow_localize(dry = TRUE)

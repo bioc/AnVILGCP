@@ -42,7 +42,7 @@
 #'
 #' @examples
 #' library(AnVILBase)
-#' if (gcloud_exists() && identical(get_platform(), "AnVILGCP")) {
+#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
 #'     avworkspaces()
 #'     avworkspace_namespace()
 #'     avworkspace_name()
