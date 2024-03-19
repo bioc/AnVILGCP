@@ -19,16 +19,12 @@
 #' @description `avnotebooks()` returns the names of the notebooks
 #'     associated with the current workspace.
 #'
+#' @inheritParams avdata-methods
+#'
 #' @param local = `logical(1)` notebooks located on the workspace
 #'     (`local = FALSE`, default) or runtime / local instance (`local
 #'     = TRUE`). When `local = TRUE`, the notebook path is
 #'     `<avworkspace_name>/notebooks`.
-#'
-#' @param namespace character(1) AnVIL workspace namespace as returned
-#'     by, e.g., `avworkspace_namespace()`
-#'
-#' @param name character(1) AnVIL workspace name as returned by, eg.,
-#'     `avworkspace_name()`.
 #'
 #' @return `avnotebooks()` returns a character vector of buckets /
 #'     files located in the workspace 'Files/notebooks' bucket path,
