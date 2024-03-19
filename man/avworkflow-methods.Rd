@@ -2,6 +2,7 @@
 % Please edit documentation in R/avworkflow-methods.R
 \name{avworkflow-methods}
 \alias{avworkflow-methods}
+\alias{avworkflow_jobs,gcp-method}
 \title{AnVIL workflow methods}
 \usage{
 \S4method{avworkflow_jobs}{gcp}(
@@ -10,6 +11,20 @@
   ...,
   platform = cloud_platform()
 )
+}
+\arguments{
+\item{namespace}{\code{character(1)} AnVIL workspace namespace as returned
+by, e.g., \code{avworkspace_namespace()}}
+
+\item{name}{\code{character(1)} AnVIL workspace name as returned by, eg.,
+\code{avworkspace_name()}.}
+
+\item{...}{Additional arguments passed to lower level functions (not used).}
+
+\item{platform}{\code{gcp()} The cloud platform class to dispatch on as given by
+\link[AnVILBase:cloud_platform]{AnVILBase::cloud_platform}. Typically not set manually as
+\code{cloud_platform()} returns the \code{"gcp"} class for Google Cloud Platform
+workspaces on AnVIL.}
 }
 \value{
 \code{avworkflow_jobs()} returns a \code{tibble}, sorted by
@@ -29,12 +44,17 @@ Methods for working with AnVIL workflow execution.
 \code{avworkflow_jobs()} returns a tibble summarizing submitted workflow jobs for
 a namespace and name.
 }
+\section{Functions}{
+\itemize{
+\item \code{avworkflow_jobs(gcp)}: List workflow jobs in the workspace
+
+}}
 \examples{
+library(AnVILBase)
 if (
     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
     nzchar(avworkspace_name())
 )
     ## from within AnVIL
     avworkflow_jobs()
-
 }

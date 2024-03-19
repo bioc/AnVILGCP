@@ -41,17 +41,21 @@
 #' - failed integer() number of workflows failing.
 #'
 #' @examples
+#' library(AnVILBase)
 #' if (
 #'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
 #'     nzchar(avworkspace_name())
 #' )
 #'     ## from within AnVIL
 #'     avworkflow_jobs()
+NULL
+
+#' @describeIn avworkflow-methods List workflow jobs in the workspace
 #'
 #' @importFrom dplyr bind_rows mutate desc
 #' @importFrom AnVILBase avworkflow_jobs avstop_for_status
 #'
-#' @export
+#' @exportMethod avworkflow_jobs
 setMethod("avworkflow_jobs", signature = c(platform = "gcp"), definition =
     function(
         namespace = avworkspace_namespace(),
@@ -60,8 +64,8 @@ setMethod("avworkflow_jobs", signature = c(platform = "gcp"), definition =
         platform = cloud_platform()
     ) {
         stopifnot(
-            .is_scalar_character(namespace),
-            .is_scalar_character(name)
+            isScalarCharacter(namespace),
+            isScalarCharacter(name)
         )
 
         response <- Terra()$listSubmissions(namespace, URLencode(name))
