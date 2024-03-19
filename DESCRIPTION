@@ -42,6 +42,7 @@ Collate:
     'avdata-methods.R'
     'avnotebooks.R'
     'avtable-methods.R'
+    'avworkflow-methods.R'
     'avworkflow.R'
     'avworkflow_configuration.R'
     'avworkspace-methods.R'
