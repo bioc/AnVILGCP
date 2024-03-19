@@ -40,7 +40,7 @@ Collate:
     'av.R'
     'gcp-class.R'
     'avdata-methods.R'
-    'avnotebooks.R'
+    'avnotebooks-methods.R'
     'avtable-methods.R'
     'avworkflow-methods.R'
     'avworkflow.R'
