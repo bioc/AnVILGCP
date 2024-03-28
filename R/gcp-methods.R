@@ -323,7 +323,7 @@ setMethod(
             response <- Terra()$getWorkspace(
                 namespace, URLencode(name), "workspace.bucketName"
             )
-            avstop_for_status(response, "avbucket")
+            avstop_for_status(response, "avstorage")
             bucket <- as.list(response)$workspace$bucketName
             .avbucket_cache$set(namespace, name, bucket)
         }
