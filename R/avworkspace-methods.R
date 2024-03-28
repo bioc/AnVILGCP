@@ -23,7 +23,7 @@
 #' session. Revert to system settings with arguments `NA`.
 #'
 #' @inheritParams gcp-methods
-#' @inheritParams avdata-methods
+#' @inheritParams avdata
 #'
 #' @param warn logical(1) when `TRUE` (default), generate a warning
 #'     when the workspace namespace or name cannot be determined.

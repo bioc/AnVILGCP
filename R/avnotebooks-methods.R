@@ -19,7 +19,7 @@
 #' @description `avnotebooks()` returns the names of the notebooks
 #'     associated with the current workspace.
 #'
-#' @inheritParams avdata-methods
+#' @inheritParams avdata
 #'
 #' @param local = `logical(1)` notebooks located on the workspace
 #'     (`local = FALSE`, default) or runtime / local instance (`local

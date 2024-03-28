@@ -39,7 +39,7 @@ Date: 2024-03-19
 Collate: 
     'av.R'
     'gcp-class.R'
-    'avdata-methods.R'
+    'avdata.R'
     'avnotebooks-methods.R'
     'avtable-methods.R'
     'avworkflow-methods.R'

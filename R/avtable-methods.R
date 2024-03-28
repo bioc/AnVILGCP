@@ -15,7 +15,7 @@
 #'     removes rows from an AnVIL table.
 #'
 #' @inheritParams av
-#' @inheritParams avdata-methods
+#' @inheritParams avdata
 #'
 #' @return `avtables()`: A tibble with columns identifying the table,
 #'     the number of records, and the column names.

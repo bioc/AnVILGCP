@@ -27,7 +27,7 @@
 #'  `avworkflow_jobs()` returns a tibble summarizing submitted workflow jobs for
 #'  a namespace and name.
 #'
-#' @inheritParams avdata-methods
+#' @inheritParams avdata
 #'
 #' @return `avworkflow_jobs()` returns a `tibble`, sorted by
 #'     `submissionDate`, with columns
