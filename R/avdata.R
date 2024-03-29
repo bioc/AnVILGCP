@@ -18,20 +18,11 @@
 #'     associated with the data element and the value (e.g., google
 #'     bucket) of the element.
 #'
-#' @param .data A tibble or data.frame for import as an AnVIL table.
-#'
 #' @param namespace `character(1)` AnVIL workspace namespace as returned
 #'     by, e.g., `avworkspace_namespace()`
 #'
 #' @param name `character(1)` AnVIL workspace name as returned by, eg.,
 #'     `avworkspace_name()`.
-#'
-#' @param ... Additional arguments passed to lower level functions (not used).
-#'
-#' @param platform `gcp()` The cloud platform class to dispatch on as given by
-#'   [AnVILBase::cloud_platform]. Typically not set manually as
-#'   `cloud_platform()` returns the `"gcp"` class for Google Cloud Platform
-#'   workspaces on AnVIL.
 #'
 #' @return `avdata_import()` returns, invisibly, the subset of the
 #'     input table used to update the AnVIL tables.
@@ -125,6 +116,10 @@ avdata <- function(
 
 # avdata_import -----------------------------------------------------------
 
+#' @rdname avdata
+#'
+#' @param .data A tibble or data.frame for import as an AnVIL table.
+#'
 #' @importFrom AnVILBase avdata_import
 #' @importFrom dplyr filter
 #' @export

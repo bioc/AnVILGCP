@@ -205,6 +205,47 @@ gsutil_stat <-
         )
 }
 
+#' @name gsutil
+#'
+#' @inheritParams gcp-methods
+#'
+#' @description `gsutil_rsync()`: synchronize a source and a
+#'     destination. If the destination is on the local file system, it
+#'     must be a directory or not yet exist (in which case a directory
+#'     will be created).
+#'
+#' @param exclude `character(1)` a python regular expression of bucket
+#'     paths to exclude from synchronization. E.g.,
+#'     `'.*(\\.png|\\.txt)$"` excludes '.png' and .txt' files.
+#'
+#' @param dry `logical(1)`, when `TRUE` (default), return the
+#'     consequences of the operation without actually performing the
+#'     operation.
+#'
+#' @param delete `logical(1)`, when `TRUE`, remove files in
+#'     `destination` that are not in `source`. Exercise caution when
+#'     you use this option: it's possible to delete large amounts of
+#'     data accidentally if, for example, you erroneously reverse
+#'     source and destination.
+#'
+#' @details
+#'
+#' `gsutil_rsync()': To make `"gs://mybucket/data"` match the contents
+#' of the local directory `"data"` you could do:
+#'
+#' \code{gsutil_rsync("data", "gs://mybucket/data", delete = TRUE)}
+#'
+#' To make the local directory "data" the same as the contents of
+#' gs://mybucket/data:
+#'
+#' \code{gsutil_rsync("gs://mybucket/data", "data", delete = TRUE)}
+#'
+#' If `destination` is a local path and does not exist, it will be
+#' created.
+#'
+#' @return `gsutil_rsync()`: exit status of `gsutil_rsync()`, invisbly.
+#'
+#' @export
 gsutil_rsync <-
     function(source, destination, ..., exclude = NULL, dry = TRUE,
         delete = FALSE, recursive = FALSE, parallel = TRUE)

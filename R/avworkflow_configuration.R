@@ -498,11 +498,9 @@ avworkflow_configuration_template <-
 #'
 #' @param ... additional arguments to `print()`; unused.
 #'
-#' @importFrom utils str
-#'
 #' @export
 print.avworkflow_configuration <-
     function(x, ...)
 {
-    str(x)
+    utils::str(x)
 }

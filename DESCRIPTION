@@ -46,6 +46,7 @@ Collate:
     'avworkflow.R'
     'avworkflow_configuration.R'
     'avworkspace-methods.R'
+    'drs.R'
     'gcloud.R'
     'gcloud_sdk.R'
     'gcp-methods.R'

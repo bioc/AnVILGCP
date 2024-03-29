@@ -6,6 +6,12 @@
 \title{Import data into the current workspace}
 \usage{
 avdata(namespace = avworkspace_namespace(), name = avworkspace_name())
+
+avdata_import(
+  .data,
+  namespace = avworkspace_namespace(),
+  name = avworkspace_name()
+)
 }
 \arguments{
 \item{namespace}{\code{character(1)} AnVIL workspace namespace as returned
@@ -15,13 +21,6 @@ by, e.g., \code{avworkspace_namespace()}}
 \code{avworkspace_name()}.}
 
 \item{.data}{A tibble or data.frame for import as an AnVIL table.}
-
-\item{...}{Additional arguments passed to lower level functions (not used).}
-
-\item{platform}{\code{gcp()} The cloud platform class to dispatch on as given by
-\link[AnVILBase:cloud_platform]{AnVILBase::cloud_platform}. Typically not set manually as
-\code{cloud_platform()} returns the \code{"gcp"} class for Google Cloud Platform
-workspaces on AnVIL.}
 }
 \value{
 \code{avdata()} returns a tibble with five columns: \code{"type"}

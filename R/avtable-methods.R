@@ -16,6 +16,7 @@
 #'
 #' @inheritParams av
 #' @inheritParams avdata
+#' @inheritParams avnotebooks-methods
 #'
 #' @return `avtables()`: A tibble with columns identifying the table,
 #'     the number of records, and the column names.

@@ -6,6 +6,7 @@
 \alias{avworkflow_localize}
 \alias{avworkflow_run}
 \alias{avworkflow_stop}
+\alias{avworkflow_info}
 \title{Workflow submissions and file outputs}
 \usage{
 avworkflows(namespace = avworkspace_namespace(), name = avworkspace_name())
@@ -44,6 +45,12 @@ avworkflow_stop(
   namespace = avworkspace_namespace(),
   name = avworkspace_name(),
   dry = TRUE
+)
+
+avworkflow_info(
+  submissionId = NULL,
+  namespace = avworkspace_namespace(),
+  name = avworkspace_name()
 )
 }
 \arguments{
@@ -150,6 +157,10 @@ name and bucket path of files to be synchronized.
 \code{avworkflow_stop()} returns (invisibly) \code{TRUE} on
 successfully requesting that the workflow stop, \code{FALSE} if the
 workflow is already aborting, aborted, or done.
+
+\code{avworkflow_info()} returns a tibble with columns:
+submissionId, workflowId, workflowName,status, start, end,
+inputs and outputs.
 }
 \description{
 \code{avworkflows()} returns a tibble summarizing available
@@ -166,6 +177,10 @@ and produced by the workflow.
 
 \code{avworkflow_stop()} stops the most recently submitted workflow
 jub from running.
+
+\code{avworkflow_info()} returns a tibble containing workflow
+information, including workflowName, status, start and end time,
+inputs and outputs.
 }
 \details{
 For \code{avworkflow_files()}, the \code{submissionId} is the
@@ -229,6 +244,13 @@ avworkflow_run(new_config, entityName)
 
 \dontrun{
 avworkflow_stop()
+}
+
+if (
+    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
+    nzchar(avworkspace_name())
+) {
+    avworkflow_info()
 }
 
 }

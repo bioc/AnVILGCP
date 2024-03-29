@@ -26,6 +26,13 @@
 #'     = TRUE`). When `local = TRUE`, the notebook path is
 #'     `<avworkspace_name>/notebooks`.
 #'
+#' @param ... Additional arguments passed to lower level functions (not used).
+#'
+#' @param platform `gcp()` The cloud platform class to dispatch on as given by
+#'   [AnVILBase::cloud_platform]. Typically not set manually as
+#'   `cloud_platform()` returns the `"gcp"` class for Google Cloud Platform
+#'   workspaces on AnVIL.
+#'
 #' @return `avnotebooks()` returns a character vector of buckets /
 #'     files located in the workspace 'Files/notebooks' bucket path,
 #'     or on the local file system.

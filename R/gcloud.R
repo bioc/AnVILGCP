@@ -41,7 +41,9 @@
 NULL
 
 
-#' @rdname gcloud
+#' @name gcloud_access_token
+#'
+#' @title Obtain an access token for a service account
 #'
 #' @param service character(1) The name of the service, e.g. "terra" for which
 #'   to obtain an access token for.
@@ -58,11 +60,10 @@ NULL
 #' @examples
 #' library(AnVILBase)
 #' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
-#'     gcloud_access_token("rawls")
+#'     .gcloud_access_token("rawls")
 #'
-#' @export
-gcloud_access_token <-
-local({
+#' @keywords internal
+.gcloud_access_token <- local({
     tokens <- new.env(parent = emptyenv())
     function(service) {
         app_default <-
@@ -140,6 +141,7 @@ gcloud_exists <-
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
 #' @examples
+#' library(AnVILBase)
 #' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
 #'     gcloud_account()
 #'
@@ -211,3 +213,35 @@ gcloud_help <- function(...)
 #' @export
 gcloud_cmd <- function(cmd, ...)
     .gcloud_do(cmd, ...)
+
+#' @rdname gcloud
+#'
+#' @description `gcloud_storage()` allows arbitrary `gcloud storage` command
+#'   execution via `gcloud storage ...`. Typically used for bucket management
+#'   commands such as `rm` and `cp`.
+#'
+#' @export
+gcloud_storage <- function(cmd, ...)
+    .gcloud_do("storage", cmd, ...)
+
+#' @rdname gcloud
+#'
+#' @description `gcloud_storage_buckets()` provides an interface to the
+#'  `gcloud storage buckets` command. This command can be used to create a new
+#'   bucket via `gcloud storage buckets create ...`.
+#'
+#' @param bucket_cmd `character(1)` representing a buckets command typically
+#'   used to create a new bucket. It can also be used to
+#'   `add-iam-policy-binding` or `remove-iam-policy-binding` to a bucket.
+#'
+#' @param bucket `character(1)` representing a unique bucket name to be created
+#'   or modified.
+#'
+#' @importFrom BiocBaseUtils isScalarCharacter
+#' @export
+gcloud_storage_buckets <- function(bucket_cmd = "create", bucket, ...) {
+    stopifnot(
+        isScalarCharacter(bucket_cmd), isScalarCharacter(bucket)
+    )
+    gcloud_storage("buckets", bucket_cmd, bucket, ...)
+}

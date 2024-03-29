@@ -26,6 +26,9 @@
         identical(lengths(regmatches(x, gregexpr("/", x, fixed = TRUE))), 1L)
 }
 
+.is_local_directory <- function(x)
+    isScalarCharacter(x) && dir.exists(x)
+
 .isScalarCharacter_or_NULL <- function(x, na.ok = FALSE, zchar = FALSE)
     isScalarCharacter(x, na.ok, zchar) || is.null(x)
 

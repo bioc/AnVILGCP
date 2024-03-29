@@ -2,16 +2,15 @@
 % Please edit documentation in R/gcloud.R
 \name{gcloud}
 \alias{gcloud}
-\alias{gcloud_access_token}
 \alias{gcloud_exists}
 \alias{gcloud_account}
 \alias{gcloud_project}
 \alias{gcloud_help}
 \alias{gcloud_cmd}
+\alias{gcloud_storage}
+\alias{gcloud_storage_buckets}
 \title{gcloud command line utility interface}
 \usage{
-gcloud_access_token(service)
-
 gcloud_exists()
 
 gcloud_account(account = NULL)
@@ -21,11 +20,12 @@ gcloud_project(project = NULL)
 gcloud_help(...)
 
 gcloud_cmd(cmd, ...)
+
+gcloud_storage(cmd, ...)
+
+gcloud_storage_buckets(bucket_cmd = "create", bucket, ...)
 }
 \arguments{
-\item{service}{character(1) The name of the service, e.g. "terra" for which
-to obtain an access token for.}
-
 \item{account}{character(1) Google account (e.g., \code{user@gmail.com})
 to use for authentication.}
 
@@ -35,11 +35,15 @@ to use for authentication.}
 
 \item{cmd}{\code{character(1)} representing a command used to evaluate
 \verb{gcloud cmd ...}.}
+
+\item{bucket_cmd}{\code{character(1)} representing a buckets command typically
+used to create a new bucket. It can also be used to
+\code{add-iam-policy-binding} or \code{remove-iam-policy-binding} to a bucket.}
+
+\item{bucket}{\code{character(1)} representing a unique bucket name to be created
+or modified.}
 }
 \value{
-\code{gcloud_access_token()} returns a simple token string to be used with
-the given service.
-
 \code{gcloud_exists()} returns \code{TRUE} when the \code{gcloud}
 application can be found, FALSE otherwise.
 
@@ -62,12 +66,6 @@ These functions invoke the \code{gcloud} command line
 utility. See \link{gsutil} for details on how \code{gcloud} is
 located.
 
-\code{gcloud_access_token()} generates a token for the given service
-account. The token is cached for the duration of its validity. The token is
-refreshed when it expires. The token is obtained using the \code{gcloud} command
-line utility for the given \code{gcloud_account()}. The function is mainly used
-internally by API service functions, e.g., \code{AnVIL::Terra()}
-
 \code{gcloud_exists()} tests whether the \code{gcloud()} command
 can be found on this system. See 'Details' section of \code{gsutil}
 for where the application is searched.
@@ -84,14 +82,19 @@ command or sub-comand via \verb{gcloud help ...}.
 \code{gcloud_cmd()} allows arbitrary \code{gcloud} command
 execution via \verb{gcloud ...}. Use pre-defined functions in
 preference to this.
+
+\code{gcloud_storage()} allows arbitrary \verb{gcloud storage} command
+execution via \verb{gcloud storage ...}. Typically used for bucket management
+commands such as \code{rm} and \code{cp}.
+
+\code{gcloud_storage_buckets()} provides an interface to the
+\verb{gcloud storage buckets} command. This command can be used to create a new
+bucket via \verb{gcloud storage buckets create ...}.
 }
 \examples{
-library(AnVILBase)
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
-    gcloud_access_token("rawls")
-
 gcloud_exists()
 
+library(AnVILBase)
 if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     gcloud_account()
 
