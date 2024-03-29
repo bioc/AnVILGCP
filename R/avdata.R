@@ -49,7 +49,6 @@
 #' \dontrun{
 #' avdata_import(data)
 #' }
-#' @include gcp-class.R
 NULL
 
 # avdata ------------------------------------------------------------------

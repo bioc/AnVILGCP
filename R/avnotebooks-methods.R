@@ -40,6 +40,7 @@
 #'     avnotebooks_localize()  # dry run
 #'     try(avnotebooks_delocalize())  # dry run, fails if no local resource
 #' }
+#' @include gcp-class.R
 NULL
 
 # avnotebooks -------------------------------------------------------------

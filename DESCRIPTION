@@ -38,8 +38,8 @@ RoxygenNote: 7.3.1
 Date: 2024-03-22
 Collate: 
     'av.R'
-    'gcp-class.R'
     'avdata.R'
+    'gcp-class.R'
     'avnotebooks-methods.R'
     'avtable-methods.R'
     'avworkflow-methods.R'
