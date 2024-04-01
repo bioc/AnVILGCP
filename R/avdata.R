@@ -120,7 +120,6 @@ avdata <- function(
 #'
 #' @param .data A tibble or data.frame for import as an AnVIL table.
 #'
-#' @importFrom AnVILBase avdata_import
 #' @importFrom dplyr filter
 #' @export
 avdata_import <- function(
