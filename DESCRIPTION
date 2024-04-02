@@ -13,6 +13,7 @@ Description: The package provides a set of functions to interact with the Google
   to work with the AnVIL package. User-level interaction with this package
   should be minimal.
 biocViews: Infrastructure, DataStorageAndAnalysis, Software
+SystemRequirements: gsutil, gcloud
 Imports:
   AnVIL,
   AnVILBase,
