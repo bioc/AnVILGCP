@@ -8,7 +8,7 @@ test_that("'avnotebooks()' works", {
     )
 
     path <- with_mock(
-        avbucket = function(namespace, name)
+        avstorage = function(namespace, name)
             paste("gs:/", namespace, name, sep="/"),
         .avnotebooks_workspace_path(namespace, name)
     )
