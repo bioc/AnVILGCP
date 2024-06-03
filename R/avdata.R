@@ -36,9 +36,8 @@
 #'     ## from within AnVIL
 #'     data <- avdata()
 #'     data
-#' }
-#' \dontrun{
-#' avdata_import(data)
+#'     if (interactive())
+#'         avdata_import(data)
 #' }
 NULL
 

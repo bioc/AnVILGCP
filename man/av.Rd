@@ -229,13 +229,15 @@ if (
 )
     avfiles_ls()
 
-\dontrun{
-## backup all files in the current directory
-## default buckets are gs://<bucket-id>/<file-names>
-avfiles_backup(dir())
-## backup working directory, recursively
-## default buckets are gs://<bucket-id>/<basename(getwd())>/...
-avfiles_backup(getwd(), recursive = TRUE)
+library(AnVILBase)
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
+    interactive()) {
+    ## backup all files in the current directory
+    ## default buckets are gs://<bucket-id>/<file-names>
+    avfiles_backup(dir())
+    ## backup working directory, recursively
+    ## default buckets are gs://<bucket-id>/<basename(getwd())>/...
+    avfiles_backup(getwd(), recursive = TRUE)
 }
 
 if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))

@@ -235,17 +235,19 @@ if (
 )
     avworkflow_localize(dry = TRUE)
 
-\dontrun{
-entityName <- avtable("participant_set") |>
-    pull(participant_set_id) |>
-    head(1)
-avworkflow_run(new_config, entityName)
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
+   nzchar(avworkspace_name()) && interactive()) {
+    entityName <- avtable("participant_set") |>
+        pull(participant_set_id) |>
+        head(1)
+    avworkflow_run(new_config, entityName)
 }
 
-\dontrun{
-avworkflow_stop()
+library(AnVILBase)
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
+    interactive()) {
+    avworkflow_stop()
 }
-
 if (
     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
     nzchar(avworkspace_name())

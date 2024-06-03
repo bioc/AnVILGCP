@@ -95,7 +95,10 @@
 #'     ## From within AnVIL...
 #'     bucket <- avstorage()                        # discover bucket
 #'
-#' \dontrun{
+#' if (
+#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
+#'     nzchar(avworkspace_name()) && interactive()
+#' ) {
 #'     path <- file.path(bucket, "mtcars.tab")
 #'     avlist(dirname(path))                    # no 'mtcars.tab'...
 #'     write.table(mtcars, gsutil_pipe(path, "w")) # write to bucket

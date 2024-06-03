@@ -268,7 +268,9 @@ if (interactive()) {
         avtable_import_set("model", "cyl", "model_id")
 
 }
-\dontrun{
+library(AnVILBase)
+if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
+    interactive()) {
 ## editable copy of '1000G-high-coverage-2019' workspace
 avworkspace("bioconductor-rpci-anvil/1000G-high-coverage-2019")
 sample <-

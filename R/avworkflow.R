@@ -524,11 +524,12 @@ avworkflow_localize <-
 #' @return `avworkflow_run()` returns `config`, invisibly.
 #'
 #' @examples
-#' \dontrun{
-#' entityName <- avtable("participant_set") |>
-#'     pull(participant_set_id) |>
-#'     head(1)
-#' avworkflow_run(new_config, entityName)
+#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
+#'    nzchar(avworkspace_name()) && interactive()) {
+#'     entityName <- avtable("participant_set") |>
+#'         pull(participant_set_id) |>
+#'         head(1)
+#'     avworkflow_run(new_config, entityName)
 #' }
 #'
 #' @export
@@ -591,10 +592,11 @@ avworkflow_run <-
 #'     workflow is already aborting, aborted, or done.
 #'
 #' @examples
-#' \dontrun{
-#' avworkflow_stop()
+#' library(AnVILBase)
+#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
+#'     interactive()) {
+#'     avworkflow_stop()
 #' }
-#'
 #' @export
 avworkflow_stop <-
     function(submissionId = NULL,
