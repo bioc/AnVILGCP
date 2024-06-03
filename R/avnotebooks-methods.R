@@ -119,7 +119,7 @@ setMethod("avnotebooks_localize",
 
         source <- .avnotebooks_workspace_path(namespace, name)
         if (missing(destination)) {
-            destination = .avnotebooks_runtime_path(name)
+            destination <- .avnotebooks_runtime_path(name)
             if (!dry && !dir.exists(destination))
                 dir.create(destination, recursive = TRUE)
         }
