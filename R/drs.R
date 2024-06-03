@@ -254,10 +254,10 @@ drs_access_url <-
     result <- rep(NA_character_, NROW(tbl))
 
     available <- lengths(tbl$googleServiceAccount) != 0L
+    nasources <- paste0("  '", source[!available], "'\n")
     if (!all(available))
         warning(
-            "'source' not available as signed URLs:\n",
-            paste0("  '", source[!available], "'\n"),
+            "'source' not available as signed URLs:\n", nasources,
             call. = FALSE
         )
     result[available] <- .drs_access_url(filter(tbl, available), region)

@@ -395,11 +395,12 @@ avworkflow_configuration_set <-
     )
 
     if (dry) {
+        confignsn <- paste0(config$namespace, "/", config$name)
+        nsn <- paste0(namespace, "/", name)
         message(
             "'avworkflow_configuration_set()' arguments validated; ",
             "use 'dry = FALSE' to update ",
-            "workflow ", paste0(config$namespace, "/", config$name), " in ",
-            "workspace ", paste0(namespace, "/", name)
+            "workflow ", confignsn, " in ", "workspace ", nsn
         )
         return(invisible(config))
     }
