@@ -21,6 +21,7 @@ Imports:
   dplyr,
   httr,
   jsonlite,
+  parallel,
   methods,
   rlang,
   stats,
