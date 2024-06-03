@@ -487,3 +487,8 @@ set individual elements of the workspace.
 includes the 'DATA', 'NOTEBOOK', and 'WORKFLOWS' elements of the
 workspace.
 
+# Session Info
+
+```{r}
+sessionInfo()
+```
