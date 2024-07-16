@@ -182,12 +182,12 @@ avtable_import_status <-
             }
             if (identical(tolower(content$status),  "error"))
                 stop(
-                    "job failed with error status: ",
+                    "job failed with status: ",
                     updated_message[[job_index]], call. = FALSE
                 )
         }, error = function(err) {
             err_msg <- conditionMessage(err)
-            is_err_status <- grepl("job failed with error status", err_msg)
+            is_err_status <- grepl("job failed with status", err_msg)
             status_msg <- if (is_err_status) "error" else "failed to get"
             msg <- paste(strwrap(paste0(
                 status_msg, " status of job_id '", job_id, "'; ",
