@@ -132,9 +132,9 @@ gcloud_project() # billing project information
 A convenient way to access _any_ `gcloud` SDK command is to use
 `gcloud_cmd()`, e.g.,
 
-```{r, eval=has_gcloud}
-gcloud_cmd("projects", "list") %>%
-    readr::read_table() %>%
+```{r, eval = FALSE}
+gcloud_cmd("projects", "list") |>
+    readr::read_table() |>
     filter(startsWith(PROJECT_ID, "anvil"))
 ```
 
@@ -162,10 +162,10 @@ src <- "gs://genomics-public-data/1000-genomes/"
 about fully-specified buckets.
 
 ```{r, eval=has_gcloud}
-gsutil_ls(src)
+avlist(src)
 
 other <- paste0(src, "other")
-gsutil_ls(other, recursive = TRUE)
+avlist(other, recursive = TRUE)
 
 sample_info <- paste0(src, "other/sample_info/sample_info.csv")
 gsutil_stat(sample_info)
@@ -177,7 +177,7 @@ the arguments can be cloud endpoints.
 
 ```{r, eval=has_gcloud}
 fl <- tempfile()
-gsutil_cp(sample_info, fl)
+avcopy(sample_info, fl)
 
 csv <- readr::read_csv(fl, guess_max = 5000L, col_types = readr::cols())
 csv
@@ -188,7 +188,7 @@ intermediate disk storage.
 
 ```{r, eval=has_gcloud}
 pipe <- gsutil_pipe(fl, "rb")
-readr::read_csv(pipe, guess_max = 5000L, col_types = readr::cols()) %>%
+readr::read_csv(pipe, guess_max = 5000L, col_types = readr::cols()) |>
     dplyr::select("Sample", "Family_ID", "Population", "Gender")
 ```
 
@@ -234,12 +234,12 @@ AnVIL organizes data and analysis environments into
 'workspaces'. AnVIL-provided data resources in a workspace are managed
 under the 'DATA' tab as 'TABLES', 'REFERENCE DATA', and 'OTHER DATA';
 the latter includes ''Workspace Data' and 'Files', with 'Files'
-corresponding to a google cloud bucket associated with the
+corresponding to a Google Cloud Bucket associated with the
 workspace. These components of the graphical user interface are
 illustrated in the figure below.
 
 ```{r, echo = FALSE, cache = FALSE}
-knitr::include_graphics('images/AnVIL-Workspace-Data.png')
+knitr::include_graphics('AnVIL-Workspace-Data.png')
 ```
 
 The AnVIL package provides programmatic tools to access different
@@ -250,7 +250,7 @@ Workspace      | AnVIL function
 ---------------|---------------
 TABLES         | `avtables()`
 REFERENCE DATA | None
-OTHER DATA     | `avbucket()`
+OTHER DATA     | `avstorage()`
 Workspace Data | `avdata()`
 Files          | `avlist()`, `avbackup()`, `avrestore()`
 
@@ -272,7 +272,7 @@ avworkspace_name()
 It is also possible to specify, when not in the AnVIL compute
 environment, the data resource to work with.
 
-```{r, eval=has_gcloud}
+```{r, eval=FALSE}
 ## N.B.: IT MAY NOT BE NECESSARY TO SET THESE WHEN ON ANVIL
 avworkspace_namespace("pathogen-genomic-surveillance")
 avworkspace_name("COVID-19")
@@ -286,7 +286,7 @@ table
 
 ```{r, eval=has_gcloud}
 avtables()
-sample <- avtable("sample")
+sample <- avtable("sample_set")
 sample
 ```
 
@@ -295,9 +295,9 @@ commands, e.g., to identify SRA samples for which a final assembly
 fasta file is available.
 
 ```{r, eval=has_gcloud}
-sample %>%
-    select("sample_id", contains("fasta")) %>%
-    filter(!is.na(final_assembly_fasta))
+sample |>
+    dplyr::select("sample_set_id", contains("fasta")) |>
+    dplyr::filter(!is.na("Successful_Assembly_group"))
 ```
 
 Users can easily add tables to their own workspace using
@@ -365,11 +365,11 @@ corresponding 'origin' table.
 ## editable copy of '1000G-high-coverage-2019' workspace
 avworkspace("anvil-datastorage/1000G-high-coverage-2019")
 sample <-
-    avtable("sample") %>%                               # existing table
+    avtable("sample") |>                               # existing table
     mutate(set = sample(head(LETTERS), nrow(.), TRUE))  # arbitrary groups
-sample %>%                                   # new 'participant_set' table
+sample |>                                   # new 'participant_set' table
     avtable_import_set("participant", "set", "participant")
-sample %>%                                   # new 'sample_set' table
+sample |>                                   # new 'sample_set' table
     avtable_import_set("sample", "set", "name")
 ```
 
@@ -386,20 +386,20 @@ below shows that some additional parsing may be necessary).
 avdata()
 ```
 
-### Using `avbucket()` and  workspace files {.unnumbered}
+### Using `avstorage()` and  workspace files {.unnumbered}
 
 Each workspace is associated with a google bucket, with the content
 summarized in the 'Files' portion of the workspace. The location of
 the files is
 
 ```{r, eval=has_gcloud}
-bucket <- avbucket()
+bucket <- avstorage()
 bucket
 ```
 
-The content of the bucket can be viewed with
+The content of the bucket can be viewed with (if permissions allow)
 
-```{r, eval=has_gcloud}
+```{r, eval=FALSE}
 avlist()
 ```
 
@@ -408,7 +408,7 @@ written to the bucket.
 
 ```{r, eval = FALSE}
 ## requires workspace ownership
-uri <- avbucket()                             # discover bucket
+uri <- avstorage()                             # discover bucket
 bucket <- file.path(uri, "mtcars.tab")
 write.table(mtcars, gsutil_pipe(bucket, "w")) # write to bucket
 ```
@@ -423,8 +423,8 @@ avbackup(getwd(), recursive = TRUE)
 ## backup all files in the current directory
 avbackup(dir())
 
-## backup all files to gs://<avbucket()>/scratch/
-avbackup(dir, paste0(avbucket(), "/scratch"))
+## backup all files to gs://<avstorage()>/scratch/
+avbackup(dir, paste0(avstorage(), "/scratch"))
 ```
 
 Note that the backup operations have file naming behavior like the
