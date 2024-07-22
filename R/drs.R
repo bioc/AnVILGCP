@@ -60,7 +60,7 @@
 .drs_stat_impl <-
     function(source, template)
 {
-    access_token <- .gcloud_access_token("drs")
+    access_token <- gcloud_access_token("drs")
 
     if (identical(.Platform$OS.type, "windows")) {
         mc.cores <- 1L

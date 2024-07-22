@@ -60,10 +60,10 @@ NULL
 #' @examples
 #' library(AnVILBase)
 #' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
-#'     .gcloud_access_token("rawls")
+#'     gcloud_access_token("rawls") |> httr2::obfuscate()
 #'
-#' @keywords internal
-.gcloud_access_token <- local({
+#' @export
+gcloud_access_token <- local({
     tokens <- new.env(parent = emptyenv())
     function(service) {
         app_default <-

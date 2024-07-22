@@ -2,10 +2,9 @@
 % Please edit documentation in R/gcloud.R
 \name{gcloud_access_token}
 \alias{gcloud_access_token}
-\alias{.gcloud_access_token}
 \title{Obtain an access token for a service account}
 \usage{
-.gcloud_access_token(service)
+gcloud_access_token(service)
 }
 \arguments{
 \item{service}{character(1) The name of the service, e.g. "terra" for which
@@ -28,4 +27,3 @@ if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
     .gcloud_access_token("rawls")
 
 }
-\keyword{internal}

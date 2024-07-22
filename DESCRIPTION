@@ -29,9 +29,10 @@ Imports:
   tidyr,
   utils
 Suggests:
-  testthat,
-  rmarkdown,
+  httr2,
   knitr,
+  rmarkdown,
+  testthat,
   withr
 VignetteBuilder: knitr
 BugReports: https://github.com/Bioconductor/AnVILGCP/issues
@@ -39,7 +40,7 @@ URL: https://github.com/Bioconductor/AnVILGCP
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Date: 2024-07-02
 Collate: 
     'authenticate.R'
