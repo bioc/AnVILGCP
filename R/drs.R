@@ -1,4 +1,5 @@
 .DRS_MARTHA <- "https://us-central1-broad-dsde-prod.cloudfunctions.net/martha_v3"
+.DRS_HUB <- "https://drshub.dsde-prod.broadinstitute.org"
 
 .DRS_RAWLS <- paste0(
     "https://rawls.dsde-prod.broadinstitute.org/api/workspaces/",
@@ -28,32 +29,11 @@
 .martha_v3 <-
     function(drs, template, access_token)
 {
-    headers <- add_headers(
-        Authorization = paste("Bearer", access_token),
-        "content-type" = "application/json"
+    mfields <- setdiff(names(template), "drs")
+
+    tbl <- .drs_res_service(
+        drs, .DRS_MARTHA, mfields, access_token
     )
-
-    body <- list(
-        fields = setdiff(names(template), "drs"),
-        url = jsonlite::unbox(drs)
-    )
-    body_json <- jsonlite::toJSON(body)
-    response <- POST(.DRS_MARTHA, headers, body = body_json, encode="raw")
-    avstop_for_status(response, "DRS resolution")
-
-    ## add drs field to response
-    lst <- c(as.list(response), list(drs = drs))
-
-    ## unbox accessUrl; if accessUrl == NULL, then this is a no-op
-    lst$accessUrl <- unlist(lst$accessUrl, use.names = FALSE)
-
-    ## nest list elements so length == 1L
-    is_list <-
-        vapply(lst, is.list, logical(1))
-    lst[is_list] <- lapply(lst[is_list], list)
-
-    ## return as tibble
-    tbl <- as_tibble(lst[lengths(lst) == 1L])
     .tbl_with_template(tbl, template)
 }
 
@@ -334,4 +314,53 @@ drs_cp.character <-
 
     tbl <- drs_stat(source, region)
     drs_cp(tbl, destination, ..., overwrite = overwrite)
+}
+
+.DRS_REQ_FIELDS <- c(
+    "bucket", "name", "size", "timeCreated",
+    "timeUpdated", "fileName", "accessUrl"
+)
+
+#' @examples
+#' drs_url <- "drs://drs.anv0:v2_f238fb1a-87d6-3cb2-b44e-834c57155073"
+#' drs_resolve(drs_url)
+#'
+#' @export
+drs_resolve <- function(drs) {
+    access_token <- gcloud_access_token("drs")
+    service_url <- paste0(.DRS_HUB, "/api/v4/drs/resolve")
+
+    Map(
+        .drs_res_service,
+        drs,
+        MoreArgs = list(
+            service_url = service_url,
+            fields = .DRS_REQ_FIELDS,
+            token = access_token
+        )
+    )
+}
+
+.drs_res_service <- function(drs_url, service_url, fields, token) {
+    headers <- add_headers(
+        Authorization = paste("Bearer", token),
+        "content-type" = "application/json"
+    )
+    body <- list(fields = fields, url = jsonlite::unbox(drs_url))
+    body_json <- jsonlite::toJSON(body)
+    response <- POST(service_url, headers, body = body_json, encode="raw")
+    avstop_for_status(response, "DRS resolution")
+
+    ## add drs field to response
+    lst <- c(as.list(response), list(drs = drs_url))
+
+    ## unbox accessUrl; if accessUrl == NULL, then this is a no-op
+    lst$accessUrl <- unlist(lst$accessUrl, use.names = FALSE)
+
+    ## nest list elements so length == 1L
+    is_list <-
+        vapply(lst, is.list, logical(1))
+    lst[is_list] <- lapply(lst[is_list], list)
+
+    as_tibble(lst[lengths(lst) == 1L])
 }
