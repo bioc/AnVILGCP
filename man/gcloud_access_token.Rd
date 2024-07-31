@@ -24,6 +24,6 @@ internally by API service functions, e.g., \code{AnVIL::Terra()}
 \examples{
 library(AnVILBase)
 if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
-    .gcloud_access_token("rawls")
+    gcloud_access_token("rawls") |> httr2::obfuscate()
 
 }
