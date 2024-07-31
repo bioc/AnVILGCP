@@ -322,8 +322,12 @@ drs_cp.character <-
 )
 
 #' @examples
-#' drs_url <- "drs://drs.anv0:v2_f238fb1a-87d6-3cb2-b44e-834c57155073"
-#' drs_resolve(drs_url)
+#' drs_urls <- c(
+#'     "drs://drs.anv0:v2_b3b815c7-b012-37b8-9866-1cb44b597924",
+#'     "drs://drs.anv0:v2_2823eac3-77ae-35e4-b674-13dfab629dc5",
+#'     "drs://drs.anv0:v2_c6077800-4562-30e3-a0ff-aa03a7e0e24f"
+#' )
+#' drs_resolve(drs_urls)
 #'
 #' @export
 drs_resolve <- function(drs) {
@@ -338,7 +342,8 @@ drs_resolve <- function(drs) {
             fields = .DRS_REQ_FIELDS,
             token = access_token
         )
-    )
+    ) |>
+        do.call(rbind.data.frame, args = _)
 }
 
 .drs_res_service <- function(drs_url, service_url, fields, token) {
