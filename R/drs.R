@@ -26,6 +26,30 @@
 }
 
 #' @importFrom httr POST add_headers
+.drs_res_service <- function(drs_url, service_url, fields, token) {
+    headers <- add_headers(
+        Authorization = paste("Bearer", token),
+        "content-type" = "application/json"
+    )
+    body <- list(fields = fields, url = jsonlite::unbox(drs_url))
+    body_json <- jsonlite::toJSON(body)
+    response <- POST(service_url, headers, body = body_json, encode="raw")
+    avstop_for_status(response, "DRS resolution")
+
+    ## add drs field to response
+    lst <- c(as.list(response), list(drs = drs_url))
+
+    ## unbox accessUrl; if accessUrl == NULL, then this is a no-op
+    lst$accessUrl <- unlist(lst$accessUrl, use.names = FALSE)
+
+    ## nest list elements so length == 1L
+    is_list <-
+        vapply(lst, is.list, logical(1))
+    lst[is_list] <- lapply(lst[is_list], list)
+
+    as_tibble(lst[lengths(lst) == 1L])
+}
+
 .martha_v3 <-
     function(drs, template, access_token)
 {
@@ -344,28 +368,4 @@ drs_resolve <- function(drs) {
         )
     ) |>
         do.call(rbind.data.frame, args = _)
-}
-
-.drs_res_service <- function(drs_url, service_url, fields, token) {
-    headers <- add_headers(
-        Authorization = paste("Bearer", token),
-        "content-type" = "application/json"
-    )
-    body <- list(fields = fields, url = jsonlite::unbox(drs_url))
-    body_json <- jsonlite::toJSON(body)
-    response <- POST(service_url, headers, body = body_json, encode="raw")
-    avstop_for_status(response, "DRS resolution")
-
-    ## add drs field to response
-    lst <- c(as.list(response), list(drs = drs_url))
-
-    ## unbox accessUrl; if accessUrl == NULL, then this is a no-op
-    lst$accessUrl <- unlist(lst$accessUrl, use.names = FALSE)
-
-    ## nest list elements so length == 1L
-    is_list <-
-        vapply(lst, is.list, logical(1))
-    lst[is_list] <- lapply(lst[is_list], list)
-
-    as_tibble(lst[lengths(lst) == 1L])
 }
