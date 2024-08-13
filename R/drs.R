@@ -19,6 +19,17 @@
     googleServiceAccount = list()
 )
 
+.DRS_HUB_TEMPLATE <- list(
+    drs = character(),
+    fileName = character(),
+    size = integer(),
+    accessUrl = character(),
+    timeUpdated = character(),
+    timeCreated = character(),
+    bucket = character(),
+    name = character()
+)
+
 .drs_is_uri <-
     function(source)
 {
@@ -112,17 +123,18 @@
     tbl
 }
 
-#' @rdname drs
+#' @name drs
 #'
 #' @title DRS (Data Repository Service) URL management
 #'
-#' @description `drs_stat()` resolves zero or more DRS URLs to their
-#'     google bucket location.
+#' @description `drs_stat()` resolves zero or more DRS URLs to their Google
+#'   bucket location using the Martha V3 API endpoint.
 #'
-#' @details `drs_stat()` sends requests in parallel to the DRS server,
-#'     using 8 forked processes (by default) to speed up queries. Use
-#'     `options(mc.cores = 16L)`, for instance, to set the number of
-#'     processes to use.
+#' @section drs_stat():
+#' `drs_stat()` sends requests in parallel to the DRS
+#' server, using 8 forked processes (by default) to speed up queries. Use
+#' `options(mc.cores = 16L)`, for instance, to set the number of processes to
+#' use.
 #'
 #' `drs_stat()` uses the AnVIL 'pet' account associated with a
 #' runtime. The pet account is discovered by default when evaluated on
@@ -130,9 +142,9 @@
 #' AnVIL), or can be found in the return value of `avruntimes()`.
 #'
 #' Errors reported by the DRS service are communicated to the user,
-#' but can be cryptic. The DRS service itself is called
+#' but can be cryptic. The DRS service itself for `drs_stat` is called
 #' 'martha'. Errors mentioning martha might commonly involve a
-#' mal-formed DRS uri. Martha uses a service called 'bond' to
+#' mal-formed DRS URI. Martha uses a service called 'bond' to
 #' establish credentials with registered third party entities such as
 #' Kids First. Errors mentioning bond might involve absence of
 #' credentials, within Terra, to access the resource; check that, in
@@ -140,31 +152,49 @@
 #' 'External Entities' includes the organization to which the DRS uri
 #' is being resolved.
 #'
-#' @param source character() DRS URLs (beginning with 'drs://') to
-#'     resources managed by the 'martha' DRS resolution server.
+#' @section drs_hub():
+#' `drs_hub()` uses the DRS Hub API endpoint to resolve a single or
+#' multiple DRS URLs to their Google bucket location. The DRS Hub API
+#' endpoint requires a `gcloud_access_token()`. The DRS Hub API service
+#' is hosted at <https://drshub.dsde-prod.broadinstitute.org>.
 #'
-#' @param region character(1) Google cloud 'region' in which the DRS
-#'     resource is located. Most data is located in \code{"US"} (the
-#'     default); in principle \code{"auto"} allows for discovery of
-#'     the region, but sometimes fails. Regions are enumerated at
-#'     \url{https://cloud.google.com/storage/docs/locations#available-locations}.
+#' @param source `character()` DRS URLs (beginning with 'drs://') to resources
+#'   managed by either the 'martha' DRS resolution server (`drs_stat()`,
+#'   `drs_access_url()`, `drs_cp()`) or the DRS Hub server (`drs_hub()`).
+#'
+#' @param region `character(1)` Google cloud 'region' in which the DRS resource
+#'   is located. Most data is located in \code{"US"} (the default); in principle
+#'   \code{"auto"} allows for discovery of the region, but sometimes fails.
+#'   Regions are enumerated at
+#'   \url{https://cloud.Google.com/storage/docs/locations#available-locations}.
 #'
 #' @return `drs_stat()` returns a tbl with the following columns:
 #'
-#' - fileName: character() (resolver sometimes returns null).
-#' - size: integer() (resolver sometimes returns null).
-#' - contentType: character() (resolver sometimes returns null).
-#' - gsUri: character() (resolver sometimes returns null).
-#' - timeCreated: character() (the time created formatted using ISO
+#' - `fileName`: `character()` (resolver sometimes returns null).
+#' - `size`: integer() (resolver sometimes returns null).
+#' - `contentType`: `character()` (resolver sometimes returns null).
+#' - `gsUri`: `character()` (resolver sometimes returns null).
+#' - `timeCreated`: `character()` (the time created formatted using ISO
 #'   8601; resolver sometimes returns null).
-#' - timeUpdated: character() (the time updated formatted using ISO
+#' - `timeUpdated`: `character()` (the time updated formatted using ISO
 #'   8601; resolver sometimes returns null).
-#' - bucket: character() (resolver sometimes returns null).
-#' - name: character() (resolver sometimes returns null).
-#' - googleServiceAccount: list() (null unless the DOS url belongs to
+#' - `bucket`: `character()` (resolver sometimes returns null).
+#' - `name`: `character()` (resolver sometimes returns null).
+#' - `googleServiceAccount`: list() (null unless the DOS url belongs to
 #'   a Bond supported host).
-#' - hashes: list() (contains the hashes type and their checksum
+#' - `hashes`: list() (contains the hashes type and their checksum
 #'   value; if unknown. it returns null)
+#'
+#' @return `drs_hub()` returns a tbl with the following columns:
+#'
+#' - `drs`: `character()` DRS URIs
+#' - `bucket`: `character()` Google cloud bucket
+#' - `name`: `character()` object name in `bucket`
+#' - `size`: numeric() object size in bytes
+#' - `timeCreated`: `character()` object creation time
+#' - `timeUpdated`: `character()` object update time
+#' - `fileName`: `character()` local file name
+#' - `accessUrl`: `character()` signed URL for object access
 #'
 #' @examples
 #' drs <- c(
@@ -272,10 +302,10 @@ drs_access_url <-
 
 #' @rdname drs
 #'
-#' @description `drs_cp()` copies 0 or more DRS URIs to a google
+#' @description `drs_cp()` copies 0 or more DRS URIs to a Google
 #'     bucket or local folder
 #'
-#' @param destination `character(1)`, google cloud bucket or local
+#' @param destination `character(1)`, Google cloud bucket or local
 #'     file system destination path.
 #'
 #' @param ... additional arguments, passed to `avcopy()` for file
@@ -289,7 +319,7 @@ drs_access_url <-
 #'
 #' - simple: logical() value indicating whether resolution used a
 #'   simple signed URL (`TRUE`) or auxilliary service account.
-#' - destination: character() full path to retrieved object(s)
+#' - destination: `character()` full path to retrieved object(s)
 #'
 #' @export
 drs_cp <- function(source, destination, ..., overwrite = FALSE)
@@ -302,7 +332,7 @@ drs_cp.drs_stat_tbl <-
     stopifnot(
         `'source' contains duplicate 'fileName's` =
             anyDuplicated(source$fileName) == 0L,
-        `'destination' must be a google bucket or existing local directory` =
+        `'destination' must be a Google bucket or existing local directory` =
             .gsutil_is_uri(destination) || .is_local_directory(destination),
         isScalarLogical(overwrite)
     )
@@ -332,7 +362,7 @@ drs_cp.character <-
     stopifnot(
         `'source' must be DRS URIs, e.g., starting with "drs://"` =
             all(.drs_is_uri(source)),
-        `'destination' must be a google bucket or existing local directory` =
+        `'destination' must be a Google bucket or existing local directory` =
             .gsutil_is_uri(destination) || .is_local_directory(destination)
     )
 
@@ -345,27 +375,34 @@ drs_cp.character <-
     "timeUpdated", "fileName", "accessUrl"
 )
 
-#' @examples
-#' drs_urls <- c(
-#'     "drs://drs.anv0:v2_b3b815c7-b012-37b8-9866-1cb44b597924",
-#'     "drs://drs.anv0:v2_2823eac3-77ae-35e4-b674-13dfab629dc5",
-#'     "drs://drs.anv0:v2_c6077800-4562-30e3-a0ff-aa03a7e0e24f"
-#' )
-#' drs_resolve(drs_urls)
+#' @rdname drs
 #'
+#' @description `drs_hub()` resolves zero or more DRS URLs to their Google bucket
+#'   location using the DRS Hub API endpoint.
+#'
+#' @examples
+#' if (gcloud_exists() && interactive()) {
+#'     drs_urls <- c(
+#'         "drs://drs.anv0:v2_b3b815c7-b012-37b8-9866-1cb44b597924",
+#'         "drs://drs.anv0:v2_2823eac3-77ae-35e4-b674-13dfab629dc5",
+#'         "drs://drs.anv0:v2_c6077800-4562-30e3-a0ff-aa03a7e0e24f"
+#'     )
+#'     drs_hub(drs_urls)
+#' }
 #' @export
-drs_resolve <- function(drs) {
+drs_hub <- function(source = character()) {
     access_token <- gcloud_access_token("drs")
     service_url <- paste0(.DRS_HUB, "/api/v4/drs/resolve")
 
     Map(
         .drs_res_service,
-        drs,
+        source,
         MoreArgs = list(
             service_url = service_url,
             fields = .DRS_REQ_FIELDS,
             token = access_token
         )
     ) |>
-        do.call(rbind.data.frame, args = _)
+        do.call(rbind.data.frame, args = _) |>
+        .tbl_with_template(.DRS_HUB_TEMPLATE)
 }
