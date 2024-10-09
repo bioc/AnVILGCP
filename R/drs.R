@@ -62,7 +62,7 @@
 #' - `drs`: `character()` DRS URIs
 #' - `bucket`: `character()` Google cloud bucket
 #' - `name`: `character()` object name in `bucket`
-#' - `size`: numeric() object size in bytes
+#' - `size`: `numeric()` object size in bytes
 #' - `timeCreated`: `character()` object creation time
 #' - `timeUpdated`: `character()` object update time
 #' - `fileName`: `character()` local file name

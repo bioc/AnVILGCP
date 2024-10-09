@@ -17,7 +17,7 @@ managed by the DRS Hub server (\code{drs_hub()}).}
 \item \code{drs}: \code{character()} DRS URIs
 \item \code{bucket}: \code{character()} Google cloud bucket
 \item \code{name}: \code{character()} object name in \code{bucket}
-\item \code{size}: numeric() object size in bytes
+\item \code{size}: \code{numeric()} object size in bytes
 \item \code{timeCreated}: \code{character()} object creation time
 \item \code{timeUpdated}: \code{character()} object update time
 \item \code{fileName}: \code{character()} local file name
