@@ -60,5 +60,6 @@ Collate:
     'gcloud_sdk.R'
     'gcp-methods.R'
     'gsutil.R'
+    'has_avworkspace-methods.R'
     'localize.R'
     'utilities.R'

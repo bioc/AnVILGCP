@@ -19,7 +19,7 @@ vignette: |
 ---
 
 ```{r setup, include=FALSE}
-has_gcloud <- AnVILGCP::gcloud_exists()
+has_gcloud <- has_avworkspace(platform = gcp())
 knitr::opts_chunk$set(
     eval = has_gcloud, collapse = TRUE, cache = TRUE
 )
