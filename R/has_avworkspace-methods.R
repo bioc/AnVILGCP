@@ -6,6 +6,8 @@
 #'   to work with GCP.  If `strict = TRUE`, it also checks that the workspace
 #'   name is set.
 #'
+#' @inheritParams AnVILBase::has_avworkspace
+#'
 #' @return `logical(1)` `TRUE` if the AnVIL environment is set up properly to
 #'   interact with GCP, otherwise `FALSE`.
 #'

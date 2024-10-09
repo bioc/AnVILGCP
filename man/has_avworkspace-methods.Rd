@@ -7,6 +7,15 @@
 \usage{
 \S4method{has_avworkspace}{gcp}(strict = FALSE, ..., platform = cloud_platform())
 }
+\arguments{
+\item{strict}{\code{logical(1)} Whether to include a check for an existing
+\code{avworkspace_name()} setting.}
+
+\item{...}{Arguments passed to the methods.}
+
+\item{platform}{A Platform derived class indicating the AnVIL environment,
+currently, \code{azure} and \code{gcp} classes are compatible.}
+}
 \value{
 \code{logical(1)} \code{TRUE} if the AnVIL environment is set up properly to
 interact with GCP, otherwise \code{FALSE}.
