@@ -14,7 +14,6 @@
 #'
 NULL
 
-
 #' @describeIn has_avworkspace-methods Check if the AnVIL environment is set up
 #'
 #' @importFrom AnVILBase has_avworkspace

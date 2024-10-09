@@ -115,8 +115,7 @@ combination
 
 }}
 \examples{
-library(AnVILBase)
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
+if (has_avworkspace(platform = gcp())) {
     avworkspaces()
     avworkspace_namespace()
     avworkspace_name()

@@ -39,10 +39,7 @@
 #'
 #' @examples
 #' library(AnVILBase)
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' ) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
 #'     avnotebooks()
 #'     avnotebooks_localize()  # dry run
 #'     try(avnotebooks_delocalize())  # dry run, fails if no local resource

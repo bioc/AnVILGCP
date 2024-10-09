@@ -329,8 +329,7 @@ avworkflow_configuration_update <-
 #' @importFrom AnVIL schemas
 #'
 #' @examples
-#' library(AnVILBase)
-#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
+#' if (has_avworkspace(platform = gcp())) {
 #'     ## set the namespace and name as appropriate
 #'     avworkspace("bioconductor-rpci-anvil/Bioconductor-Workflow-DESeq2")
 #'

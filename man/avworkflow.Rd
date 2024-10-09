@@ -207,17 +207,11 @@ workflow job are candidates for localization.
 }
 \examples{
 library(AnVILBase)
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-)
+if (has_avworkspace(strict = TRUE, platform = gcp()))
     ## from within AnVIL
     avworkflows() \%>\% select(namespace, name)
 
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-) {
+if (has_avworkspace(strict = TRUE, platform = gcp())) {
     ## e.g., from within AnVIL
     jobs <- avworkflow_jobs()
     if (nrow(jobs)) {
@@ -229,30 +223,20 @@ if (
     }
 }
 
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-)
+if (has_avworkspace(strict = TRUE, platform = gcp()))
     avworkflow_localize(dry = TRUE)
 
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-   nzchar(avworkspace_name()) && interactive()) {
+if (has_avworkspace(strict = TRUE, platform = gcp()) && interactive()) {
     entityName <- avtable("participant_set") |>
         pull(participant_set_id) |>
         head(1)
     avworkflow_run(new_config, entityName)
 }
 
-library(AnVILBase)
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    interactive()) {
+if (has_avworkspace(strict = TRUE, platform = gcp()) && interactive()) {
     avworkflow_stop()
 }
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-) {
+if (has_avworkspace(strict = TRUE, platform = gcp()))
     avworkflow_info()
-}
 
 }

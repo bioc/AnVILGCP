@@ -69,8 +69,7 @@ NULL
 #'     when requester-pays is enabled.
 #'
 #' @examples
-#' library(AnVILBase)
-#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
+#' if (has_avworkspace(platform = gcp()))
 #'     gsutil_requesterpays(src) # FALSE -- no cost download
 #'
 #' @export
@@ -159,7 +158,7 @@ gsutil_exists <-
 #'     bucket member.
 #'
 #' @examples
-#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
+#' if (has_avworkspace(platform = gcp())) {
 #'     gsutil_exists(src)
 #'     gsutil_stat(src)
 #'     avlist(dirname(src))
@@ -342,7 +341,7 @@ gsutil_cat <-
 #' @importFrom BiocBaseUtils isZeroOneCharacter
 #'
 #' @examples
-#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
+#' if (has_avworkspace(platform = gcp()))
 #'     gsutil_help("ls")
 #'
 #' @export
@@ -372,7 +371,7 @@ gsutil_help <-
 #'     input as `read.csv()`)
 #'
 #' @examples
-#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
+#' if (has_avworkspace(platform = gcp())) {
 #'     df <- read.csv(gsutil_pipe(src), 5L)
 #'     class(df)
 #'     dim(df)

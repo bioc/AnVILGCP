@@ -214,8 +214,7 @@ as a warning() about invalid inputs or outputs, and the solution is
 to provide a quoted string \code{unbox('"foo"')}.
 }
 \examples{
-library(AnVILBase)
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
+if (has_avworkspace(platform = gcp())) {
     ## set the namespace and name as appropriate
     avworkspace("bioconductor-rpci-anvil/Bioconductor-Workflow-DESeq2")
 

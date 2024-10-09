@@ -30,10 +30,7 @@ NULL
 #'
 #' @examples
 #' library(AnVILBase)
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' )
+#' if (has_avworkspace(strict = TRUE, platform = gcp()))
 #'     ## from within AnVIL
 #'     avworkflows() %>% select(namespace, name)
 #'
@@ -286,10 +283,7 @@ avworkflows <-
 #' @importFrom dplyr arrange
 #'
 #' @examples
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' ) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
 #'     ## e.g., from within AnVIL
 #'     jobs <- avworkflow_jobs()
 #'     if (nrow(jobs)) {
@@ -408,10 +402,7 @@ avworkflow_files <-
 #'     name and bucket path of files to be synchronized.
 #'
 #' @examples
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' )
+#' if (has_avworkspace(strict = TRUE, platform = gcp()))
 #'     avworkflow_localize(dry = TRUE)
 #'
 #' @export
@@ -524,8 +515,7 @@ avworkflow_localize <-
 #' @return `avworkflow_run()` returns `config`, invisibly.
 #'
 #' @examples
-#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'    nzchar(avworkspace_name()) && interactive()) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp()) && interactive()) {
 #'     entityName <- avtable("participant_set") |>
 #'         pull(participant_set_id) |>
 #'         head(1)
@@ -592,9 +582,7 @@ avworkflow_run <-
 #'     workflow is already aborting, aborted, or done.
 #'
 #' @examples
-#' library(AnVILBase)
-#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     interactive()) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp()) && interactive()) {
 #'     avworkflow_stop()
 #' }
 #' @export
@@ -691,12 +679,8 @@ avworkflow_stop <-
 #' @importFrom dplyr distinct select
 #'
 #' @examples
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' ) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp()))
 #'     avworkflow_info()
-#' }
 #'
 #' @export
 avworkflow_info <-

@@ -78,27 +78,20 @@
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
 #' @examples
-#' library(AnVILBase)
 #' src <-
 #'    "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
-#' if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
+#' if (has_avworkspace(platform = gcp())) {
 #'    avcopy(src, tempdir())
 #'    ## internal gsutil_*() commands work with spaces in source or destination
 #'    destination <- file.path(tempdir(), "foo bar")
 #'    avcopy(src, destination)
 #'    file.exists(destination)
 #' }
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' )
+#' if (has_avworkspace(strict = TRUE, platform = gcp()))
 #'     ## From within AnVIL...
 #'     bucket <- avstorage()                        # discover bucket
 #'
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name()) && interactive()
-#' ) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp()) && interactive()) {
 #'     path <- file.path(bucket, "mtcars.tab")
 #'     avlist(dirname(path))                    # no 'mtcars.tab'...
 #'     write.table(mtcars, gsutil_pipe(path, "w")) # write to bucket

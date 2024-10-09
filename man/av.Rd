@@ -223,15 +223,11 @@ the compute node file system.
 }
 \examples{
 library(AnVILBase)
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-)
+if (has_avworkspace(platform = gcp()))
     avfiles_ls()
 
 library(AnVILBase)
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    interactive()) {
+if (has_avworkspace(platform = gcp()) && interactive()) {
     ## backup all files in the current directory
     ## default buckets are gs://<bucket-id>/<file-names>
     avfiles_backup(dir())
@@ -240,14 +236,11 @@ if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
     avfiles_backup(getwd(), recursive = TRUE)
 }
 
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
+if (has_avworkspace(platform = gcp()))
     ## from within AnVIL
     avruntimes()
 
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-)
+if (has_avworkspace(strict = TRUE, platform = gcp()))
     ## from within AnVIL
     avdisks()
 

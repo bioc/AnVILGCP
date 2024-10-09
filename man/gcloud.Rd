@@ -94,11 +94,10 @@ bucket via \verb{gcloud storage buckets create ...}.
 \examples{
 gcloud_exists()
 
-library(AnVILBase)
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
+if (has_avworkspace(platform = gcp()))
     gcloud_account()
 
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
+if (has_avworkspace(platform = gcp()))
     gcloud_help()
 
 }

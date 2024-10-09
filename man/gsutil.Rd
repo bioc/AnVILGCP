@@ -154,20 +154,19 @@ created.
 \examples{
 src <-
   "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
-library(AnVILBase)
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
+if (has_avworkspace(platform = gcp()))
     gsutil_requesterpays(src) # FALSE -- no cost download
 
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
+if (has_avworkspace(platform = gcp())) {
     gsutil_exists(src)
     gsutil_stat(src)
     avlist(dirname(src))
 }
 
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP"))
+if (has_avworkspace(platform = gcp()))
     gsutil_help("ls")
 
-if (gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP")) {
+if (has_avworkspace(platform = gcp())) {
     df <- read.csv(gsutil_pipe(src), 5L)
     class(df)
     dim(df)
