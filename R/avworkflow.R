@@ -26,8 +26,6 @@ NULL
 #' - methodRepoMethod.methodVersion: the version of the method, e.g.,
 #'   'main' branch of a github repository.
 #'
-#' @importFrom AnVIL Rawls
-#'
 #' @examples
 #' library(AnVILBase)
 #' if (has_avworkspace(strict = TRUE, platform = gcp()))
@@ -42,7 +40,8 @@ avworkflows <-
         isScalarCharacter(namespace),
         isScalarCharacter(name)
     )
-    workflows <- Rawls()$list_method_configurations(
+    checkInstalled("AnVIL")
+    workflows <- AnVIL::Rawls()$list_method_configurations(
         namespace, URLencode(name), TRUE
     )
     avstop_for_status(workflows, "avworkflows")
@@ -97,9 +96,10 @@ avworkflows <-
         type = character(), path = character(),
         submissionId = character(), workflowId = character()
     )
+    checkInstalled("AnVIL")
     for (workflowId in workflowIds) {
         ## query for outputs
-        outputs <- Terra()$workflowOutputsInSubmission(
+        outputs <- AnVIL::Terra()$workflowOutputsInSubmission(
             namespace, URLencode(name), submissionId, workflowId
         )
         if (identical(status_code(outputs), 404L)) {
@@ -199,8 +199,9 @@ avworkflows <-
         isScalarCharacter(name)
     )
 
+    checkInstalled("AnVIL")
     ## find the submission
-    monitor <- Terra()$monitorSubmission(
+    monitor <- AnVIL::Terra()$monitorSubmission(
         namespace, URLencode(name), submissionId
     )
     avstop_for_status(monitor, "avworkflow_files() 'monitorSubmission'")
@@ -552,7 +553,8 @@ avworkflow_run <-
         return(invisible(config))
     }
 
-    run_workflow <- Rawls()$createSubmission(
+    checkInstalled("AnVIL")
+    run_workflow <- AnVIL::Rawls()$createSubmission(
         workspaceNamespace = namespace,
         workspaceName = URLencode(name),
         deleteIntermediateOutputFiles = deleteIntermediateOutputFiles,
@@ -618,7 +620,8 @@ avworkflow_stop <-
         return(invisible(FALSE))
     }
 
-    terra <- Terra()
+    checkInstalled("AnVIL")
+    terra <- AnVIL::Terra()
 
     ## only change status of submitted / running workflows. In
     ## particular do not change the status of 'Done' workflows to
@@ -709,10 +712,11 @@ avworkflow_info <-
     workflowIds <- workflow_files |> distinct(.data$workflowId) |>
         pull(.data$workflowId)
 
+    checkInstalled("AnVIL")
     ## inputs used for each workflow
     workflow_info <-
         lapply(workflowIds, function(workflowId) {
-            response <- Terra()$workflowMetadata(
+            response <- AnVIL::Terra()$workflowMetadata(
                 avworkspace_namespace(), avworkspace_name(),
                 submissionId, workflowId
                 )

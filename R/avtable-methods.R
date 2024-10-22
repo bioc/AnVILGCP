@@ -22,11 +22,10 @@
 #'     the number of records, and the column names.
 #'
 #' @importFrom tibble tibble
-#' @importFrom AnVIL Terra
 #' @importFrom AnVILBase avstop_for_status avtables avtable avtable_import_set
 #'   avtable_delete_values
 #' @importFrom BiocBaseUtils isCharacter isScalarCharacter isScalarLogical
-#'   isScalarNumber isScalarInteger
+#'   isScalarNumber isScalarInteger checkInstalled
 #'
 #' @examples
 #' if (interactive()) {
@@ -83,8 +82,8 @@ setMethod("avtables", signature = c(platform = "gcp"), definition =
             isScalarCharacter(namespace),
             isScalarCharacter(name)
         )
-
-        types <- Terra()$getEntityTypes(namespace, URLencode(name))
+        checkInstalled("AnVIL")
+        types <- AnVIL::Terra()$getEntityTypes(namespace, URLencode(name))
         avstop_for_status(types, "avtables")
         lst <- content(types)
         table <- names(lst)
@@ -184,8 +183,11 @@ setMethod("avtable", signature = c(platform = "gcp"), definition =
         )
         na_fun <- .avtable_na(na)
 
+        checkInstalled("AnVIL")
         tryCatch({
-            entities <- Terra()$getEntities(namespace, URLencode(name), table)
+            entities <- AnVIL::Terra()$getEntities(
+                namespace, URLencode(name), table
+            )
         }, error = function(err) {
             msg <- paste0(
                 "'avtable()' failed, see 'Details' of `?avtable` for help\n",
@@ -337,7 +339,7 @@ setMethod("avtable", signature = c(platform = "gcp"), definition =
     destination <- .avtable_import_write_dataset(.data, na)
     entities <- httr::upload_file(destination)
 
-    response <- Terra()$flexibleImportEntities(
+    response <- AnVIL::Terra()$flexibleImportEntities(
         namespace, URLencode(name),
         async = TRUE,
         deleteEmptyValues = delete_empty_values,
@@ -412,6 +414,7 @@ setMethod(
 
         ## identify the 'entity' column
         .data <- .avtable_import_set_entity(.data, entity)
+        checkInstalled("AnVIL")
         ## divide large tables into chunks, if necessary
         .avtable_import_chunks(
             .data, namespace, name, delete_empty_values, na,
@@ -492,6 +495,7 @@ setMethod("avtable_import_set", signature = c(platform = "gcp"), definition =
         names(.data)[[1]] <- paste0("membership:", origin, "_set_id")
         names(.data)[[2]] <- origin
 
+        checkInstalled("AnVIL")
         .avtable_import_chunks(
             .data, namespace, name, delete_empty_values, na,
             n, page, pageSize
@@ -525,7 +529,8 @@ setMethod(
             isScalarCharacter(name)
         )
         table <- URLencode(table)
-        response <- Rawls()$deleteEntitiesOfType(
+        checkInstalled("AnVIL")
+        response <- AnVIL::Rawls()$deleteEntitiesOfType(
             namespace, URLencode(name), table
         )
         avstop_for_status(response, "avtable_delete")
@@ -564,7 +569,10 @@ setMethod("avtable_delete_values", signature = c(platform = "gcp"),
 
         body <- tibble(entityType = table, entityName = as.character(values))
 
-        response <- Terra()$deleteEntities(namespace, URLencode(name), body)
+        checkInstalled("AnVIL")
+        response <- AnVIL::Terra()$deleteEntities(
+            namespace, URLencode(name), body
+        )
         if (status_code(response) == 409L) {
             tbl <-
                 response %>%

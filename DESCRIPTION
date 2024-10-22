@@ -15,7 +15,6 @@ Description: The package provides a set of functions to interact with the Google
 biocViews: Software, Infrastructure, ThirdPartyClient, DataImport
 SystemRequirements: gsutil, gcloud
 Imports:
-  AnVIL,
   AnVILBase,
   BiocBaseUtils,
   dplyr,
@@ -29,6 +28,7 @@ Imports:
   tidyr,
   utils
 Suggests:
+  AnVIL,
   BiocStyle,
   httr2,
   knitr,

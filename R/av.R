@@ -33,7 +33,7 @@
         page, pageSize, sortField, sortDirection,
         filterTerms, filterOperator)
 {
-    response <- Terra()$entityQuery(
+    response <- AnVIL::Terra()$entityQuery(
         namespace, URLencode(name), table,
         page, pageSize, sortField, sortDirection,
         filterTerms, filterOperator)
@@ -117,6 +117,7 @@ avtable_paged <-
     name <- URLencode(name)
     na_fun <- .avtable_na(na)
 
+    checkInstalled("AnVIL")
     tbl <- .avtable_pages(
         .avtable_paged1,
         namespace = namespace, name = name, table = table,
@@ -166,10 +167,11 @@ avtable_import_status <-
         on.exit(close(progress_bar))
     }
 
+    checkInstalled("AnVIL")
     for (job_index in seq_len(n_jobs)) {
         job_id <- job_ids[[job_index]]
         tryCatch({
-            response <- Terra()$importJobStatus(namespace, name, job_id)
+            response <- AnVIL::Terra()$importJobStatus(namespace, name, job_id)
             avstop_for_status(response, "avtable_import_status")
             content <- content(response)
             updated_status[[job_index]] <- content$status
@@ -461,7 +463,7 @@ avfiles_rm <-
 #'     avruntimes()
 #'
 #' @importFrom dplyr rename_with
-#' @importFrom AnVIL Leonardo
+#' @importFrom BiocBaseUtils checkInstalled
 #'
 #' @export
 avruntimes <-
@@ -483,8 +485,8 @@ avruntimes <-
         runtimeConfig.machineType = character(0),
         runtimeConfig.persistentDiskId = integer(0)
     )
-
-    leo <- Leonardo()
+    checkInstalled("AnVIL")
+    leo <- AnVIL::Leonardo()
     response <- leo$listRuntimes()
     avstop_for_status(response, "avruntimes")
     runtimes <- flatten(response)
@@ -594,8 +596,8 @@ avdisks <-
         name = character(0),
         zone = character(0)
     )
-
-    leo <- Leonardo()
+    checkInstalled("AnVIL")
+    leo <- AnVIL::Leonardo()
     response <- leo$listDisks()
     avstop_for_status(response, "avdisks")
     runtimes <- flatten(response)

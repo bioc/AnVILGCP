@@ -29,6 +29,7 @@ authenticate <-
         client_secret = getOption("anvil_client_secret")
     )
 
+    checkInstalled("AnVIL")
     path <- authenticate_path(service)
     if (file.exists(path)) {
         access <- read_json(path)

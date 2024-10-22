@@ -65,7 +65,8 @@ setMethod("avworkflow_jobs", signature = c(platform = "gcp"), definition =
             isScalarCharacter(name)
         )
 
-        response <- Terra()$listSubmissions(namespace, URLencode(name))
+        checkInstalled("AnVIL")
+        response <- AnVIL::Terra()$listSubmissions(namespace, URLencode(name))
         avstop_for_status(response, "avworkflow_jobs")
 
         submissions <- content(response, encoding = "UTF-8")

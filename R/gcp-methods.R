@@ -316,7 +316,8 @@ setMethod(
         if (.avbucket_cache$exists(namespace, name)) {
             bucket <- .avbucket_cache$get(namespace, name)
         } else {
-            response <- Terra()$getWorkspace(
+            checkInstalled("AnVIL")
+            response <- AnVIL::Terra()$getWorkspace(
                 namespace, URLencode(name), "workspace.bucketName"
             )
             avstop_for_status(response, "avstorage")

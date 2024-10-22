@@ -63,7 +63,8 @@ setMethod(
         ...,
         platform = cloud_platform()
     ) {
-        response <- Rawls()$listWorkspaces()
+        checkInstalled("AnVIL")
+        response <- AnVIL::Rawls()$listWorkspaces()
         avstop_for_status(response, "avworkspaces")
 
         AnVILBase::flatten(response) |>
@@ -209,7 +210,8 @@ setMethod("avworkspace_clone",
             )
             storage_region <- bucket_location
         }
-        response <- Terra()$cloneWorkspace(
+        checkInstalled("AnVIL")
+        response <- AnVIL::Terra()$cloneWorkspace(
             workspaceNamespace = namespace,
             workspaceName = URLencode(name),
             .__body__ = list(

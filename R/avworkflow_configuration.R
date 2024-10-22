@@ -95,7 +95,7 @@ avworkflow <-
 .avworkflow_response <-
     function(config)
 {
-    response <- Rawls()$method_inputs_outputs(
+    response <- AnVIL::Rawls()$method_inputs_outputs(
         config$name,
         config$namespace,
         config$methodRepoMethod$methodPath,
@@ -149,7 +149,8 @@ avworkflow_configuration_get <-
         isScalarCharacter(name)
     )
 
-    config <- Rawls()$get_method_configuration(
+    checkInstalled("AnVIL")
+    config <- AnVIL::Rawls()$get_method_configuration(
         namespace, URLencode(name),
         workflow_namespace, workflow_name
     )
@@ -213,6 +214,7 @@ avworkflow_configuration_outputs <-
     function(config)
 {
     stopifnot(inherits(config, "avworkflow_configuration"))
+    checkInstalled("AnVIL")
     response <- .avworkflow_response(config)
     outputs_tmpl <- as.list(response)$outputs
     outputs_config <- config$outputs
@@ -326,8 +328,6 @@ avworkflow_configuration_update <-
 #'     invalid or unused elements of the `config` input. Invalid or
 #'     unused elements of `config` are also reported as a warning.
 #'
-#' @importFrom AnVIL schemas
-#'
 #' @examples
 #' if (has_avworkspace(platform = gcp())) {
 #'     ## set the namespace and name as appropriate
@@ -387,10 +387,11 @@ avworkflow_configuration_set <-
         isScalarCharacter(name)
     )
 
-    rawls <- Rawls()
+    checkInstalled("AnVIL")
+    rawls <- AnVIL::Rawls()
 
     config$methodRepoMethod <- .avworkflow_MethodRepoMethod_validate(
-        config$methodRepoMethod, schemas(rawls)$MethodRepoMethod
+        config$methodRepoMethod, AnVIL::schemas(rawls)$MethodRepoMethod
     )
 
     if (dry) {

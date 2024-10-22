@@ -52,8 +52,9 @@ avdata <- function(
         isScalarCharacter(name)
     )
 
+    checkInstalled("AnVIL")
     name <- URLencode(name)
-    response <- Terra()$getWorkspace(
+    response <- AnVIL::Terra()$getWorkspace(
         namespace, URLencode(name), "workspace.attributes"
     )
     avstop_for_status(response, "avworkspace_data")
@@ -154,7 +155,8 @@ avdata_import <- function(
 
     ## upload the table to AnVIL
     entities <- httr::upload_file(destination)
-    response <- Terra()$importAttributesTSV(
+    checkInstalled("AnVIL")
+    response <- AnVIL::Terra()$importAttributesTSV(
         namespace, URLencode(name), entities
     )
     avstop_for_status(response, "avdata_import")
