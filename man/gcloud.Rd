@@ -67,8 +67,10 @@ utility. See \link{gsutil} for details on how \code{gcloud} is
 located.
 
 \code{gcloud_exists()} tests whether the \code{gcloud()} command
-can be found on this system. See 'Details' section of \code{gsutil}
-for where the application is searched.
+can be found on this system. After finding the binary location,
+it runs \verb{gcloud version} to identify potentially misconfigured
+installations. See 'Details' section of \code{gsutil} for where the
+application is searched.
 
 \code{gcloud_account()}: report the current gcloud account
 via \verb{gcloud config get-value account}.
