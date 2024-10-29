@@ -14,7 +14,7 @@ avworkflows(namespace = avworkspace_namespace(), name = avworkspace_name())
 avworkflow_files(
   submissionId = NULL,
   workflowId = NULL,
-  bucket = avstorage(),
+  bucket,
   namespace = avworkspace_namespace(),
   name = avworkspace_name()
 )
@@ -67,10 +67,10 @@ tibble with column \code{submissionId}, or NULL / missing. See
 \item{workflowId}{a character(1) of internal identifier associated with one
 workflow in the submission, or NULL / missing.}
 
-\item{bucket}{character(1) DEPRECATED (ignored in the current
-release) name of the google bucket in which the workflow
-products are available, as \verb{gs://...}. Usually the bucket of
-the active workspace, returned by \code{avstorage()}.}
+\item{bucket}{character(1) DEFUNCT - name of the google bucket in
+which the workflow products are available, as \verb{gs://...}.
+Usually the bucket of the active workspace, returned by
+\code{avstorage()}.}
 
 \item{destination}{character(1) file path to the location where
 files will be synchronized. For directories in the current

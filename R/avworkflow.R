@@ -244,10 +244,10 @@ avworkflows <-
 #' @param workflowId a character(1) of internal identifier associated with one
 #'     workflow in the submission, or NULL / missing.
 #'
-#' @param bucket character(1) DEPRECATED (ignored in the current
-#'     release) name of the google bucket in which the workflow
-#'     products are available, as `gs://...`. Usually the bucket of
-#'     the active workspace, returned by `avstorage()`.
+#' @param bucket character(1) DEFUNCT - name of the google bucket in
+#'     which the workflow products are available, as `gs://...`.
+#'     Usually the bucket of the active workspace, returned by
+#'     `avstorage()`.
 #'
 #' @details For `avworkflow_files()`, the `submissionId` is the
 #'     identifier associated with the submission of one (or more)
@@ -300,13 +300,13 @@ avworkflows <-
 avworkflow_files <-
     function(submissionId = NULL,
              workflowId = NULL,
-             bucket = avstorage(),
+             bucket,
              namespace = avworkspace_namespace(),
              name = avworkspace_name())
 {
     if (!missing(bucket)) {
-        warning(.pretty_text(
-            "'bucket=' is deprecated; it is ignored in the current ",
+        stop(.pretty_text(
+            "'bucket=' is DEFUNCT; it is ignored in the current ",
             "implementation and will be removed in a subsequent release; ",
             "provide workspace 'namespace=' and 'name=' arguments to ",
             "'avworkflow_files()' directly"
