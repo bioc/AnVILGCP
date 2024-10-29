@@ -164,7 +164,7 @@ setMethod(
 #' @param storage_region character(1) region (NO multi-region, except the
 #'   default) in which bucket attached to the workspace should be created.
 #'
-#' @param bucket_location character(1) DEPRECATED; use `storage_region` instead.
+#' @param bucket_location character(1) DEFUNCT; use `storage_region` instead.
 #'   Region (NO multi-region, except the default) in which bucket attached to
 #'   the workspace should be created.
 #'
@@ -182,7 +182,7 @@ setMethod("avworkspace_clone",
         to_namespace = namespace,
         to_name,
         storage_region = "US",
-        bucket_location = storage_region,
+        bucket_location,
         ...,
         platform = cloud_platform()
     ) {
@@ -198,18 +198,15 @@ setMethod("avworkspace_clone",
                 !identical(namespace, to_namespace) || !identical(name, to_name)
         )
 
-        if (!missing(bucket_location)) {
-            .Deprecated(
+        if (!missing(bucket_location))
+            .Defunct(
                 new = "storage_region =",
                 package = "AnVILGCP",
                 msg = c(
-                    "argument 'bucket_location' is deprecated; ",
+                    "argument 'bucket_location' is defunct; ",
                     "use 'storage_region' instead"
-                ),
-                old = "bucket_location ="
+                )
             )
-            storage_region <- bucket_location
-        }
         checkInstalled("AnVIL")
         response <- AnVIL::Terra()$cloneWorkspace(
             workspaceNamespace = namespace,

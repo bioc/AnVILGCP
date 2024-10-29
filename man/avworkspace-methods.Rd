@@ -28,7 +28,7 @@
   to_namespace = namespace,
   to_name,
   storage_region = "US",
-  bucket_location = storage_region,
+  bucket_location,
   ...,
   platform = cloud_platform()
 )
@@ -62,7 +62,7 @@ which to make the clone.}
 \item{storage_region}{character(1) region (NO multi-region, except the
 default) in which bucket attached to the workspace should be created.}
 
-\item{bucket_location}{character(1) DEPRECATED; use \code{storage_region} instead.
+\item{bucket_location}{character(1) DEFUNCT; use \code{storage_region} instead.
 Region (NO multi-region, except the default) in which bucket attached to
 the workspace should be created.}
 }
