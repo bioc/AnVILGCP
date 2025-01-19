@@ -58,8 +58,8 @@ NULL
 #'   the given service.
 #'
 #' @examples
-#' if (has_avworkspace(platform = gcp()))
-#'     gcloud_access_token("rawls") |> httr2::obfuscate()
+#' if (has_avworkspace(platform = gcp()) && interactive())
+#'     gcloud_access_token("rawls") |> invisible()
 #'
 #' @export
 gcloud_access_token <- local({

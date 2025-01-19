@@ -22,7 +22,7 @@ line utility for the given \code{gcloud_account()}. The function is mainly used
 internally by API service functions, e.g., \code{AnVIL::Terra()}
 }
 \examples{
-if (has_avworkspace(platform = gcp()))
-    gcloud_access_token("rawls") |> httr2::obfuscate()
+if (has_avworkspace(platform = gcp()) && interactive())
+    gcloud_access_token("rawls") |> invisible()
 
 }
