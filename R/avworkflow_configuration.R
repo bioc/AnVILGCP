@@ -156,6 +156,8 @@ avworkflow_configuration_get <-
     )
     avstop_for_status(config, "avworkflow_methods")
     config_list <- config %>% as.list()
+    ## hack to remove the prerequisites element (Bioconductor/AnVIL/issues/103)
+    config_list <- config_list[names(config_list) != "prerequisites"]
     class(config_list) <- c("avworkflow_configuration", class(config_list))
     config_list
 }
