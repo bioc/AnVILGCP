@@ -14,6 +14,7 @@ Description: The package provides a set of functions to interact with the Google
   should be minimal.
 biocViews: Software, Infrastructure, ThirdPartyClient, DataImport
 SystemRequirements: gsutil, gcloud
+Depends: R (>= 4.5.0)
 Imports:
   AnVILBase,
   BiocBaseUtils,
