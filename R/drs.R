@@ -111,6 +111,11 @@
 #' - `fileName`: `character()` local file name
 #' - `accessUrl`: `character()` signed URL for object access
 #'
+#' @section drs_nci_crdc: `drs_nci_crdc()` resolves one or more DRS URLs to
+#'   their <gdc.cancer.gov> location. The implementation allows the extraction
+#'   of `access_url` values to download the DRS objects. The DRS NCI CRDC
+#'   service is hosted at <https://nci-crdc.datacommons.io>.
+#'
 #' @examples
 #' if (gcloud_exists() && interactive()) {
 #'     drs_urls <- c(
@@ -119,6 +124,13 @@
 #'         "drs://drs.anv0:v2_c6077800-4562-30e3-a0ff-aa03a7e0e24f"
 #'     )
 #'     drs_hub(drs_urls)
+#'
+#'     drs_nci <- c(
+#'         "drs://nci-crdc.datacommons.io/56e35487-b20f-45ba-8d84-9f16b26c85ea",
+#'         "drs://nci-crdc.datacommons.io/f814f1ec-6850-4ab6-ac0f-df9f77ee185b",
+#'         "drs://nci-crdc.datacommons.io/d9b591d5-7fe8-43fe-b0b3-4fc0f9736866"
+#'     )
+#'     drs_nci_crdc(drs_nci)
 #' }
 #' @export
 drs_hub <- function(source = character()) {
@@ -144,13 +156,8 @@ drs_hub <- function(source = character()) {
     paste0(hub, "/ga4gh/drs/v1/objects")
 }
 
-#' @examples
-#' drs_nci <- c(
-#'     "drs://nci-crdc.datacommons.io/56e35487-b20f-45ba-8d84-9f16b26c85ea",
-#'     "drs://nci-crdc.datacommons.io/f814f1ec-6850-4ab6-ac0f-df9f77ee185b",
-#'     "drs://nci-crdc.datacommons.io/d9b591d5-7fe8-43fe-b0b3-4fc0f9736866"
-#' )
-#' drs_nci_crdc(drs_nci)
+#' @rdname drs
+#'
 #' @export
 drs_nci_crdc <- function(source = character()) {
     Map(
