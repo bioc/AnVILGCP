@@ -28,7 +28,7 @@
     headers <- add_headers(
         "content-type" = "application/json"
     )
-    response <- GET(request_url, headers, encode = "raw")
+    response <- httr::GET(request_url, headers, encode = "raw")
     avstop_for_status(response, "DRS NCI CRDC resolution")
     lst <- c(as.list(response), list(drs = drs_url))
 
