@@ -95,7 +95,7 @@ test_that(".avbucket_path() trims arguments correctly", {
     )
     expect_error(
         .avbucket_path('foo'),
-        '.gsutil_is_uri\\(bucket\\) is not TRUE'
+        'gsutil_is_uri\\(bucket\\) is not TRUE'
     )
     expect_identical("gs://foo", .avbucket_path("gs://foo"))
     expect_identical("gs://foo/bar", .avbucket_path("gs://foo", "bar"))

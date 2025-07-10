@@ -25,7 +25,7 @@ localize <-
     function(source, destination, dry = TRUE)
 {
     stopifnot(
-        .gsutil_is_uri(source),
+        GPCtools::gsutil_is_uri(source),
         isScalarCharacter(destination), dir.exists(destination),
         isScalarLogical(dry)
     )
@@ -57,7 +57,7 @@ delocalize <-
 {
     stopifnot(
         isScalarCharacter(source), file.exists(source),
-        .gsutil_is_uri(destination),
+        GCPtools::gsutil_is_uri(destination),
         isScalarLogical(unlink),
         isScalarLogical(dry)
     )

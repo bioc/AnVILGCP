@@ -231,7 +231,7 @@ avtable_import_status <-
 .avbucket_path <-
     function(bucket, ...)
 {
-    stopifnot(.gsutil_is_uri(bucket))
+    stopifnot(GCPtools::gsutil_is_uri(bucket))
 
     ## get path without duplicate "/"
     args <- expand.grid(..., stringsAsFactors = FALSE, KEEP.OUT.ATTRS = FALSE)

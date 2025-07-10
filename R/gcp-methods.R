@@ -116,7 +116,7 @@ setMethod(
         recursive = FALSE, parallel = TRUE, platform = cloud_platform()
     ) {
         location <- c(source, destination)
-        location_is_uri <- .gsutil_is_uri(location)
+        location_is_uri <- GCPtools::gsutil_is_uri(location)
         stopifnot(
             isCharacter(source), isScalarCharacter(destination),
             any(location_is_uri),
@@ -154,7 +154,7 @@ setMethod(
         platform = cloud_platform()
     ) {
         stopifnot(
-            .gsutil_is_uri(source),
+            GCPtools::gsutil_is_uri(source),
             isScalarLogical(recursive)
         )
 
@@ -188,7 +188,7 @@ setMethod(
         platform = cloud_platform()
     ) {
         stopifnot(
-            .gsutil_is_uri(source),
+            GCPtools::gsutil_is_uri(source),
             isScalarLogical(force),
             isScalarLogical(recursive),
             isScalarLogical(parallel)
@@ -244,7 +244,7 @@ setMethod(
         ...,
         platform = cloud_platform()
     ) {
-        if (!.gsutil_is_uri(destination))
+        if (!GCPtools::gsutil_is_uri(destination))
             stop("'destination' must be a gs:// URI")
 
         gsutil_rsync(
@@ -275,7 +275,7 @@ setMethod(
         ...,
         platform = cloud_platform()
     ) {
-        if (!.gsutil_is_uri(source))
+        if (!GCPtools::gsutil_is_uri(source))
             stop("'source' must be a gs:// URI")
 
         gsutil_rsync(
