@@ -1,17 +1,13 @@
-.gcloud_storage_do <- function(...)
-{
-    .gcloud_sdk_do("gcloud", c("storage", ...))
-}
-
-#' @rdname gsutil
+#' @rdname gsutil-deprecated
 #'
-#' @name gsutil
+#' @name gsutil-deprecated
 #'
-#' @title gsutil command line utility interface
+#' @title gsutil command line utility interface (DEPRECATED)
 #'
 #' @description These functions invoke the `gsutil` command line
 #'     utility. See the "Details:" section if you have gsutil
-#'     installed but the package cannot find it.
+#'     installed but the package cannot find it. These functions
+#'     have been moved to the `GCPtools` package.
 #'
 #' @details The `gsutil` system command is required.  The search for
 #'     `gsutil` starts with environment variable `GCLOUD_SDK_PATH`
@@ -31,32 +27,7 @@
 #'   "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
 NULL
 
-## evaluate the gsutil command and arguments in `args`
-.gsutil_do <-
-    function(args)
-{
-    .gcloud_sdk_do("gsutil", args)
-}
-
-.gsutil_is_uri <-
-    function(source)
-{
-    isCharacter(source) & grepl("gs://[^/]+", source)
-}
-
-.gsutil_sh_quote <-
-    function(source)
-{
-    ## Expand local paths with ~ or . or .. to full path names.
-    ## Needed because we also use shQuote() (to allow for spaces in
-    ## file names), and shQuote() would otherwise use paths with ~ or
-    ## . in the current working directory.
-    is_local <- !.gsutil_is_uri(source)
-    source[is_local] <- normalizePath(source[is_local])
-    shQuote(source)
-}
-
-#' @rdname gsutil
+#' @rdname gsutil-deprecated
 #'
 #' @description `gsutil_requesterpays()`: does the google bucket
 #'     require that the requester pay for access?
@@ -70,63 +41,22 @@ NULL
 #'
 #' @examples
 #' if (has_avworkspace(platform = gcp()))
-#'     gsutil_requesterpays(src) # FALSE -- no cost download
+#'     GCPtools::gsutil_requesterpays(src) # FALSE -- no cost download
 #'
 #' @export
 gsutil_requesterpays <-
     function(source)
 {
-    stopifnot(all(.gsutil_is_uri(source)))
-    project <- GCPtools::gcloud_project()
-    buckets <- regmatches(source, regexpr("^gs://[^/]+", source))
-    is_enabled <- FALSE
-    for (bucket in buckets) {
-        args <- c("-u", project, "requesterpays", "get", bucket)
-        result <- .gsutil_do(args)
-        is_enabled <- endsWith(result, "Enabled")
-        if (is_enabled)
-            break
-    }
-    is_enabled
-}
-
-.gsutil_requesterpays_flag <-
-    function(source)
-{
-    source <- source[.gsutil_is_uri(source)]
-    tryCatch({
-        if (length(source) && gsutil_requesterpays(source)) {
-            c("-u", GCPtools::gcloud_project())
-        } else NULL
-    }, error = function(e) {
-        ## this was originally written to return NULL without a
-        ## warning, but I'm not sure whether we cannot just stop()?
-        warning(
-            "'gsutil_requesterpays()' returned an error:",
-            "\n  ", conditionMessage(e),
-            call. = FALSE
-        )
-        NULL
-    })
-}
-
-.gsutil_exists_1 <-
-    function(source, gsutil)
-{
-    args <- c(
-        .gsutil_requesterpays_flag(source),
-        "ls",
-        shQuote(source)
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gsutil"
     )
-    value <- withCallingHandlers({
-        system2(gsutil, args, stdout = TRUE, stderr = TRUE, wait=TRUE)
-    }, warning = function(w) {
-        invokeRestart("muffleWarning")
-    })
-    is.null(attr(value, "status"))
+    GCPtools::gsutil_requesterpays(source)
 }
 
-#' @rdname gsutil
+#' @rdname gsutil-deprecated
 #'
 #' @description `gsutil_exists()`: check if the bucket or object
 #'     exists.
@@ -137,19 +67,16 @@ gsutil_requesterpays <-
 gsutil_exists <-
     function(source)
 {
-    stopifnot(
-        is.character(source), !anyNA(source),
-        .gsutil_is_uri(source)
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gsutil"
     )
-
-    gsutil <- .gcloud_sdk_find_binary("gsutil")
-    stopifnot(file.exists(gsutil))      # bad environment variables
-
-    source <- stats::setNames(nm = source)
-    vapply(source, .gsutil_exists_1, logical(1), gsutil)
+    GCPtools::gsutil_exists(source)
 }
 
-#' @rdname gsutil
+#' @rdname gsutil-deprecated
 #'
 #' @description `gsutil_stat()`: print, as a side effect, the status
 #'     of a bucket, directory, or file.
@@ -159,8 +86,8 @@ gsutil_exists <-
 #'
 #' @examples
 #' if (has_avworkspace(platform = gcp())) {
-#'     gsutil_exists(src)
-#'     gsutil_stat(src)
+#'     GCPtools::gsutil_exists(src)
+#'     GCPtools::gsutil_stat(src)
 #'     avlist(dirname(src))
 #' }
 #'
@@ -170,41 +97,16 @@ gsutil_exists <-
 gsutil_stat <-
     function(source)
 {
-    stopifnot(.gsutil_is_uri(source))
-
-    args <- c(.gsutil_requesterpays_flag(source), "stat", shQuote(source))
-    result <- .gsutil_do(args)
-
-    ## omit nested 'metadata', for convenience
-    is_metadata <- grepl("^( {4}Metadata:| {8})", result)
-    result <- result[!is_metadata]
-
-    ## form into tibble with rows for each bucket & key / value pair
-    is_path <- startsWith(result, "gs://")
-    group <- cumsum(is_path)
-    n <- tabulate(group) - 1L
-    re <- "^ +([^:]+): +(.*)"
-    tz_format <- "%a, %d %b %Y %H:%M:%S"
-    tbl <- tibble::tibble(
-        path = rep(sub(":$", "", result[is_path]), n),
-        key = sub(re, "\\1", result[!is_path]),
-        value = sub(re, "\\2", result[!is_path])
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gsutil"
     )
-
-    ## reshape to one row per bucket
-    tbl |>
-        tidyr::pivot_wider(
-            id_cols = .data$path, names_from = "key", values_from = "value"
-        ) |>
-        dplyr::mutate(
-            `Creation time` =
-                as.POSIXct(.data$`Creation time`, tz = "GMT", format = tz_format),
-            `Update time` =
-                as.POSIXct(.data$`Update time`, tz = "GMT", format = tz_format)
-        )
+    GCPtools::gsutil_stat(source)
 }
 
-#' @name gsutil
+#' @name gsutil-deprecated
 #'
 #' @inheritParams gcp-methods
 #'
@@ -249,39 +151,25 @@ gsutil_rsync <-
     function(source, destination, ..., exclude = NULL, dry = TRUE,
         delete = FALSE, recursive = FALSE, parallel = TRUE)
 {
-    stopifnot(
-        isScalarCharacter(source), isScalarCharacter(destination),
-        .gsutil_is_uri(source) || .gsutil_is_uri(destination),
-        is.null(exclude) || isScalarCharacter(exclude),
-        isScalarLogical(dry),
-        isScalarLogical(delete),
-        isScalarLogical(recursive),
-        isScalarLogical(parallel)
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gsutil"
     )
-    ## if destination is not a google cloud repo, and does not exist
-    if (!dry && !.gsutil_is_uri(destination) && !dir.exists(destination))
-        if (!dir.create(destination))
-            stop("'gsutil_rsync()' failed to create '", destination, "'")
-
-    ## rsync operation
-    args <- c(
-        .gsutil_requesterpays_flag(source),
-        ##  -m option, to perform parallel (multi-threaded/multi-processing)
-        if (parallel) "-m",
-        "rsync",
-        if (length(exclude)) paste0('-x "', exclude, '"'),
-        if (dry) "-n",
-        if (delete) "-d",
-        if (recursive) "-r",
+    GCPtools::gsutil_rsync(
+        source = source,
+        destination = destination,
         ...,
-        .gsutil_sh_quote(source),
-        .gsutil_sh_quote(destination)
+        exclude = exclude,
+        dry = dry,
+        delete = delete,
+        recursive = recursive,
+        parallel = parallel
     )
-    result <- .gsutil_do(args)
-    .gcloud_sdk_result(result)
 }
 
-#' @rdname gsutil
+#' @rdname gsutil-deprecated
 #'
 #' @description `gsutil_cat()`: concatenate bucket objects to standard output
 #'
@@ -302,32 +190,21 @@ gsutil_rsync <-
 gsutil_cat <-
     function(source, ..., header = FALSE, range = integer())
 {
-    stopifnot(
-        isScalarCharacter(source),
-        isScalarLogical(header),
-        is.numeric(range),
-        all(range[!is.na(range)] >= 0),
-        all(diff(range[!is.na(range)]) > 0L),
-        length(range) == 0L || length(range) == 2L
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gsutil"
     )
-
-    if (length(range)) {
-        range[is.na(range)] <- ""
-        range <- paste(range, collapse="-")
-    }
-
-    args <- c(
-        .gsutil_requesterpays_flag(source),
-        "cat",
-        if (header) "-h",
-        if (length(range)) c("-r", range),
-        shQuote(source)
+    GCPtools::gsutil_cat(
+        source = source,
+        ...,
+        header = header,
+        range = range
     )
-
-    .gsutil_do(args)
 }
 
-#' @rdname gsutil
+#' @rdname gsutil-deprecated
 #'
 #' @description `gsutil_help()`: print 'man' page for the `gsutil`
 #'     command or subcommand. Note that only commandes documented on this
@@ -342,22 +219,26 @@ gsutil_cat <-
 #'
 #' @examples
 #' if (has_avworkspace(platform = gcp()))
-#'     gsutil_help("ls")
+#'     GCPtools::gsutil_help("ls")
 #'
 #' @export
 gsutil_help <-
     function(cmd = character(0))
 {
-    stopifnot(isZeroOneCharacter(cmd))
-    result <- .gsutil_do(c("help", cmd))
-    .gcloud_sdk_result(result)
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gsutil"
+    )
+    GCPtools::gsutil_help(
+        cmd = cmd
+    )
 }
 
-##
-## higher-level implementations
-##
+# higher-level implementations --------------------------------------------
 
-#' @rdname gsutil
+#' @rdname gsutil-deprecated
 #'
 #' @description `gsutil_pipe()`: create a pipe to read from or write
 #'     to a gooogle bucket object.
@@ -382,22 +263,15 @@ gsutil_help <-
 gsutil_pipe <-
     function(source, open = "r", ...)
 {
-    stopifnot(
-        isScalarCharacter(source),
-        isScalarCharacter(open)
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gsutil"
     )
-
-    is_read <- identical(substr(open, 1, 1), "r")
-    args <- c(
-        if (is_read) .gsutil_requesterpays_flag(source),
-        "cp",
-        ...,
-        if (is_read) c(shQuote(source), "-") else c("-", shQuote(source))
+    GCPtools::gsutil_pipe(
+        source = source,
+        open = open,
+        ...
     )
-
-    bin <- .gcloud_sdk_find_binary("gsutil")
-    stopifnot(file.exists(bin))
-
-    cmd <- paste(c(bin, args), collapse = " ")
-    pipe(cmd, open)
 }
