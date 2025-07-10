@@ -23,7 +23,7 @@ NULL
 #' @exportMethod has_avworkspace
 setMethod("has_avworkspace", signature = c(platform = "gcp"), definition =
     function(strict = FALSE, ..., platform = cloud_platform()) {
-        gcloud_exists() &&
+        GCPtools::gcloud_exists() &&
             identical(AnVILBase::avplatform_namespace(), "AnVILGCP") &&
             (!strict || nzchar(avworkspace_name()))
     }

@@ -134,7 +134,7 @@
 #' }
 #' @export
 drs_hub <- function(source = character()) {
-    access_token <- gcloud_access_token("drs")
+    access_token <- GCPtools::gcloud_access_token("drs")
     Map(
         .drs_hub_service,
         source,

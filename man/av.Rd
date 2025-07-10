@@ -69,7 +69,10 @@ avfiles_rm(
 
 avruntimes()
 
-avruntime(project = gcloud_project(), account = gcloud_account())
+avruntime(
+  project = GCPtools::gcloud_project(),
+  account = GCPtools::gcloud_account()
+)
 
 avdisks()
 }

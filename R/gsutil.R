@@ -77,7 +77,7 @@ gsutil_requesterpays <-
     function(source)
 {
     stopifnot(all(.gsutil_is_uri(source)))
-    project <- gcloud_project()
+    project <- GCPtools::gcloud_project()
     buckets <- regmatches(source, regexpr("^gs://[^/]+", source))
     is_enabled <- FALSE
     for (bucket in buckets) {
@@ -96,7 +96,7 @@ gsutil_requesterpays <-
     source <- source[.gsutil_is_uri(source)]
     tryCatch({
         if (length(source) && gsutil_requesterpays(source)) {
-            c("-u", gcloud_project())
+            c("-u", GCPtools::gcloud_project())
         } else NULL
     }, error = function(e) {
         ## this was originally written to return NULL without a

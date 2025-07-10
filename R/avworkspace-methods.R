@@ -93,7 +93,7 @@ setMethod(
         )
         if (!nzchar(namespace)) {
             namespace <- tryCatch({
-                gcloud_project()
+                GCPtools::gcloud_project()
             }, error = function(e) {
                 NULL
             })

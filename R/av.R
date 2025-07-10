@@ -514,9 +514,10 @@ avruntimes <-
 #'     the return value of `avruntimes()`.
 #'
 #' @export
-avruntime <-
-    function(project = gcloud_project(), account = gcloud_account())
-{
+avruntime <- function(
+    project = GCPtools::gcloud_project(),
+    account = GCPtools::gcloud_account()
+) {
     stopifnot(
         isScalarCharacter(project),
         isScalarCharacter(account)
