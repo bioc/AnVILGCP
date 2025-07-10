@@ -129,8 +129,8 @@ setMethod(
             "cp", ## cp command
             if (recursive) "-r",
             ...,
-            .gsutil_sh_quote(source),
-            .gsutil_sh_quote(destination)
+            GCPTools::gsutil_sh_quote(source),
+            GCPtools::gsutil_sh_quote(destination)
         )
         result <- .gsutil_do(args)
         .gcloud_sdk_result(result)
