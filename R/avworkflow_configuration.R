@@ -331,7 +331,7 @@ avworkflow_configuration_update <-
 #'     unused elements of `config` are also reported as a warning.
 #'
 #' @examples
-#' if (has_avworkspace(platform = gcp())) {
+#' if (has_avworkspace(platform = gcp()) && interactive()) {
 #'     ## set the namespace and name as appropriate
 #'     avworkspace("bioconductor-rpci-anvil/Bioconductor-Workflow-DESeq2")
 #'

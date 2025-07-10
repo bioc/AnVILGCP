@@ -226,7 +226,7 @@ the compute node file system.
 }
 \examples{
 library(AnVILBase)
-if (has_avworkspace(platform = gcp()))
+if (has_avworkspace(platform = gcp()) && interactive())
     avfiles_ls()
 
 library(AnVILBase)

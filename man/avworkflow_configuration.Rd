@@ -214,7 +214,7 @@ as a warning() about invalid inputs or outputs, and the solution is
 to provide a quoted string \code{unbox('"foo"')}.
 }
 \examples{
-if (has_avworkspace(platform = gcp())) {
+if (has_avworkspace(platform = gcp()) && interactive()) {
     ## set the namespace and name as appropriate
     avworkspace("bioconductor-rpci-anvil/Bioconductor-Workflow-DESeq2")
 
