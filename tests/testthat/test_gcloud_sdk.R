@@ -13,9 +13,9 @@ test_that(".gcloud_sdk_find_binary() works", {
 })
 
 test_that("gcloud_project() returns correctly when config unset", {
-    skip_if(!gcloud_exists())
+    skip_if(!GCPtools::gcloud_exists())
     withr::with_envvar(c(CLOUDSDK_ACTIVE_CONFIG_NAME="__UNDEFINED__"), {
-        expect_warning(object <- gcloud_project())
+        expect_warning(object <- GCPtools::gcloud_project())
         expect_identical(object, "(unset)")
     })
 })

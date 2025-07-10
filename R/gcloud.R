@@ -1,47 +1,17 @@
-.gcloud_do <-
-    function(...)
-{
-    .gcloud_sdk_do("gcloud", c(...))
-}
-
-#' @importFrom httr POST content_type content
-.gcloud_access_token_new <-
-    function(app_default, now)
-{
-    ## obtain the access token
-    token <- .gcloud_do("auth", app_default, "print-access-token")
-
-    ## There is only one token per service account, so requesting a
-    ## token may return one with expiration less than 60 minutes. So
-    ## check the actual expiry time of the token.
-    ##
-    ## Calculating expiry from before the call (`now` argument) is
-    ## conservative -- we underestimate the time by the latency
-    ## involved in the POST and result parsing.
-    response <- POST(
-        "https://www.googleapis.com/oauth2/v1/tokeninfo",
-        content_type("application/x-www-form-urlencoded"),
-        body = paste0("access_token=", token)
-    )
-    avstop_for_status(response, ".gcloud_access_token_expires")
-    expires <- now + content(response)$expires_in
-
-    list(token = token, expires = expires)
-}
-
-#' @rdname gcloud
+#' @rdname gcloud-deprecated
 #'
-#' @name gcloud
+#' @name gcloud-deprecated
 #'
-#' @title gcloud command line utility interface
+#' @title gcloud command line utility interface (DEPRECATED)
 #'
-#' @description These functions invoke the `gcloud` command line
-#'     utility. See \link{gsutil} for details on how `gcloud` is
-#'     located.
+#' @description These functions invoke the `gcloud` command line utility. See
+#'   \link{gsutil} for details on how `gcloud` is located. **NOTE**. These
+#'   functions have been moved to the `GCPtools` package.
 NULL
 
-
-#' @name gcloud_access_token
+#' @rdname gcloud-deprecated
+#'
+#' @aliases gcloud_access_token
 #'
 #' @title Obtain an access token for a service account
 #'
@@ -57,44 +27,23 @@ NULL
 #' @return `gcloud_access_token()` returns a simple token string to be used with
 #'   the given service.
 #'
+#' @importFrom BiocBaseUtils lifeCycle
+#'
 #' @examples
 #' if (has_avworkspace(platform = gcp()) && interactive())
-#'     gcloud_access_token("rawls") |> invisible()
-#'
+#'     GCPtools::gcloud_access_token("rawls") |> invisible()
 #' @export
-gcloud_access_token <- local({
-    tokens <- new.env(parent = emptyenv())
-    function(service) {
-        app_default <-
-            if (identical(Sys.getenv("USER"), "jupyter-user"))
-                "application-default"
-
-        key <- paste0(service, ":", app_default, ":", gcloud_account())
-        now <- Sys.time()
-        if (is.null(tokens[[key]])) {
-            tokens[[key]] <- .gcloud_access_token_new(app_default, now)
-        } else {
-            expires_in <- tokens[[key]]$expires - now
-            if (expires_in < 1L) {
-                ## allow a nearly expired token to fully expire
-                if (expires_in > 0L)
-                    Sys.sleep(expires_in)
-                tokens[[key]] <- .gcloud_access_token_new(app_default, now)
-            }
-        }
-
-        tokens[[key]]$token
-    }
-})
-
-gcloud_runs <- function() {
-    tryCatch({
-        .gcloud_do("version")[1L] |>
-            startsWith("Google Cloud SDK")
-    }, error = function(...) FALSE)
+gcloud_access_token <- function(service) {
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gcloud"
+    )
+    GCPtools::gcloud_access_token(service = service)
 }
 
-#' @rdname gcloud
+#' @rdname gcloud-deprecated
 #'
 #' @description `gcloud_exists()` tests whether the `gcloud()` command
 #'     can be found on this system. After finding the binary location,
@@ -106,35 +55,22 @@ gcloud_runs <- function() {
 #'     application can be found, FALSE otherwise.
 #'
 #' @examples
-#' gcloud_exists()
+#' GCPtools::gcloud_exists()
 #'
 #' @export
 gcloud_exists <-
     function()
 {
-    result <- tryCatch({
-        .gcloud_sdk_find_binary("gcloud")
-    }, error = function(...) "")
-    nzchar(result) && gcloud_runs()
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gcloud"
+    )
+    GCPtools::gcloud_exists()
 }
 
-#' @importFrom utils tail
-.gcloud_get_value_check <-
-    function(result, function_name)
-{
-    value <- tail(result, 1L)
-    if (identical(value, "(unset)")) {
-        message <- paste0(
-            "'", function_name, "()' returned '(unset)'; this may indicate ",
-            "that the gcloud active configuration is incorrect. Try ",
-            "`gcloud auth application-default login` at the command line"
-        )
-        warning(paste(strwrap(message), collapse = "\n"))
-    }
-    value
-}
-
-#' @rdname gcloud
+#' @rdname gcloud-deprecated
 #'
 #' @description `gcloud_account()`: report the current gcloud account
 #'     via `gcloud config get-value account`.
@@ -150,19 +86,20 @@ gcloud_exists <-
 #'
 #' @examples
 #' if (has_avworkspace(platform = gcp()))
-#'     gcloud_account()
+#'     GCPtools::gcloud_account()
 #'
 #' @export
 gcloud_account <- function(account = NULL) {
-    stopifnot(is.null(account) || isScalarCharacter(account))
-
-    if (!is.null(account))
-        .gcloud_do("config", "set", "account", account)
-    result <- .gcloud_do("config", "get-value", "account")
-    .gcloud_get_value_check(result, "gcloud_account")
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gcloud"
+    )
+    GCPtools::gcloud_account(account = account)
 }
 
-#' @rdname gcloud
+#' @rdname gcloud-deprecated
 #'
 #' @description `gcloud_project()`: report the current gcloud project
 #'     via `gcloud config get-value project`.
@@ -174,19 +111,16 @@ gcloud_account <- function(account = NULL) {
 #'
 #' @export
 gcloud_project <- function(project = NULL) {
-    stopifnot(
-        is.null(project) || isScalarCharacter(project)
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gcloud"
     )
-
-    if (!is.null(project))
-        .gcloud_do("config", "set", "project", project)
-    result <- .gcloud_do("config", "get-value", "project")
-    ## returns two lines when `CLOUDSDK_ACTIVE_CONFIG_NAME=`
-    ## envirionment variable is set
-    .gcloud_get_value_check(result, "gcloud_account")
+    GCPtools::gcloud_project(project = project)
 }
 
-#' @rdname gcloud
+#' @rdname gcloud-deprecated
 #'
 #' @description `gcloud_help()`: queries `gcloud` for help for a
 #'     command or sub-comand via `gcloud help ...`.
@@ -199,13 +133,20 @@ gcloud_project <- function(project = NULL) {
 #'
 #' @examples
 #' if (has_avworkspace(platform = gcp()))
-#'     gcloud_help()
+#'     GCPtools::gcloud_help()
 #'
 #' @export
-gcloud_help <- function(...)
-    .gcloud_sdk_result(.gcloud_do("help", ...))
+gcloud_help <- function(...) {
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gcloud"
+    )
+    GCPtools::gcloud_help(...)
+}
 
-#' @rdname gcloud
+#' @rdname gcloud-deprecated
 #'
 #' @description `gcloud_cmd()` allows arbitrary `gcloud` command
 #'     execution via `gcloud ...`. Use pre-defined functions in
@@ -218,20 +159,34 @@ gcloud_help <- function(...)
 #'     the text of the output of `gcloud cmd ...`
 #'
 #' @export
-gcloud_cmd <- function(cmd, ...)
-    .gcloud_do(cmd, ...)
+gcloud_cmd <- function(cmd, ...) {
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gcloud"
+    )
+    GCPtools::gcloud_cmd(cmd, ...)
+}
 
-#' @rdname gcloud
+#' @rdname gcloud-deprecated
 #'
 #' @description `gcloud_storage()` allows arbitrary `gcloud storage` command
 #'   execution via `gcloud storage ...`. Typically used for bucket management
 #'   commands such as `rm` and `cp`.
 #'
 #' @export
-gcloud_storage <- function(cmd, ...)
-    .gcloud_do("storage", cmd, ...)
+gcloud_storage <- function(cmd, ...) {
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gcloud"
+    )
+    GCPtools::gcloud_storage(cmd, ...)
+}
 
-#' @rdname gcloud
+#' @rdname gcloud-deprecated
 #'
 #' @description `gcloud_storage_buckets()` provides an interface to the
 #'  `gcloud storage buckets` command. This command can be used to create a new
@@ -247,8 +202,13 @@ gcloud_storage <- function(cmd, ...)
 #' @importFrom BiocBaseUtils isScalarCharacter
 #' @export
 gcloud_storage_buckets <- function(bucket_cmd = "create", bucket, ...) {
-    stopifnot(
-        isScalarCharacter(bucket_cmd), isScalarCharacter(bucket)
+    lifeCycle(
+        newpackage = "GCPtools",
+        package = "AnVILGCP",
+        cycle = "deprecated",
+        title = "gcloud"
     )
-    gcloud_storage("buckets", bucket_cmd, bucket, ...)
+    GCPtools::gcloud_storage_buckets(
+        bucket_cmd = bucket_cmd, bucket = bucket, ...
+    )
 }
