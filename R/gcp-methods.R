@@ -124,7 +124,7 @@ setMethod(
         )
 
         args <- c(
-            .gsutil_requesterpays_flag(location),
+            GCPtools::gsutil_requesterpays_flag(location),
             if (parallel) "-m", ## Makes the operations faster
             "cp", ## cp command
             if (recursive) "-r",
@@ -159,7 +159,7 @@ setMethod(
         )
 
         args <- c(
-            .gsutil_requesterpays_flag(source),
+            GCPtools::gsutil_requesterpays_flag(source),
             "ls",
             if (recursive) "-r",
             ...,
@@ -196,7 +196,7 @@ setMethod(
 
         ## remove
         args <- c(
-            .gsutil_requesterpays_flag(source),
+            GCPtools::gsutil_requesterpays_flag(source),
             if (parallel) "-m",
             "rm",
             if (force) "-f",
