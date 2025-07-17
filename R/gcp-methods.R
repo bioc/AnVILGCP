@@ -132,7 +132,7 @@ setMethod(
             GCPtools::gsutil_sh_quote(source),
             GCPtools::gsutil_sh_quote(destination)
         )
-        result <- .gsutil_do(args)
+        result <- GCPtools:::.gsutil_do(args)
         .gcloud_sdk_result(result)
     }
 )
@@ -165,7 +165,7 @@ setMethod(
             ...,
             shQuote(source)
         )
-        result <- .gsutil_do(args)
+        result <- GCPtools:::.gsutil_do(args)
         result[nzchar(result) & !endsWith(result, ":")]
     }
 )
@@ -204,7 +204,7 @@ setMethod(
             ...,
             shQuote(source)
         )
-        result <- .gsutil_do(args)
+        result <- GCPtools:::.gsutil_do(args)
         .gcloud_sdk_result(result)
     }
 )
