@@ -129,7 +129,7 @@ setMethod(
             "cp", ## cp command
             if (recursive) "-r",
             ...,
-            GCPTools::gsutil_sh_quote(source),
+            GCPtools::gsutil_sh_quote(source),
             GCPtools::gsutil_sh_quote(destination)
         )
         result <- .gsutil_do(args)
