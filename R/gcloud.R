@@ -5,8 +5,8 @@
 #' @title gcloud command line utility interface (DEPRECATED)
 #'
 #' @description These functions invoke the `gcloud` command line utility. See
-#'   \link{gsutil} for details on how `gcloud` is located. **NOTE**. These
-#'   functions have been moved to the `GCPtools` package.
+#'   [GCPtools::gsutil] for details on how `gcloud` is located.
+#'   **NOTE**. These functions have been moved to the `GCPtools` package.
 NULL
 
 #' @rdname gcloud-deprecated

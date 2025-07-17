@@ -72,8 +72,8 @@ the text of the output of \verb{gcloud cmd ...}
 }
 \description{
 These functions invoke the \code{gcloud} command line utility. See
-\link{gsutil} for details on how \code{gcloud} is located. \strong{NOTE}. These
-functions have been moved to the \code{GCPtools} package.
+\link[GCPtools:gsutil]{gsutil} for details on how \code{gcloud} is located.
+\strong{NOTE}. These functions have been moved to the \code{GCPtools} package.
 
 \code{gcloud_access_token()} generates a token for the given service
 account. The token is cached for the duration of its validity. The token is
