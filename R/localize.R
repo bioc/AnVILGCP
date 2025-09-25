@@ -25,7 +25,7 @@ localize <-
     function(source, destination, dry = TRUE)
 {
     stopifnot(
-        GPCtools::gsutil_is_uri(source),
+        GCPtools::gsutil_is_uri(source),
         isScalarCharacter(destination), dir.exists(destination),
         isScalarLogical(dry)
     )
