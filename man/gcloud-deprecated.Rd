@@ -72,7 +72,7 @@ the text of the output of \verb{gcloud cmd ...}
 }
 \description{
 These functions invoke the \code{gcloud} command line utility. See
-\link[GCPtools:gsutil]{gsutil} for details on how \code{gcloud} is located.
+\link[GCPtools:gsutil]{GCPtools::gsutil} for details on how \code{gcloud} is located.
 \strong{NOTE}. These functions have been moved to the \code{GCPtools} package.
 
 \code{gcloud_access_token()} generates a token for the given service

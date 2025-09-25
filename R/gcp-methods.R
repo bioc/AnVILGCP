@@ -115,25 +115,11 @@ setMethod(
         ...,
         recursive = FALSE, parallel = TRUE, platform = cloud_platform()
     ) {
-        location <- c(source, destination)
-        location_is_uri <- GCPtools::gsutil_is_uri(location)
-        stopifnot(
-            isCharacter(source), isScalarCharacter(destination),
-            any(location_is_uri),
-            isScalarLogical(recursive), isScalarLogical(parallel)
-        )
-
-        args <- c(
-            GCPtools::gsutil_requesterpays_flag(location),
-            if (parallel) "-m", ## Makes the operations faster
-            "cp", ## cp command
-            if (recursive) "-r",
+        GCPtools::gsutil_cp(
+            source = source, destination = destination,
             ...,
-            GCPtools::gsutil_sh_quote(source),
-            GCPtools::gsutil_sh_quote(destination)
+            recursive = recursive, parallel = parallel
         )
-        result <- GCPtools:::.gsutil_do(args)
-        .gcloud_sdk_result(result)
     }
 )
 
@@ -153,20 +139,9 @@ setMethod(
         ...,
         platform = cloud_platform()
     ) {
-        stopifnot(
-            GCPtools::gsutil_is_uri(source),
-            isScalarLogical(recursive)
+        GCPtools::gsutil_ls(
+            source = source, ..., recursive = recursive
         )
-
-        args <- c(
-            GCPtools::gsutil_requesterpays_flag(source),
-            "ls",
-            if (recursive) "-r",
-            ...,
-            shQuote(source)
-        )
-        result <- GCPtools:::.gsutil_do(args)
-        result[nzchar(result) & !endsWith(result, ":")]
     }
 )
 
