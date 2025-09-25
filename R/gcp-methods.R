@@ -162,25 +162,11 @@ setMethod(
         ...,
         platform = cloud_platform()
     ) {
-        stopifnot(
-            GCPtools::gsutil_is_uri(source),
-            isScalarLogical(force),
-            isScalarLogical(recursive),
-            isScalarLogical(parallel)
-        )
-
-        ## remove
-        args <- c(
-            GCPtools::gsutil_requesterpays_flag(source),
-            if (parallel) "-m",
-            "rm",
-            if (force) "-f",
-            if (recursive) "-r",
+        GCPtools::gsutil_rm(
+            source = source,
             ...,
-            shQuote(source)
+            recursive = recursive, force = force, parallel = parallel
         )
-        result <- GCPtools:::.gsutil_do(args)
-        .gcloud_sdk_result(result)
     }
 )
 

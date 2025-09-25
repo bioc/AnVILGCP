@@ -19,7 +19,7 @@ Imports:
   AnVILBase,
   BiocBaseUtils,
   dplyr,
-  GCPtools (>= 0.99.3),
+  GCPtools (>= 0.99.4),
   httr,
   jsonlite,
   methods,
