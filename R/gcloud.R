@@ -1,15 +1,15 @@
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
-#' @name gcloud-deprecated
+#' @name gcloud-defunct
 #'
-#' @title gcloud command line utility interface (DEPRECATED)
+#' @title gcloud command line utility interface (DEFUNCT)
 #'
 #' @description These functions invoke the `gcloud` command line utility. See
 #'   [GCPtools::gsutil] for details on how `gcloud` is located.
 #'   **NOTE**. These functions have been moved to the `GCPtools` package.
 NULL
 
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
 #' @aliases gcloud_access_token
 #'
@@ -29,21 +29,17 @@ NULL
 #'
 #' @importFrom BiocBaseUtils lifeCycle
 #'
-#' @examples
-#' if (has_avworkspace(platform = gcp()) && interactive())
-#'     GCPtools::gcloud_access_token("rawls") |> invisible()
 #' @export
 gcloud_access_token <- function(service) {
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gcloud"
     )
-    GCPtools::gcloud_access_token(service = service)
 }
 
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
 #' @description `gcloud_exists()` tests whether the `gcloud()` command
 #'     can be found on this system. After finding the binary location,
@@ -54,23 +50,18 @@ gcloud_access_token <- function(service) {
 #' @return `gcloud_exists()` returns `TRUE` when the `gcloud`
 #'     application can be found, FALSE otherwise.
 #'
-#' @examples
-#' GCPtools::gcloud_exists()
-#'
-#' @export
 gcloud_exists <-
     function()
 {
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gcloud"
     )
-    GCPtools::gcloud_exists()
 }
 
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
 #' @description `gcloud_account()`: report the current gcloud account
 #'     via `gcloud config get-value account`.
@@ -84,22 +75,17 @@ gcloud_exists <-
 #'
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
-#' @examples
-#' if (has_avworkspace(platform = gcp()))
-#'     GCPtools::gcloud_account()
-#'
 #' @export
 gcloud_account <- function(account = NULL) {
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gcloud"
     )
-    GCPtools::gcloud_account(account = account)
 }
 
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
 #' @description `gcloud_project()`: report the current gcloud project
 #'     via `gcloud config get-value project`.
@@ -114,13 +100,12 @@ gcloud_project <- function(project = NULL) {
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gcloud"
     )
-    GCPtools::gcloud_project(project = project)
 }
 
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
 #' @description `gcloud_help()`: queries `gcloud` for help for a
 #'     command or sub-comand via `gcloud help ...`.
@@ -131,22 +116,17 @@ gcloud_project <- function(project = NULL) {
 #'     representing the text of the help manual page returned by
 #'     `gcloud help ...`.
 #'
-#' @examples
-#' if (has_avworkspace(platform = gcp()))
-#'     GCPtools::gcloud_help()
-#'
 #' @export
 gcloud_help <- function(...) {
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gcloud"
     )
-    GCPtools::gcloud_help(...)
 }
 
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
 #' @description `gcloud_cmd()` allows arbitrary `gcloud` command
 #'     execution via `gcloud ...`. Use pre-defined functions in
@@ -163,13 +143,12 @@ gcloud_cmd <- function(cmd, ...) {
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gcloud"
     )
-    GCPtools::gcloud_cmd(cmd, ...)
 }
 
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
 #' @description `gcloud_storage()` allows arbitrary `gcloud storage` command
 #'   execution via `gcloud storage ...`. Typically used for bucket management
@@ -180,13 +159,12 @@ gcloud_storage <- function(cmd, ...) {
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gcloud"
     )
-    GCPtools::gcloud_storage(cmd, ...)
 }
 
-#' @rdname gcloud-deprecated
+#' @rdname gcloud-defunct
 #'
 #' @description `gcloud_storage_buckets()` provides an interface to the
 #'  `gcloud storage buckets` command. This command can be used to create a new
@@ -205,10 +183,7 @@ gcloud_storage_buckets <- function(bucket_cmd = "create", bucket, ...) {
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gcloud"
-    )
-    GCPtools::gcloud_storage_buckets(
-        bucket_cmd = bucket_cmd, bucket = bucket, ...
     )
 }

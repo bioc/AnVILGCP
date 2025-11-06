@@ -117,7 +117,7 @@
 #'   service is hosted at <https://nci-crdc.datacommons.io>.
 #'
 #' @examples
-#' if (gcloud_exists() && interactive()) {
+#' if (GCPtools::gcloud_exists() && interactive()) {
 #'     drs_urls <- c(
 #'         "drs://drs.anv0:v2_b3b815c7-b012-37b8-9866-1cb44b597924",
 #'         "drs://drs.anv0:v2_2823eac3-77ae-35e4-b674-13dfab629dc5",
