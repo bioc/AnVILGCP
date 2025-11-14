@@ -7,10 +7,10 @@ test_that("'avnotebooks()' works", {
         path.expand(file.path("~", name, "edit"))
     )
 
-    path <- with_mock(
+    path <- with_mocked_bindings(
+        .avnotebooks_workspace_path(namespace, name),
         avstorage = function(namespace, name)
-            paste("gs:/", namespace, name, sep="/"),
-        .avnotebooks_workspace_path(namespace, name)
+            paste("gs:/", namespace, name, sep="/")
     )
     expect_identical(path, "gs://foo/bar/notebooks")
 })
