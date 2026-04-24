@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 .*_cache
 ^\.httr-oauth$
+^\.positai$
+^\.claude$
