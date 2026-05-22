@@ -41,7 +41,9 @@
                 ## initialize
                 hash[[key]] <- Sys.getenv(sysvar)
                 if (!nzchar(hash[[key]]) && warn && interactive())
-                    warning("'", sysvar, "' undefined; use `", fun, "()` to set")
+                    warning(
+                        "'", sysvar, "' undefined; use `", fun, "()` to set"
+                    )
             }
         } else {
             hash[[key]] <- ifelse(is.na(value), Sys.getenv(sysvar), value)

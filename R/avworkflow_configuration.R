@@ -137,10 +137,12 @@ avworkflow <-
 #'
 #' @export
 avworkflow_configuration_get <-
-    function(workflow_namespace = avworkflow_namespace(),
-             workflow_name = avworkflow_name(),
-             namespace = avworkspace_namespace(),
-             name = avworkspace_name())
+    function(
+        workflow_namespace = avworkflow_namespace(),
+        workflow_name = avworkflow_name(),
+        namespace = avworkspace_namespace(),
+        name = avworkspace_name()
+    )
 {
     stopifnot(
         isScalarCharacter(workflow_name),
@@ -293,9 +295,11 @@ avworkflow_configuration_outputs <-
 #'
 #' @export
 avworkflow_configuration_update <-
-    function(config,
-             inputs = avworkflow_configuration_inputs(config),
-             outputs = avworkflow_configuration_outputs(config))
+    function(
+        config,
+        inputs = avworkflow_configuration_inputs(config),
+        outputs = avworkflow_configuration_outputs(config)
+    )
 {
     stopifnot(
         inherits(config, "avworkflow_configuration"),
@@ -378,10 +382,12 @@ avworkflow_configuration_update <-
 #'
 #' @export
 avworkflow_configuration_set <-
-    function(config,
-             namespace = avworkspace_namespace(),
-             name = avworkspace_name(),
-             dry = TRUE)
+    function(
+        config,
+        namespace = avworkspace_namespace(),
+        name = avworkspace_name(),
+        dry = TRUE
+    )
 {
     stopifnot(
         inherits(config, "avworkflow_configuration"),

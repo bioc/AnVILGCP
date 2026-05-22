@@ -177,9 +177,9 @@ setMethod("avtable", signature = c(platform = "gcp"), definition =
             isScalarCharacter(table),
             isScalarCharacter(namespace),
             isScalarCharacter(name)
-           ## ,
-           ##  `unknown table; use 'avtables()' for valid names` =
-           ##      .is_avtable(table, namespace, name)
+            ## ,
+            ##  `unknown table; use 'avtables()' for valid names` =
+            ##      .is_avtable(table, namespace, name)
         )
         na_fun <- .avtable_na(na)
 
