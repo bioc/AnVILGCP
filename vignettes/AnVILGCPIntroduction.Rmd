@@ -32,7 +32,7 @@ options(width = 75)
 
 Install the `AnVILGCP` package from Bioconductor with:
 
-```{r, eval = FALSE}
+```{r install, eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -41,7 +41,7 @@ BiocManager::install("AnVILGCP")
 
 Once installed, load the package with
 
-```{r, message = FALSE, eval = TRUE, cache = FALSE}
+```{r library, message = FALSE, eval = TRUE, cache = FALSE}
 library(AnVILGCP)
 ```
 
@@ -51,7 +51,7 @@ For reproducibility, it is advisable to install packages into libraries on a
 project-specific basis, e.g., to create a 'snapshot' of packages for
 reproducible analysis. Use
 
-```{r, eval = FALSE}
+```{r add-libpaths, eval = FALSE}
 add_libpaths("~/my/project")
 ```
 
@@ -93,14 +93,14 @@ cloud. For local use, one must
 - Define an environment variable or `option()` named `GCLOUD_SDK_PATH`
   pointing to the root of the SDK installation, e.g,
 
-    ```{r, eval = FALSE}
+    ```{r gcloud-sdk-bin, eval = FALSE}
     dir(file.path(Sys.getenv("GCLOUD_SDK_PATH"), "bin"), "^(gcloud|gsutil)$")
     ## [1] "gcloud" "gsutil"
     ```
 
   Test the installation with `gcloud_exists()`
 
-    ```{r, eval = TRUE}
+    ```{r gcloud-exists, eval = TRUE}
     ## the code chunks in this vignette are fully evaluated when
     ## gcloud_exists() returns TRUE
     GCPtools::gcloud_exists()
@@ -126,7 +126,7 @@ The `gcloud_*()` family of functions provide access to Google cloud
 functions implemented by the `gcloud` binary. `gcloud_project()`
 returns the current billing account.
 
-```{r, eval=has_gcloud}
+```{r gcloud-info, eval=has_gcloud}
 gcloud_account() # authentication account
 gcloud_project() # billing project information
 ```
@@ -134,7 +134,7 @@ gcloud_project() # billing project information
 A convenient way to access _any_ `gcloud` SDK command is to use
 `gcloud_cmd()`, e.g.,
 
-```{r, eval = FALSE}
+```{r gcloud-cmd, eval = FALSE}
 gcloud_cmd("projects", "list") |>
     readr::read_table() |>
     filter(startsWith(PROJECT_ID, "anvil"))
@@ -143,7 +143,7 @@ gcloud_cmd("projects", "list") |>
 This translates into the command line `gcloud projects list`. Help is
 also available within _R_, e.g.,
 
-```{r, eval = FALSE}
+```{r gcloud-help, eval = FALSE}
 gcloud_help("projects")
 ```
 
@@ -156,14 +156,14 @@ The `gsutil_*()` family of functions provides an interface to google
 bucket manipulation. The following refers to publicly available 1000
 genomes data available in Google Cloud Storage.
 
-```{r, eval=has_gcloud}
+```{r gcs-src, eval=has_gcloud}
 src <- "gs://genomics-public-data/1000-genomes/"
 ```
 
 `gsutil_ls()` lists bucket content; `gsutil_stat()` additional detail
 about fully-specified buckets.
 
-```{r, eval=has_gcloud}
+```{r gcs-list-stat, eval=has_gcloud}
 avlist(src)
 
 other <- paste0(src, "other")
@@ -177,7 +177,7 @@ gsutil_stat(sample_info)
 to cloud storage requires write permission, of course. One or both of
 the arguments can be cloud endpoints.
 
-```{r, eval=has_gcloud}
+```{r gcs-copy, eval=has_gcloud}
 fl <- tempfile()
 avcopy(sample_info, fl)
 
@@ -188,7 +188,7 @@ csv
 `gsutil_pipe()` provides a streaming interface that does not require
 intermediate disk storage.
 
-```{r, eval=has_gcloud}
+```{r gsutil-pipe, eval=has_gcloud}
 pipe <- gsutil_pipe(fl, "rb")
 readr::read_csv(pipe, guess_max = 5000L, col_types = readr::cols()) |>
     dplyr::select("Sample", "Family_ID", "Population", "Gender")
@@ -199,7 +199,7 @@ bucket. This can be a powerful operation when `delete = TRUE`
 (removing local or remote files), and has default option `dry = TRUE`
 to indicate the consequences of the sync.
 
-```{r, eval=has_gcloud}
+```{r gsutil-rsync, eval=has_gcloud}
 destination <- tempfile()
 stopifnot(dir.create(destination))
 source <- paste0(src, "other/sample_info")
@@ -240,7 +240,7 @@ corresponding to a Google Cloud Bucket associated with the
 workspace. These components of the graphical user interface are
 illustrated in the figure below.
 
-```{r, echo = FALSE, cache = FALSE}
+```{r workspace-data-image, echo = FALSE, cache = FALSE}
 knitr::include_graphics('AnVIL-Workspace-Data.png')
 ```
 
@@ -256,7 +256,7 @@ OTHER DATA     | `avstorage()`
 Workspace Data | `avdata()`
 Files          | `avlist()`, `avbackup()`, `avrestore()`
 
-```{r, include=FALSE, cache=FALSE, eval=has_gcloud}
+```{r workspace-setup-hidden, include=FALSE, cache=FALSE, eval=has_gcloud}
 avworkspace_namespace("pathogen-genomic-surveillance")
 avworkspace_name("COVID-19")
 ```
@@ -266,7 +266,7 @@ Data tables in a workspace are available by specifying the `namespace`
 on the AnVIL in a Jupyter notebook or RStudio, this information can be
 discovered with
 
-```{r, eval=has_gcloud}
+```{r workspace-info, eval=has_gcloud}
 avworkspace_namespace()
 avworkspace_name()
 ```
@@ -274,7 +274,7 @@ avworkspace_name()
 It is also possible to specify, when not in the AnVIL compute
 environment, the data resource to work with.
 
-```{r, eval=FALSE}
+```{r workspace-setup, eval=FALSE}
 ## N.B.: IT MAY NOT BE NECESSARY TO SET THESE WHEN ON ANVIL
 avworkspace_namespace("pathogen-genomic-surveillance")
 avworkspace_name("COVID-19")
@@ -286,7 +286,7 @@ Accessing data tables use the `av*()` functions. Use `avtables()` to
 discover available tables, and `avtable()` to retrieve a particular
 table
 
-```{r, eval=has_gcloud}
+```{r avtables-list, eval=has_gcloud}
 avtables()
 sample <- avtable("sample_set")
 sample
@@ -296,7 +296,7 @@ The data in the table can then be manipulated using standard _R_
 commands, e.g., to identify SRA samples for which a final assembly
 fasta file is available.
 
-```{r, eval=has_gcloud}
+```{r avtable-manipulate, eval=has_gcloud}
 sample |>
     dplyr::select("sample_set_id", contains("fasta")) |>
     dplyr::filter(!is.na("Successful_Assembly_group"))
@@ -305,7 +305,7 @@ sample |>
 Users can easily add tables to their own workspace using
 `avtable_import()`, perhaps as the final stage of a pipe
 
-```{r, eval = FALSE}
+```{r avtable-import, eval = FALSE}
 my_cars <-
     mtcars |>
     as_tibble(rownames = "model") |>
@@ -318,14 +318,14 @@ million elements; see the `pageSize` argument) are uploaded in
 pages. The `job status` is a tibble summarizing each page; the status
 of the upload can be checked with
 
-```{r, eval = FALSE}
+```{r avtable-import-status, eval = FALSE}
 avtable_import_status(job_status)
 ```
 
 The transcript of a session where page size is set intentionally small
 for illustration is
 
-```{r, eval = FALSE}
+```{r avtable-import-demo, eval = FALSE}
 (job_status <- avtable_import(my_cars, pageSize = 10))
 ## pageSize = 10 rows (4 pages)
 ##   |======================================================================| 100%
@@ -363,7 +363,7 @@ tables. The following create or add rows to `participant_set` and
 `sample_set` tables. Each row represents a sample from the
 corresponding 'origin' table.
 
-```{r, eval = FALSE}
+```{r avtable-import-set, eval = FALSE}
 ## editable copy of '1000G-high-coverage-2019' workspace
 avworkspace("anvil-datastorage/1000G-high-coverage-2019")
 sample <-
@@ -384,7 +384,7 @@ individual rows from a table. Use `avtable_delete_values()`.
 The 'Workspace Data' is accessible through `avdata()` (the example
 below shows that some additional parsing may be necessary).
 
-```{r, eval=has_gcloud}
+```{r avdata, eval=has_gcloud}
 avdata()
 ```
 
@@ -394,21 +394,21 @@ Each workspace is associated with a google bucket, with the content
 summarized in the 'Files' portion of the workspace. The location of
 the files is
 
-```{r, eval=has_gcloud}
+```{r avstorage, eval=has_gcloud}
 bucket <- avstorage()
 bucket
 ```
 
 The content of the bucket can be viewed with (if permissions allow)
 
-```{r, eval=FALSE}
+```{r avlist, eval=FALSE}
 avlist()
 ```
 
 If the workspace is owned by the user, then persistent data can be
 written to the bucket.
 
-```{r, eval = FALSE}
+```{r avstorage-write, eval = FALSE}
 ## requires workspace ownership
 uri <- avstorage()                             # discover bucket
 bucket <- file.path(uri, "mtcars.tab")
@@ -418,7 +418,7 @@ write.table(mtcars, gsutil_pipe(bucket, "w")) # write to bucket
 A particularly convenient operation is to back up files or directories
 from the compute node to the bucket
 
-```{r, eval = FALSE}
+```{r avbackup, eval = FALSE}
 ## backup all files and folders in the current working directory
 avbackup(getwd(), recursive = TRUE)
 
@@ -491,6 +491,6 @@ workspace.
 
 # Session Info
 
-```{r, eval=TRUE}
+```{r session-info, eval=TRUE}
 sessionInfo()
 ```
