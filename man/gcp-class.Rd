@@ -9,6 +9,12 @@
 \usage{
 gcp()
 }
+\value{
+An object of class \code{gcp}.
+}
 \description{
 This class is used to represent the GCP platform.
+}
+\examples{
+showClass("gcp")
 }
