@@ -1,8 +1,8 @@
-#' @rdname gsutil-deprecated
+#' @rdname gsutil-defunct
 #'
-#' @name gsutil-deprecated
+#' @name gsutil-defunct
 #'
-#' @title gsutil command line utility interface (DEPRECATED)
+#' @title gsutil command line utility interface (DEFUNCT)
 #'
 #' @description These functions invoke the `gsutil` command line
 #'     utility. See the "Details:" section if you have gsutil
@@ -23,11 +23,15 @@
 #'     `~/google-cloud-sdk`.
 #'
 #' @examples
-#' src <-
-#'   "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
+#' ## use a truly public dataset for testing
+#' src <- paste0(
+#'   "gs://gcp-public-data-landsat/",
+#'   "LC08/01/001/002/LC08_L1GT_001002_20160902_20170321_01_T2/",
+#'   "LC08_L1GT_001002_20160902_20170321_01_T2_MTL.txt"
+#' )
 NULL
 
-#' @rdname gsutil-deprecated
+#' @rdname gsutil-defunct
 #'
 #' @description `gsutil_requesterpays()`: does the google bucket
 #'     require that the requester pay for access?
@@ -41,10 +45,6 @@ NULL
 #'
 #' @importFrom BiocBaseUtils lifeCycle
 #'
-#' @examples
-#' if (has_avworkspace(platform = gcp()))
-#'     GCPtools::gsutil_requesterpays(src) # FALSE -- no cost download
-#'
 #' @export
 gsutil_requesterpays <-
     function(source)
@@ -52,13 +52,12 @@ gsutil_requesterpays <-
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gsutil"
     )
-    GCPtools::gsutil_requesterpays(source)
 }
 
-#' @rdname gsutil-deprecated
+#' @rdname gsutil-defunct
 #'
 #' @description `gsutil_exists()`: check if the bucket or object
 #'     exists.
@@ -72,26 +71,18 @@ gsutil_exists <-
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gsutil"
     )
-    GCPtools::gsutil_exists(source)
 }
 
-#' @rdname gsutil-deprecated
+#' @rdname gsutil-defunct
 #'
 #' @description `gsutil_stat()`: print, as a side effect, the status
 #'     of a bucket, directory, or file.
 #'
 #' @return `gsutil_stat()`: `tibble()` summarizing status of each
 #'     bucket member.
-#'
-#' @examples
-#' if (has_avworkspace(platform = gcp())) {
-#'     GCPtools::gsutil_exists(src)
-#'     GCPtools::gsutil_stat(src)
-#'     avlist(dirname(src))
-#' }
 #'
 #' @importFrom tidyr pivot_wider
 #' @importFrom rlang .data
@@ -102,13 +93,12 @@ gsutil_stat <-
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gsutil"
     )
-    GCPtools::gsutil_stat(source)
 }
 
-#' @name gsutil-deprecated
+#' @name gsutil-defunct
 #'
 #' @inheritParams gcp-methods
 #'
@@ -156,22 +146,12 @@ gsutil_rsync <-
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gsutil"
-    )
-    GCPtools::gsutil_rsync(
-        source = source,
-        destination = destination,
-        ...,
-        exclude = exclude,
-        dry = dry,
-        delete = delete,
-        recursive = recursive,
-        parallel = parallel
     )
 }
 
-#' @rdname gsutil-deprecated
+#' @rdname gsutil-defunct
 #'
 #' @description `gsutil_cat()`: concatenate bucket objects to standard output
 #'
@@ -195,18 +175,12 @@ gsutil_cat <-
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gsutil"
-    )
-    GCPtools::gsutil_cat(
-        source = source,
-        ...,
-        header = header,
-        range = range
     )
 }
 
-#' @rdname gsutil-deprecated
+#' @rdname gsutil-defunct
 #'
 #' @description `gsutil_help()`: print 'man' page for the `gsutil`
 #'     command or subcommand. Note that only commandes documented on this
@@ -219,10 +193,6 @@ gsutil_cat <-
 #'
 #' @importFrom BiocBaseUtils isZeroOneCharacter
 #'
-#' @examples
-#' if (has_avworkspace(platform = gcp()))
-#'     GCPtools::gsutil_help("ls")
-#'
 #' @export
 gsutil_help <-
     function(cmd = character(0))
@@ -230,17 +200,14 @@ gsutil_help <-
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gsutil"
-    )
-    GCPtools::gsutil_help(
-        cmd = cmd
     )
 }
 
 # higher-level implementations --------------------------------------------
 
-#' @rdname gsutil-deprecated
+#' @rdname gsutil-defunct
 #'
 #' @description `gsutil_pipe()`: create a pipe to read from or write
 #'     to a gooogle bucket object.
@@ -253,14 +220,6 @@ gsutil_help <-
 #'     appropriate context (e.g., a pipe created with `open = "r"` for
 #'     input as `read.csv()`)
 #'
-#' @examples
-#' if (has_avworkspace(platform = gcp())) {
-#'     df <- read.csv(gsutil_pipe(src), 5L)
-#'     class(df)
-#'     dim(df)
-#'     head(df)
-#' }
-#'
 #' @export
 gsutil_pipe <-
     function(source, open = "r", ...)
@@ -268,12 +227,7 @@ gsutil_pipe <-
     lifeCycle(
         newpackage = "GCPtools",
         package = "AnVILGCP",
-        cycle = "deprecated",
+        cycle = "defunct",
         title = "gsutil"
-    )
-    GCPtools::gsutil_pipe(
-        source = source,
-        open = open,
-        ...
     )
 }
