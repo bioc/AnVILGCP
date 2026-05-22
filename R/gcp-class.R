@@ -8,6 +8,11 @@
 #' @importClassesFrom AnVILBase Platform
 #' @importFrom methods new
 #' @importFrom AnVILBase cloud_platform
+#'
+#' @returns An object of class `gcp`.
+#'
+#' @examples
+#' showClass("gcp")
 #' @exportClass gcp
 .gcp <- setClass("gcp", contains = "Platform")
 
