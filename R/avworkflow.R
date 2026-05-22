@@ -298,11 +298,13 @@ avworkflows <-
 #'
 #' @export
 avworkflow_files <-
-    function(submissionId = NULL,
-             workflowId = NULL,
-             bucket,
-             namespace = avworkspace_namespace(),
-             name = avworkspace_name())
+    function(
+        submissionId = NULL,
+        workflowId = NULL,
+        bucket,
+        namespace = avworkspace_namespace(),
+        name = avworkspace_name()
+    )
 {
     if (!missing(bucket)) {
         stop(.pretty_text(
@@ -351,9 +353,9 @@ avworkflow_files <-
             "provided submissionId"
         ))
     } else if (!is.null(workflowId)) {
-      tbl <-
-        tbl |>
-        filter(.data$workflowId == .env$workflowId)
+        tbl <-
+            tbl |>
+            filter(.data$workflowId == .env$workflowId)
     }
 
     tbl |>
@@ -409,12 +411,12 @@ avworkflow_files <-
 #' @export
 avworkflow_localize <-
     function(
-         submissionId = NULL,
-         workflowId = NULL,
-         destination = NULL,
-         type = c("control", "output", "all"),
-         bucket = avstorage(),
-         dry = TRUE
+        submissionId = NULL,
+        workflowId = NULL,
+        destination = NULL,
+        type = c("control", "output", "all"),
+        bucket = avstorage(),
+        dry = TRUE
     )
 {
     type <- match.arg(type)
@@ -448,11 +450,13 @@ avworkflow_localize <-
             "provided submissionId"
         ))
     } else if (!is.null(workflowId)) {
-      fls <- avworkflow_files(submissionId, workflowId)
-      source <-
-        paste0(source, "/",
-               pull(fls, "workflow") |> unique(), "/",
-               workflowId)
+        fls <- avworkflow_files(submissionId, workflowId)
+        source <-
+            paste0(
+                source, "/",
+                pull(fls, "workflow") |> unique(), "/",
+                workflowId
+            )
     }
 
     exclude <- NULL
@@ -525,13 +529,15 @@ avworkflow_localize <-
 #'
 #' @export
 avworkflow_run <-
-    function(config,
+    function(
+        config,
         entityName,
         entityType = config$rootEntityType,
         deleteIntermediateOutputFiles = FALSE, useCallCache = TRUE,
         useReferenceDisks = FALSE,
         namespace = avworkspace_namespace(), name = avworkspace_name(),
-        dry = TRUE)
+        dry = TRUE
+    )
 {
     stopifnot(
         inherits(config, "avworkflow_configuration"),
@@ -589,10 +595,12 @@ avworkflow_run <-
 #' }
 #' @export
 avworkflow_stop <-
-    function(submissionId = NULL,
+    function(
+        submissionId = NULL,
         namespace = avworkspace_namespace(),
         name = avworkspace_name(),
-        dry = TRUE)
+        dry = TRUE
+    )
 {
     if (is.null(submissionId)) {
         submissionId <- avworkflow_jobs() |>
@@ -690,18 +698,23 @@ avworkflow_info <-
     function (
         submissionId = NULL,
         namespace = avworkspace_namespace(),
-        name = avworkspace_name())
+        name = avworkspace_name()
+    )
 {
     stopifnot(
         isScalarCharacter(namespace),
         isScalarCharacter(name)
     )
 
-   if (is.null(submissionId)) {
+    if (is.null(submissionId)) {
         submissionId <-
-            as.character((avworkflow_jobs(namespace = namespace, name = name) |>
+            as.character(
+                (
+                    avworkflow_jobs(namespace = namespace, name = name) |>
                         ## default: most recent workflow job
-                        head(1))[1])
+                        head(1)
+                )[1]
+            )
     }
 
     ## workflows and files associated with the submissionId

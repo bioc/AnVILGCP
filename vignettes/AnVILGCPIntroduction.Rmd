@@ -88,17 +88,17 @@ user. These requirements are satisfied when using the AnVIL compute
 cloud. For local use, one must
 
 - [Install][install-gcloud-sdk] the gcloud sdk (for Linux and Windows,
-  `cloudml::gcloud_install()` provides an alternative way to install
-  gcloud).
+    `cloudml::gcloud_install()` provides an alternative way to install
+    gcloud).
 - Define an environment variable or `option()` named `GCLOUD_SDK_PATH`
-  pointing to the root of the SDK installation, e.g,
+    pointing to the root of the SDK installation, e.g,
 
     ```{r gcloud-sdk-bin, eval = FALSE}
     dir(file.path(Sys.getenv("GCLOUD_SDK_PATH"), "bin"), "^(gcloud|gsutil)$")
     ## [1] "gcloud" "gsutil"
     ```
 
-  Test the installation with `gcloud_exists()`
+- Test the installation with `gcloud_exists()`
 
     ```{r gcloud-exists, eval = TRUE}
     ## the code chunks in this vignette are fully evaluated when
@@ -328,7 +328,7 @@ for illustration is
 ```{r avtable-import-demo, eval = FALSE}
 (job_status <- avtable_import(my_cars, pageSize = 10))
 ## pageSize = 10 rows (4 pages)
-##   |======================================================================| 100%
+##   |===================================================================| 100%
 ## # A tibble: 4 × 5
 ##    page from_row to_row job_id                               status
 ##   <int>    <int>  <int> <chr>                                <chr>
@@ -338,7 +338,7 @@ for illustration is
 ## 4     4       31     32 d14efb89-e2dd-4937-b80a-169520b5f563 Uploaded
 (job_status <- avtable_import_status(job_status))
 ## checking status of 4 avtable import jobs
-##   |======================================================================| 100%
+##   |===================================================================| 100%
 ## # A tibble: 4 × 5
 ##    page from_row to_row job_id                               status
 ##   <int>    <int>  <int> <chr>                                <chr>
@@ -348,7 +348,7 @@ for illustration is
 ## 4     4       31     32 d14efb89-e2dd-4937-b80a-169520b5f563 ReadyForUpsert
 (job_status <- avtable_import_status(job_status))
 ## checking status of 4 avtable import jobs
-##   |======================================================================| 100%
+##   |===================================================================| 100%
 ## # A tibble: 4 × 5
 ##    page from_row to_row job_id                               status
 ##   <int>    <int>  <int> <chr>                                <chr>

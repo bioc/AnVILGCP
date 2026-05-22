@@ -43,7 +43,7 @@
     lst <- lst[!names(lst) %in% c("access_methods", "checksums", "aliases")]
 
     is_list <-
-      vapply(lst, is.list, logical(1L))
+        vapply(lst, is.list, logical(1L))
     lst[is_list] <- lapply(lst[is_list], list)
 
     as_tibble(lst[lengths(lst) == 1L])

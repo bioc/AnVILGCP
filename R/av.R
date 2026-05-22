@@ -529,8 +529,11 @@ avruntime <- function(
 
 #' @importFrom dplyr pull
 .runtime_pet <-
-    function(creator, tool = c("Jupyter", "RStudio"),
-             namespace = avworkspace_namespace())
+    function(
+        creator,
+        tool = c("Jupyter", "RStudio"),
+        namespace = avworkspace_namespace()
+    )
 {
     tool <- match.arg(tool)
     stopifnot(
