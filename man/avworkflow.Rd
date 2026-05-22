@@ -209,7 +209,7 @@ workflow job are candidates for localization.
 library(AnVILBase)
 if (has_avworkspace(strict = TRUE, platform = gcp()))
     ## from within AnVIL
-    avworkflows() \%>\% select(namespace, name)
+    avworkflows() |> select(namespace, name)
 
 if (has_avworkspace(strict = TRUE, platform = gcp())) {
     ## e.g., from within AnVIL

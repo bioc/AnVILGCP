@@ -30,7 +30,7 @@ NULL
 #' library(AnVILBase)
 #' if (has_avworkspace(strict = TRUE, platform = gcp()))
 #'     ## from within AnVIL
-#'     avworkflows() %>% select(namespace, name)
+#'     avworkflows() |> select(namespace, name)
 #'
 #' @export
 avworkflows <-
@@ -45,7 +45,7 @@ avworkflows <-
         namespace, URLencode(name), TRUE
     )
     avstop_for_status(workflows, "avworkflows")
-    workflows %>% flatten()
+    workflows |> flatten()
 }
 
 .WORKFLOW_LOGS <- "workflow.logs"
@@ -422,8 +422,8 @@ avworkflow_localize <-
     type <- match.arg(type)
     if (is.null(submissionId))
         submissionId <-
-            avworkflow_jobs() %>%
-            pull(submissionId) %>%
+            avworkflow_jobs() |>
+            pull(submissionId) |>
             head(1)
 
     stopifnot(

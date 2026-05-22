@@ -163,7 +163,7 @@ setMethod("avtables", signature = c(platform = "gcp"), definition =
 #' @return `avtable()`: a tibble of data corresponding to the AnVIL
 #'     table `table` in the specified workspace.
 #'
-#' @importFrom dplyr %>% select starts_with ends_with across where mutate
+#' @importFrom dplyr select starts_with ends_with across where mutate
 #' @importFrom AnVILBase flatten
 #'
 #' @exportMethod avtable
@@ -197,7 +197,7 @@ setMethod("avtable", signature = c(platform = "gcp"), definition =
         })
         avstop_for_status(entities, "avtable")
         tbl <-
-            entities %>%
+            entities |>
             flatten()
         if (!"name" %in% names(tbl)) {
             stop(
@@ -207,10 +207,10 @@ setMethod("avtable", signature = c(platform = "gcp"), definition =
             )
         }
         tbl <-
-            tbl %>%
+            tbl |>
             select(
                 "name", starts_with("attributes"), -ends_with("entityType")
-            ) %>%
+            ) |>
             mutate(across(where(is.character), na_fun))
         names(tbl) <- sub("^attributes.", "", names(tbl))
         names(tbl) <- sub(".entityName$", "", names(tbl))
@@ -456,11 +456,11 @@ setMethod(
 #' ## editable copy of '1000G-high-coverage-2019' workspace
 #' avworkspace("bioconductor-rpci-anvil/1000G-high-coverage-2019")
 #' sample <-
-#'     avtable("sample") %>%                               # existing table
+#'     avtable("sample") |>                               # existing table
 #'     mutate(set = sample(head(LETTERS), nrow(.), TRUE))  # arbitrary groups
-#' sample %>%                                   # new 'participant_set' table
+#' sample |>                                   # new 'participant_set' table
 #'     avtable_import_set("participant", "set", "participant")
-#' sample %>%                                   # new 'sample_set' table
+#' sample |>                                   # new 'sample_set' table
 #'     avtable_import_set("sample", "set", "name")
 #' }
 #'
@@ -576,9 +576,9 @@ setMethod("avtable_delete_values", signature = c(platform = "gcp"),
         )
         if (status_code(response) == 409L) {
             tbl <-
-                response %>%
-                flatten() %>%
-                capture.output() %>%
+                response |>
+                flatten() |>
+                capture.output() |>
                 paste(collapse = "\n")
             stop(
                 "\n",

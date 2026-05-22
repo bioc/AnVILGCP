@@ -40,7 +40,7 @@
     avstop_for_status(response, "avtable_paged")
 
     lst <-
-        response %>%
+        response |>
         as.list()
     if (length(lst$results)) {
         results <- bind_cols(
@@ -126,7 +126,7 @@ avtable_paged <-
         n = n, page = page, pageSize = pageSize
     )
     names(tbl) <- sub("^name$", paste0(table, "_id"), names(tbl))
-    tbl %>%
+    tbl |>
         mutate(across(where(is.character), na_fun))
 }
 
@@ -491,7 +491,7 @@ avruntimes <-
     avstop_for_status(response, "avruntimes")
     runtimes <- flatten(response)
 
-    .tbl_with_template(runtimes, template) %>%
+    .tbl_with_template(runtimes, template) |>
         rename_with(~ sub(".*\\.", "", .x))
 }
 
@@ -523,7 +523,7 @@ avruntime <- function(
         isScalarCharacter(account)
     )
     rt <- avruntimes()
-    rt %>%
+    rt |>
         filter(.data$googleProject == project, .data$creator == account)
 }
 
@@ -544,12 +544,12 @@ avruntime <- function(
 
     runtimes <- avruntimes()
     pet <-
-        runtimes %>%
+        runtimes |>
         filter(
             .data$tool == {{ tool }},
             .data$creator == {{ creator }},
             .data$googleProject == {{ namespace }}
-        ) %>%
+        ) |>
         pull(.data$clusterServiceAccount)
 
     if (!isScalarCharacter(pet))
@@ -606,6 +606,6 @@ avdisks <-
     avstop_for_status(response, "avdisks")
     runtimes <- flatten(response)
 
-    .tbl_with_template(runtimes, template) %>%
+    .tbl_with_template(runtimes, template) |>
         rename_with(~sub(".*\\.", "", .x))
 }

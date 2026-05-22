@@ -274,11 +274,11 @@ if (has_avworkspace(platform = gcp()) && interactive()) {
 ## editable copy of '1000G-high-coverage-2019' workspace
 avworkspace("bioconductor-rpci-anvil/1000G-high-coverage-2019")
 sample <-
-    avtable("sample") \%>\%                               # existing table
+    avtable("sample") |>                               # existing table
     mutate(set = sample(head(LETTERS), nrow(.), TRUE))  # arbitrary groups
-sample \%>\%                                   # new 'participant_set' table
+sample |>                                   # new 'participant_set' table
     avtable_import_set("participant", "set", "participant")
-sample \%>\%                                   # new 'sample_set' table
+sample |>                                   # new 'sample_set' table
     avtable_import_set("sample", "set", "name")
 }
 

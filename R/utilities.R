@@ -7,7 +7,7 @@
         have <- intersect(names(tbl), names(tmpl))
         tbl <- select(tbl, have)
         result <-
-            full_join(tbl, result, by = have) %>%
+            full_join(tbl, result, by = have) |>
             select(names(tmpl))
     }
     result
