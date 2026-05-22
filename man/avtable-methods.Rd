@@ -224,11 +224,12 @@ workspace
 
 \item \code{avtable_import(gcp)}: upload a table to the DATA tab
 
-\item \code{avtable_import_set(gcp)}: 
+\item \code{avtable_import_set(gcp)}: Import set membership information to a table in
+the AnVIL workspace
 
 \item \code{avtable_delete(gcp)}: Delete a table from the AnVIL workspace.
 
-\item \code{avtable_delete_values(gcp)}: 
+\item \code{avtable_delete_values(gcp)}: Delete rows from a table in the AnVIL workspace
 
 }}
 \examples{

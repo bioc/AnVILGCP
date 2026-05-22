@@ -424,7 +424,8 @@ setMethod(
 )
 # avtable_import_set ------------------------------------------------------
 
-#' @describeIn avtable-methods
+#' @describeIn avtable-methods Import set membership information to a table in
+#'   the AnVIL workspace
 #'
 #' @param origin character(1) name of the entity (table) used to
 #'     create the set e.g "sample", "participant",
@@ -540,7 +541,7 @@ setMethod(
 
 # avtable_delete_values ---------------------------------------------------
 
-#' @describeIn avtable-methods
+#' @describeIn avtable-methods Delete rows from a table in the AnVIL workspace
 #'
 #' @param values vector of values in the entity (key) column of
 #'     `table` to be deleted. A table `sample` has an associated
