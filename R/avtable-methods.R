@@ -1,7 +1,7 @@
 #' @name avtable-methods
 #'
 #' @aliases avtables avtable avtable_import avtable_import_set
-#'   avtable_delete_values
+#' @aliases avtable_delete_values
 #'
 #' @title Methods that work with the primary datasets in the DATA tab
 #'
@@ -23,9 +23,9 @@
 #'
 #' @importFrom tibble tibble
 #' @importFrom AnVILBase avstop_for_status avtables avtable avtable_import_set
-#'   avtable_delete_values
+#' @importFrom AnVILBase avtable_delete_values
 #' @importFrom BiocBaseUtils isCharacter isScalarCharacter isScalarLogical
-#'   isScalarNumber isScalarInteger checkInstalled
+#' @importFrom BiocBaseUtils isScalarNumber isScalarInteger checkInstalled
 #'
 #' @examples
 #' if (interactive()) {
