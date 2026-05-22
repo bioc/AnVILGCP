@@ -41,7 +41,6 @@ URL: https://github.com/Bioconductor/AnVILGCP
 License: Artistic-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Collate: 
     'av.R'
     'avdata.R'
@@ -59,3 +58,4 @@ Collate:
     'has_avworkspace-methods.R'
     'localize.R'
     'utilities.R'
+Config/roxygen2/version: 8.0.0
