@@ -39,6 +39,8 @@ NULL
 #' @return `gsutil_requesterpays()`: named `logical()` vector TRUE
 #'     when requester-pays is enabled.
 #'
+#' @importFrom BiocBaseUtils lifeCycle
+#'
 #' @examples
 #' if (has_avworkspace(platform = gcp()))
 #'     GCPtools::gsutil_requesterpays(src) # FALSE -- no cost download
