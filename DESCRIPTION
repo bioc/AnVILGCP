@@ -14,7 +14,7 @@ Description: The package provides a set of functions to interact with the Google
   to use the API calls from the AnVIL package. It coordinates AnVIL workspace
   functionality with native GCP tools.
 biocViews: Software, Infrastructure, ThirdPartyClient, DataImport
-Depends: R (>= 4.5.0)
+Depends: R (>= 4.6.0)
 Imports:
   AnVILBase,
   BiocBaseUtils,
