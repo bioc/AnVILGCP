@@ -1,9 +1,14 @@
-## Changes in version 1.6.0
+## Changes in version 1.6.1
 
-### Deprecated and defunct
+### Significant user-visible changes
 
 * Move `gcloud` functions to `DEFUNCT` status as they have been fully migrated
   to `GCPtools`
+
+### Bug fixes and minor improvements
+
+* Improve formatting and spacing in source files and vignette for `BiocCheck`
+* Add return value and example for `gcp-class` documentation
 
 ### Bug fixes and minor improvements
 
